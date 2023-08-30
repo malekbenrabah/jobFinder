@@ -1,0 +1,126 @@
+
+<!--
+<div class="search">
+    <div class="search-card">
+        <nz-card>
+
+           <div class="card-item">
+                <div class="input-group-container">
+                    <div class="input-grp">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                            <input type="text" nz-input placeholder="input search text" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                        <i nz-icon nzType="search"></i>
+                        </ng-template> 
+                    </div>
+                
+            
+                    
+
+                    <div class="input-grp">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                        <input type="text" nz-input placeholder="input search text" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                        <i nz-icon nzType="search"></i>
+                        </ng-template>
+                    </div>
+                    
+                    <div class="input-grp">
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                        <input type="text" nz-input placeholder="input search text" />
+                        </nz-input-group>
+                        <ng-template #suffixIconSearch>
+                        <i nz-icon nzType="search"></i>
+                        </ng-template>
+                    </div>
+                    
+                </div> 
+            </div>
+           
+        </nz-card>
+    </div>
+    
+</div>
+-->
+
+<div class="search">
+
+   
+    <div class="small-text" *ngIf="isSmallScreen">
+        <ngx-typed-js [strings]="['ease.', 'click.', 'speed.']" [shuffle]="true" [typeSpeed]="90" [loop]="true">
+            <span class="auto-type"> Find your job with </span> <span class="typing"></span>
+        </ngx-typed-js>
+    </div>
+   
+   
+
+    <div class="text-search" *ngIf="!isSmallScreen">
+        <ngx-typed-js [strings]="['ease.', 'a click.', 'speed.']" [shuffle]="true" [typeSpeed]="90" [loop]="true">
+            <span class="auto-type">Find your job with </span>  <span class="typing"></span>
+        </ngx-typed-js>
+    </div>
+
+    <div class="search-card">
+        <form nz-form [formGroup]="validateForm" >
+            <nz-input-group *ngIf="!isSmallScreen">
+                <div nz-row [nzGutter]="50">
+
+                    <div nz-col nzSpan="10">
+                        <nz-form-item>
+                            <nz-form-control  nzHasFeedback nzErrorTip="Please input your firstname">
+                                <nz-input-group nzPrefixIcon="search" class="input-pass">
+                                    <input nz-input nzRequired formControlName="title" placeholder="Job Title or Keyword" />
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="10">
+                        <nz-form-item>
+                            <nz-form-control  nzHasFeedback nzErrorTip="Please input your lastname">
+                                <nz-input-group nzPrefixIcon="search" class="input-pass">
+                                    <input nz-input nzRequired formControlName="location" placeholder="Add Country or City"/>
+                                </nz-input-group>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col nzSpan="4">
+                        <button nz-button nzType="primary" class="search-btn">Search</button>
+                    </div>
+
+                </div>
+            </nz-input-group>
+
+
+            <div *ngIf="isSmallScreen">
+               
+                <div nz-row [nzGutter]="8">
+                    <div nz-col nzFlex="3">
+                         <nz-form-item>
+                        <nz-form-control  nzHasFeedback nzErrorTip="Please input your firstname">
+                            <nz-input-group nzPrefixIcon="search" class="input-pass">
+                                <input nz-input nzRequired formControlName="title" placeholder="Job Title or Keyword" />
+                            </nz-input-group>
+                        </nz-form-control>
+                    </nz-form-item>
+                    </div>
+
+                    <div nz-col nzFlex="12">
+                        <button nz-button nzType="primary" class="search-btn">Search</button>
+                    </div>
+                </div>
+               
+
+            </div>
+
+
+        </form>
+    </div>
+   
+</div>
+
+
+  

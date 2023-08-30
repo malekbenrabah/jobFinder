@@ -1,0 +1,190 @@
+<div class="menu">
+    <div nz-row >
+
+        <div nz-col nzFlex="500px">
+          <p>Showing : <span class="jobs-num">1992</span> Jobs Available</p>
+        </div>
+        <div nz-col nzFlex="auto">
+           <div class="sort">
+                <p class="sort-txt">Sort By :</p>
+        
+                <nz-select ngModel="Newest">
+                    <nz-option class="select-option" nzValue="Newest" nzLabel="Newest"></nz-option>
+                    <nz-option class="select-option" nzValue="Oldest" nzLabel="Oldest"></nz-option>
+                    <nz-option class="select-option" nzValue="A-Z" nzLabel="A-Z"></nz-option>
+                    <nz-option class="select-option" nzValue="Z-A" nzLabel="Z-A"></nz-option>
+                </nz-select>
+           </div> 
+        </div>
+    </div>
+
+    <div *ngIf="!isSmallScreen">
+        <div nz-row [nzGutter]="8" >
+            <div nz-col [nzSpan]="6">
+                <h2 class="filter-search">Filter Search</h2>
+    
+                <div class="search-type">
+                    <p class="search-type-txt">Job Type</p>
+                    <nz-checkbox-wrapper  (nzOnChange)="jobTypeSearch($event)">
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Full-Time" [ngModel]="true">Full-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Part-Time">Part-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Contract">Contract</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Intern">Intern</label></div>
+                        </div>
+                    </nz-checkbox-wrapper>
+                </div>
+                
+                <div class="search-type">
+                    <p class="search-type-txt"><i nz-icon nzType="thunderbolt" nzTheme="outline"></i>Experience</p>
+                <nz-checkbox-wrapper  (nzOnChange)="experienceSearch($event)">
+                    <div nz-row>
+                      <div nz-col nzSpan="24"><label nz-checkbox nzValue="No experience" [ngModel]="true">No experience</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="1-2 Year">1-2 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="2-6 Years">2-6 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="Over 6 years">Over 6 years</label></div>
+                    </div>
+                </nz-checkbox-wrapper>
+                </div>
+    
+                
+    
+            </div>
+    
+           
+            <div nz-col [nzSpan]="6">
+                <nz-card  [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+                    
+                    <nz-card-meta
+                    [nzAvatar]="avatarTemplate"
+                    nzTitle="Card title"
+                    nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum. Officiis veritatis quisquam suscipit voluptatum iusto porro praesentiu"
+                    ></nz-card-meta>
+                    
+                </nz-card>
+                <ng-template #avatarTemplate>
+                    <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+                </ng-template>
+    
+                <ng-template #actionSetting>
+                    <i nz-icon nzType="setting"></i>
+                </ng-template>
+    
+                <ng-template #actionEdit>
+                    <i nz-icon nzType="edit"></i>
+                </ng-template>
+    
+                <ng-template #actionEllipsis>
+                    <i nz-icon nzType="ellipsis"></i>
+                </ng-template>
+            </div>
+    
+            <div nz-col [nzSpan]="6">
+                <nz-card nzTitle="Job title">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum. Officiis veritatis quisquam suscipit voluptatum iusto porro praesentiu</p><br>
+                    
+                </nz-card>
+            </div>
+            <div nz-col [nzSpan]="6">
+                <nz-card nzTitle="Job title">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum. Officiis veritatis quisquam suscipit voluptatum iusto porro praesentiu</p>
+                </nz-card>
+            </div>
+            
+    
+           
+            
+        </div>
+    </div>
+   
+
+    <div *ngIf="isSmallScreen">
+        <div nz-row >
+            <div nz-col [nzSpan]="6">
+                <h2 class="filter-search">Filter Search</h2>
+
+                <div class="search-type">
+                    <p class="search-type-txt">Job Type</p>
+                    <nz-checkbox-wrapper  (nzOnChange)="jobTypeSearch($event)">
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Full-Time" [ngModel]="true">Full-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Part-Time">Part-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Contract">Contract</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Intern">Intern</label></div>
+                        </div>
+                    </nz-checkbox-wrapper>
+                </div>
+                
+                <div class="search-type">
+                    <p class="search-type-txt"><i nz-icon nzType="thunderbolt" nzTheme="outline"></i>Experience</p>
+                <nz-checkbox-wrapper  (nzOnChange)="experienceSearch($event)">
+                    <div nz-row>
+                      <div nz-col nzSpan="24"><label nz-checkbox nzValue="No experience" [ngModel]="true">No experience</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="1-2 Year">1-2 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="2-6 Years">2-6 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="Over 6 years">Over 6 years</label></div>
+                    </div>
+                </nz-checkbox-wrapper>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="18">
+                <div nz-row class="small-card">
+                    <nz-card nzTitle="Job title">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum. Officiis veritatis quisquam suscipit voluptatum iusto porro praesentiu</p><br>
+                    </nz-card>
+                </div>
+                <div nz-row class="small-card">
+                    <nz-card nzTitle="Job title">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum. Officiis veritatis quisquam suscipit voluptatum iusto porro praesentiu</p><br>
+                    </nz-card>
+                </div>
+                <div nz-row class="small-card">
+                    <nz-card nzTitle="Job title">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum. Officiis veritatis quisquam suscipit voluptatum iusto porro praesentiu</p><br>
+                    </nz-card>
+                </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

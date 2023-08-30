@@ -1,0 +1,45 @@
+<nz-header>
+
+    <div class="logo">
+        <a routerLink="" class="logo-p">Job <span class="logo-span">Finder</span></a>
+    </div>
+
+    <ul nz-menu nzTheme="dark" nzMode="horizontal" *ngIf="!isSmallScreen">
+        <li nz-menu-item><a routerLink="">Find Job</a></li>
+        <li nz-menu-item><a routerLink="">Companies</a></li>
+        <li nz-menu-item><a routerLink="">Upload Job</a></li>
+        <li nz-menu-item><a routerLink="">About Us</a></li>
+    </ul>
+
+    
+    <a routerLink="/auth/register" nz-button nzType="primary" class="sign-in-button" nzShape="round">Sign In </a>
+   
+
+    <!-- small screen -->
+    <span class="header-trigger" (click)="isCollapsed = !isCollapsed" *ngIf="isSmallScreen" >
+        <i class="trigger"
+           nz-icon
+           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+           (click)="open()"
+        ></i>
+    </span>
+
+    <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="visible"
+      [nzPlacement]="placement"
+      [nzTitle]="Jobfinder"
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+        <p><a routerLink="" class="nav-small">Find job</a></p>
+        <p><a routerLink="" class="nav-small">Companies</a></p>
+        <p><a routerLink="" class="nav-small">Upload Job</a></p>
+        <p><a routerLink="" class="nav-small">About Us</a></p>
+      </ng-container>
+    </nz-drawer>
+    <ng-template #Jobfinder>
+        <p class="logo-p">Job <span class="logo-span">Finder</span></p>
+    </ng-template>
+
+</nz-header>

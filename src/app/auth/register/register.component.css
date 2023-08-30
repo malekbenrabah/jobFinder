@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.inner-content{
+    background-image:url('src\assets\office.jpg') ;
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    height: 100vh;/* 100vh to make the background cover the entire viewport height */
+    
+    background-attachment: fixed;
+    background-color: white;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.card{
+    width: 500px; 
+    padding: 20px;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);   
+}
+
+/*form */
+
+
+
+.btn-grp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.user-type-btn{
+    
+    border-radius: 8px;
+    width: 200px;
+    margin-top: 15px; 
+    margin-bottom: 25px;
+}
+
+.user-type-btn:focus{
+    color: #1d4fd8; 
+    font-weight: 600;
+    background-color: #1d4fd862;
+}
+
+.user-type-btn:hover{
+    color: #1d4fd8; 
+    font-weight: 600;
+    
+    border-color:#1d4fd862;
+}
+
+
+.user-type-btn:focus{
+    color: #1d4fd8; 
+    font-weight: 600;
+    background-color: #1d4fd862;
+    border:#1d4fd862;
+}
+
+
+/* password field*/
+
+
+
+.input-pass{
+    border-radius: 8px;
+    font-family: 'Rubik', sans-serif;
+}
+
+.input-pass:hover{
+    border-color: #2563eb;
+}
+
+.input-pass:focus{
+    border-color: #2563eb;
+}
+
+.error-icon{
+    color: #ff4d4f; 
+}
+
+.errorPass{
+    color: #ff4d4f;
+}
+
+
+
+.ant-input-group .ant-input-affix-wrapper:not(:last-child){
+    border-radius: 8px;
+}
+
+
+nz-alert{
+    margin-bottom: 5px;
+    margin-right: 90px;
+}
+
+/* end password field*/
+
+.login{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+    
+.submit-btn {
+    color: white;
+    border-radius: 8px;
+    border: 1px solid #2563eb;
+    background-color:#2563eb;
+    margin-top: 15px;
+   
+}
+
+.submit-btn:hover{
+    color: white;
+    border: 1px solid #457aeb;
+    background-color:#457aeb ;
+}
+.reset-btn{
+    color: #ff4d4f;
+    border-radius: 8px;
+    border: 1px solid #ff4d4f;
+    margin-top: 15px;
+}
+
+.login-span{
+    font-weight: bold;
+}
+
+.register-text h3{
+    font-weight: 800;
+    color: #1d4fd8;
+}
+
+
+
+
+

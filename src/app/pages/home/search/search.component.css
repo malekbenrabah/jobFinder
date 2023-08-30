@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.search{
+    /*
+    background-image:url('src\assets\office.jpg') ;
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    height:200px;
+    
+    background-attachment: fixed;
+    background-color: white;
+    */
+
+    flex-direction: column;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.search-card{
+    border: 1px solid #e8e8e8;
+    border-radius: 50px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);   
+    width: 100%;
+}
+
+.input-pass{
+    border-radius: 8px;
+    font-family: 'Rubik', sans-serif;
+    margin-top: 20px;
+    margin-left: 15px;
+      
+}
+
+.input-pass:hover{
+    border-color: #2563eb;
+}
+
+.input-pass:focus{
+    border-color: #2563eb;
+}
+
+.search-btn{
+    border-radius: 8px;
+    margin-top: 20px;
+
+    color: white;
+    border-radius: 8px;
+    border: 1px solid #2563eb;
+    background-color:#2563eb;
+}
+
+.search-btn:hover{
+    color: white;
+    border: 1px solid #457aeb;
+    background-color:#457aeb ;
+}
+
+.text-search{
+    margin-bottom: 30px;
+}
+
+
+
+
+/*small screen */
+@media screen and (max-width: 768px) {
+    .search{
+        background-image: none;
+        flex-direction: column; /*display elements vertically on small screens*/
+    }
+    .search-card{
+        max-width:700px;
+        min-width: 450px;
+    }
+    .input-pass {
+      width: 300px; 
+      margin-left: 15px; 
+      margin-right: 15px;
+    }
+
+    .search-btn{
+        margin-bottom: 15px;
+    }
+
+    .small-text h3{
+        font-weight: bold;
+        font-size:2.5rem;
+        margin-bottom: 20px;
+    }
+
+
+   
+}
+.small-text{
+    margin-bottom: 20px;
+}
+
+.auto-type{
+    font-weight: bold;
+    font-size:2.5rem;
+}
+
+.typing{
+    padding-right:20px;
+    font-weight: bold;
+    font-size:2.5rem;
+    margin-bottom: 20px;
+    color: #457aeb;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+.search{
+    background-color:#f0f2f5 ;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-card{
+   text-align: center;
+}
+
+
+nz-card{
+   margin-top: 20px;
+   margin-bottom: 20px;
+   width: 100%;
+}
+
+.search-card{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group-container{
+    display: flex;
+}
+
+.input-grp {
+    margin-bottom: 16px; 
+}
+
+nz-input-group input{
+    margin-right: 20px;
+}
+*/
+

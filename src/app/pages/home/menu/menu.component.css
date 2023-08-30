@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.menu{
+    margin-top: 70px;
+
+}
+
+.jobs-num{
+    font-weight: bold;
+    font-size:.9rem;
+}
+
+.sort{  
+  
+  float: right;
+  display: flex;
+  
+}
+
+.sort-txt{
+    margin-right: 15px;
+}
+
+nz-select{
+    margin-bottom: 15px;
+}
+
+.sort nz-select{
+    font-family: 'Rubik', sans-serif;
+}
+
+.sort nz-select:hover{
+    border-color: #2563eb;
+}
+
+.filter-search{
+    color: #424344;
+    font-weight: bold;
+}
+
+/*search*/
+
+.search-type{
+    margin-bottom: 30px; 
+}
+
+.search-type-txt{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/*search*/
+
+.small-card{
+    margin-bottom: 25px;
+}
+
+
+

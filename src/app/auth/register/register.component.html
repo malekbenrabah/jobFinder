@@ -1,0 +1,186 @@
+<nz-layout class="layout">
+  
+    <app-navbar></app-navbar>
+    <nz-content>
+        
+        <div class="inner-content">
+            <div class="card">
+                <div class="register-text">
+                    <h3>Create your account</h3>
+               </div>
+            
+               <form nz-form [formGroup]="validateForm" >
+
+                    <div class="btn-grp">
+                        <nz-space>
+                            <button *nzSpaceItem nz-button class="user-type-btn" (click)="selectedAccountType = 'user'">User Account</button>
+                            <button *nzSpaceItem nz-button  class="user-type-btn" (click)="selectedAccountType = 'company'">Company Account</button>
+                        </nz-space>
+                    </div>
+
+                    <div *ngIf="selectedAccountType==='user'">
+                        <nz-input-group>
+                            <div nz-row [nzGutter]="8">
+
+                            <div nz-col nzSpan="12">
+                                    <nz-form-item>
+                                        <nz-form-control  nzHasFeedback nzErrorTip="Please input your firstname">
+                                            <nz-input-group nzPrefixIcon="user" class="input-pass">
+                                                <input nz-input nzRequired formControlName="firstname" placeholder="First Name" />
+                                            </nz-input-group>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                            <div nz-col nzSpan="12">
+                                    <nz-form-item>
+                                        <nz-form-control  nzHasFeedback nzErrorTip="Please input your lastname">
+                                            <nz-input-group nzPrefixIcon="user" class="input-pass">
+                                                <input nz-input nzRequired formControlName="lastname" placeholder="Last Name"/>
+                                            </nz-input-group>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                            </div>
+                            </div>
+                        </nz-input-group>
+                    </div>
+
+                    <div *ngIf="selectedAccountType==='company'">
+                        <nz-input-group>
+                            <div nz-row >
+                                <div nz-col nzSpan="24">
+                                        <nz-form-item>
+                                            <nz-form-control  nzHasFeedback nzErrorTip="Please input your Company Name">
+                                                <nz-input-group nzPrefixIcon="shop" class="input-pass">
+                                                    <input nz-input nzRequired formControlName="company" placeholder="Company Name"/>
+                                                </nz-input-group>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                </div>
+                            </div>
+                        </nz-input-group>
+                    </div>
+                   
+                
+
+                
+                
+                    <nz-input-group>
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-control  nzHasFeedback [nzErrorTip]="emailErrorTpl">
+                                        <nz-input-group nzPrefixIcon="mail" class="input-pass">
+                                            <input  nz-input nzRequired formControlName="email" placeholder="Enter your Email" type="email"/>
+                                        </nz-input-group>
+                                        <ng-template #emailErrorTpl let-control>
+                                            <ng-container *ngIf="control.hasError('email')">This E-mail is not valid</ng-container>
+                                            <ng-container *ngIf="control.hasError('required')">Please input your E-mail</ng-container>
+                                        </ng-template>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        
+                    </nz-input-group>
+
+                    <nz-input-group>
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock" class="input-pass">
+                                            <input
+                                                [type]="passwordVisible ? 'text' : 'password'"
+                                                nz-input
+                                                placeholder="Enter your new password"
+
+                                                formControlName="password"
+                                                (ngModelChange)="validateConfirmPassword()"
+                                               
+                                            />
+                                        </nz-input-group>
+                                        <ng-container *ngIf="validateForm.get('password')?.hasError('required')&&(validateForm.get('password')?.touched || validateForm.get('password')?.dirty) " >
+                                            <div class="errorPass">Please input your password</div>
+                                        </ng-container>
+
+                                        <ng-template #suffixTemplate>
+                                            <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" 
+                                            class="eye-icon-pass"
+                                            [class.error-icon]="validateForm.get('password')?.hasError('required') && (validateForm.get('password')?.touched || validateForm.get('password')?.dirty)"
+                                            ></i>
+                                        </ng-template>
+
+                                    </nz-form-control>
+                                
+                                </nz-form-item>
+                            </div>
+                            
+
+                        </div>
+                    </nz-input-group>
+
+
+                    <nz-input-group>
+                        <div nz-row>
+                            <div nz-col nzSpan="24">
+                                <nz-form-item>
+                                    <nz-form-control>
+                                        <nz-input-group [nzSuffix]="suffixTemplateConf"  nzPrefixIcon="lock" class="input-pass">
+                                            <input
+                                                [type]="passwordVisibleConf ? 'text' : 'password'"
+                                                nz-input
+                                                placeholder="Confirm your new passsword"
+                                                formControlName="confirm"
+                            
+                                            />
+                                        </nz-input-group>
+                                        <ng-container *ngIf="validateForm.get('confirm')?.hasError('required')&&(validateForm.get('confirm')?.touched || validateForm.get('confirm')?.dirty) " >
+                                            <div class="errorPass">Please confirm your password</div>
+                                        </ng-container>
+        
+                                        <ng-container *ngIf="validateForm.get('confirm')?.hasError('confirm')&&(validateForm.get('confirm')?.touched || validateForm.get('confirm')?.dirty) " >
+                                            <div class="errorPass">Password is inconsistent</div>
+                                        </ng-container>
+
+                                        <ng-template #suffixTemplateConf>
+                                            <i nz-icon [nzType]="passwordVisibleConf ? 'eye-invisible' : 'eye'" (click)="passwordVisibleConf = !passwordVisibleConf"
+                                            class="eye-icon-pass"
+                                            [class.error-icon]="(validateForm.get('confirm')?.hasError('required')&&(validateForm.get('confirm')?.touched || validateForm.get('confirm')?.dirty) ) || ( validateForm.get('confirm')?.hasError('confirm')&&(validateForm.get('confirm')?.touched || validateForm.get('confirm')?.dirty)     ) "
+                                            ></i>
+                                        </ng-template>
+
+                                    </nz-form-control>
+                                
+                                </nz-form-item>
+                            </div>
+                            
+
+                        </div>
+                    </nz-input-group>
+
+
+                    <div class="btn-grp">
+                        <nz-space>
+                            <button *nzSpaceItem nz-button class="submit-btn" (click)="submitForm()" >Submit</button>
+                            <button *nzSpaceItem nz-button  class="reset-btn" (click)="resetForm($event) ">Reset</button>
+                        </nz-space>
+                    </div>
+                   
+                </form>
+
+                <div class="login">
+                    <p>Already has an account ? <span class="login-span"><a routerLink="/auth/login">LogIn</a></span></p>
+                </div>
+                
+               
+            </div>
+        </div>
+       
+       
+        
+        
+    </nz-content>
+    <app-footer></app-footer>
+    
+</nz-layout>
