@@ -1,11 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import{faSuitcase} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+
+  myLocationIcon=faLocationDot;
+  myJob=faSuitcase;
 
   constructor() { }
 

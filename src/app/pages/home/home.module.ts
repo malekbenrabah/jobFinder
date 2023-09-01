@@ -26,6 +26,14 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {NgxTypedJsModule} from 'ngx-typed-js';
 import { MenuComponent } from './menu/menu.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import{ FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { JobDetailComponent } from './job-detail/job-detail.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { LayoutComponent } from './layout/layout.component';
+
 
 
 
@@ -36,6 +44,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NavbarComponent,
     FooterComponent,
     MenuComponent,
+    JobDetailComponent,
+    NotFoundComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +70,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzGridModule,
     NzDividerModule,
     NgxTypedJsModule,
-    NzSelectModule
+    NzSelectModule,
+    FontAwesomeModule,
+    NzPaginationModule,
+    NzToolTipModule,
+    NzResultModule
 
   ],
   exports:[NavbarComponent, FooterComponent]

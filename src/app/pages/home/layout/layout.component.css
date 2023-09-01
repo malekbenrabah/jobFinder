@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.layout {
+    min-height: 100vh;
+    
+}
+
+
+nz-content {
+   
+    padding: 0 50px;
+    margin-top: 64px;
+
+    /*new*/
+    font-family: 'Rubik', sans-serif;
+    background-color: #fff;
+
+}
+
+nz-breadcrumb {
+    margin: 16px 0;
+}
+
+.inner-content {
+    background: #fff;
+    padding: 24px;
+    min-height: 380px;
+
+    margin-top: 15px;
+}
+
+nz-footer {
+    text-align: center;
+}

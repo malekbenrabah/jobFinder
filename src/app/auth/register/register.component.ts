@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ElementRef, Renderer2, ViewChild, AfterViewInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { omit } from 'lodash';
+import { faBuilding } from '@fortawesome/free-regular-svg-icons';
+
 
 @Component({
   selector: 'app-register',
@@ -9,12 +11,14 @@ import { omit } from 'lodash';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  myBuildingIcon=faBuilding;
+  
   selectedAccountType: string = 'user';
 
   validateForm: FormGroup;
 
 
-  constructor(private fb: FormBuilder, private router:Router) {
+  constructor(private fb: FormBuilder, private router:Router,private renderer2: Renderer2,private elementRef: ElementRef) {
     this.validateForm = this.fb.group({
       company:['', [Validators.required]],
       firstname:['', [Validators.required]],
@@ -26,6 +30,7 @@ export class RegisterComponent implements OnInit {
   }
 
   submitForm(): void {
+  
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
       const data = omit(this.validateForm.value,'confirm');
@@ -36,7 +41,7 @@ export class RegisterComponent implements OnInit {
         lastname :  this.validateForm.value ['lastname'],
         email:this.validateForm.value['email'],
         password:this.validateForm.value['password'],
-        role:'MANAGER'
+        role:this.selectedAccountType
       }
       console.log('final user info',userInfo);
       /* to do :  
@@ -94,6 +99,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
+
+ 
 }
  
 

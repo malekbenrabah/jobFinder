@@ -22,6 +22,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import{ FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     NzAlertModule,
     NzTabsModule,
     HomeModule,
+    FontAwesomeModule
     
   
   ]

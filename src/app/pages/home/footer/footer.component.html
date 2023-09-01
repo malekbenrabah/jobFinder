@@ -1,3 +1,91 @@
 <nz-footer>
-   aaaa
+   <div nz-row [nzGutter]="10">
+      <div nz-col nzSpan="12" class="footer-field">
+         <h2 class="footer-title">Job Finder</h2>
+         <p class="footer-slogon">Find a job with ease.</p>
+         <div nz-row >
+            <div nz-col nzSpan="12">
+               <ul class="footer-items">
+                  <li>Home</li>
+                  <li>About Us</li>
+                  <li>Services</li>
+                  <li>Our Team</li>
+               </ul>
+            </div>
+            <div nz-col nzSpan="12">
+               <ul class="footer-items">
+                  <li>Contact</li>
+                  <li>Policies</li>
+                  <li>Feedback</li>
+                  <li>FAQ</li>
+               </ul>
+            </div>
+            
+         </div>
+
+
+         
+
+        
+        
+      </div>
+
+      
+      <div nz-col nzSpan="12" class="footer-field">
+        
+
+
+
+         <div nz-row class="social-footer" [nzGutter]="30">
+            
+            <div nz-col >
+               <p class="follow-txt">Follow us on </p>
+            </div>
+
+            <div nz-col >
+              <nz-space nzSize="large">
+                  <a *nzSpaceItem href=""><fa-icon [icon]="fbIcon" class="social-icon"></fa-icon></a>
+                  <a *nzSpaceItem href=""><fa-icon [icon]="TwitterIcon" class="social-icon"></fa-icon></a>
+                  <a *nzSpaceItem href=""><fa-icon [icon]="InstagramIcon" class="social-icon"></fa-icon></a>
+                  <a *nzSpaceItem href=""><fa-icon [icon]="MailIcon" class="social-icon"></fa-icon></a>
+              </nz-space>
+            </div>
+
+            
+
+         </div>
+
+
+         <p class="footer-txt">Subscribe to our Newsletter</p>
+
+         <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+           <div nz-row [nzGutter]="8">
+
+               <div nz-col nzSpan="16">
+                  <nz-form-item>
+                     <nz-form-control [nzErrorTip]="emailErrorTpl">
+                     <nz-input-group nzPrefixIcon="user">
+                        <input type="email" nz-input formControlName="email" placeholder="Email" />
+                     </nz-input-group>
+      
+                     <ng-template #emailErrorTpl let-control>
+                           <ng-container *ngIf="control.hasError('email')">This E-mail is not valid</ng-container>
+                           <ng-container *ngIf="control.hasError('required')">Please input your E-mail!</ng-container>
+                        </ng-template>
+                     </nz-form-control>
+                  </nz-form-item>
+               </div>
+
+               <div nz-col nzSpan="8">
+                  <button nz-button class="news-btn" [nzType]="'primary'">Subscribe</button>
+               </div>
+           </div>
+        </form>
+
+        
+
+        
+         
+      </div>
+   </div>
 </nz-footer>

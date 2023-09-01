@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+nz-footer{
+    background-color: #1d4ed8;
+}
+
+.footer-field{
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+}
+
+.footer-title{
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.footer-items{
+   list-style: none;
+   padding: 0;
+   font-size: 17px;
+
+}
+
+.footer-items li:hover{
+    cursor: pointer;
+    color: #001529;
+}
+
+.newsletter{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+nz-input-group{
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+
+
+.news-btn{
+    background-color:#001529;
+    border: #001529;
+    border-radius: 8px;
+}
+
+.news-btn:hover{
+    box-shadow: 0 2px 6px #001529;
+}
+
+.social-footer{
+    margin-bottom: 25px;
+}
+
+.footer-txt{
+    margin-bottom: 0;
+    font-size: 18px;
+    font-family: 'Rubik',sans-serif;
+}
+
+.follow-txt{
+    font-weight: bold;
+    font-size:20px;
+}
+
+.social-icon{
+    color: #fff;
+    font-size: 20px;
+}
+
+.social-icon:hover{
+    color: #001529;
+}
+
+.footer-slogon{
+    margin-top: -25px;
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+    font-size: small;
+    margin-left: 5px;
+}
+
+

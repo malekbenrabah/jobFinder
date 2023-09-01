@@ -13,7 +13,7 @@
 
                     <div class="btn-grp">
                         <nz-space>
-                            <button *nzSpaceItem nz-button class="user-type-btn" (click)="selectedAccountType = 'user'">User Account</button>
+                            <button id="user-account-btn" *nzSpaceItem nz-button class="user-type-btn" (click)="selectedAccountType = 'user'"   >User Account</button>
                             <button *nzSpaceItem nz-button  class="user-type-btn" (click)="selectedAccountType = 'company'">Company Account</button>
                         </nz-space>
                     </div>
@@ -51,9 +51,12 @@
                                 <div nz-col nzSpan="24">
                                         <nz-form-item>
                                             <nz-form-control  nzHasFeedback nzErrorTip="Please input your Company Name">
-                                                <nz-input-group nzPrefixIcon="shop" class="input-pass">
+                                                <nz-input-group [nzPrefix]="buildingIcon" class="input-pass">
                                                     <input nz-input nzRequired formControlName="company" placeholder="Company Name"/>
                                                 </nz-input-group>
+                                                <ng-template #buildingIcon>
+                                                    <fa-icon [icon]="myBuildingIcon"></fa-icon>
+                                                </ng-template>
                                             </nz-form-control>
                                         </nz-form-item>
                                 </div>

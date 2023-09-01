@@ -69,7 +69,7 @@
 
                     <div nz-col nzSpan="10">
                         <nz-form-item>
-                            <nz-form-control  nzHasFeedback nzErrorTip="Please input your firstname">
+                            <nz-form-control >
                                 <nz-input-group nzPrefixIcon="search" class="input-pass">
                                     <input nz-input nzRequired formControlName="title" placeholder="Job Title or Keyword" />
                                 </nz-input-group>
@@ -79,13 +79,19 @@
 
                     <div nz-col nzSpan="10">
                         <nz-form-item>
-                            <nz-form-control  nzHasFeedback nzErrorTip="Please input your lastname">
-                                <nz-input-group nzPrefixIcon="search" class="input-pass">
+                            <nz-form-control >
+                                <nz-input-group [nzPrefix]="locationIcon" class="input-pass">
                                     <input nz-input nzRequired formControlName="location" placeholder="Add Country or City"/>
                                 </nz-input-group>
+                                <ng-template #locationIcon>
+                                    <fa-icon [icon]="myLocationIcon"></fa-icon>
+                                </ng-template>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
+
+                    
+                    
 
                     <div nz-col nzSpan="4">
                         <button nz-button nzType="primary" class="search-btn">Search</button>

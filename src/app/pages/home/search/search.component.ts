@@ -1,12 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { faLocationDot, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+
+  myLocationIcon:IconDefinition=faLocationDot;
+
   validateForm!: FormGroup;
 
   constructor(private fb: FormBuilder) { }
