@@ -8,9 +8,10 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import{ FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TokenInterceptorService } from './services/interceptor/token-interceptor.service';
 registerLocaleData(en);
 
 @NgModule({
@@ -25,7 +26,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     FontAwesomeModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US },{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

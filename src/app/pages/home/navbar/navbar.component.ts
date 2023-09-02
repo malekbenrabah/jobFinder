@@ -1,5 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
+import { UserServiceService } from 'src/app/services/user/user-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +11,7 @@ import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 export class NavbarComponent implements OnInit {
 
   isCollapsed=false;
-  constructor() { }
+  constructor(private userService:UserServiceService, private router:Router) { }
 
   //drawer
 
@@ -23,9 +25,22 @@ export class NavbarComponent implements OnInit {
     this.visible = false;
   }
 
+  userLoggedIn:boolean=false;
   ngOnInit(): void {
+    this.userLoggedIn=this.userService.isLoggedIn();
     //check screen size at initialization
     this.checkScreenSize();
+  }
+
+  logout(){
+    console.log("logout works!");
+    this.userService.logout().subscribe(()=>{
+      console.log('logout api works!');
+      localStorage.removeItem('token');
+      this.userLoggedIn=false;
+      this.router.navigate(['']);
+
+    });
   }
 
   //screen size:

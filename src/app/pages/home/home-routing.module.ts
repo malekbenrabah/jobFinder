@@ -4,12 +4,13 @@ import { HomeComponent } from './home.component';
 import { JobDetailComponent } from './job-detail/job-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AuthGuard } from 'src/app/services/guards/auth.guard';
 
 const routes: Routes = [
    
   { path:'', component : LayoutComponent, children:[
     {path:'',component:HomeComponent},
-    {path:"job-detail",component:JobDetailComponent},
+    {path:"job-detail/:id",component:JobDetailComponent},
     {path:"not-found", component:NotFoundComponent},
   ]},
   

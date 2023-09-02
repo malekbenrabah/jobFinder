@@ -33,7 +33,8 @@ import { JobDetailComponent } from './job-detail/job-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { LayoutComponent } from './layout/layout.component';
-
+import { NzBackTopModule } from 'ng-zorro-antd/back-top';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 
 
@@ -74,7 +75,9 @@ import { LayoutComponent } from './layout/layout.component';
     FontAwesomeModule,
     NzPaginationModule,
     NzToolTipModule,
-    NzResultModule
+    NzResultModule,
+    NzBackTopModule,
+    NzDropDownModule
 
   ],
   exports:[NavbarComponent, FooterComponent]

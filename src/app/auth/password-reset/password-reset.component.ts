@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserServiceService } from 'src/app/services/user/user-service.service';
 //import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
@@ -21,8 +22,8 @@ export class PasswordResetComponent implements OnInit {
       //casting with as:
       const userEmailString: string = userEmail as string;
       console.log('email',userEmailString);
-      /*
-      this.authService.resetPassword( userEmailString,this.validateForm.value['password']).subscribe(r=>{
+      
+      this.userService.resetPassword( userEmailString,this.validateForm.value['password']).subscribe(r=>{
         console.log('reset pass', r);
         this.resetSuccess="Password updated successfully";
         localStorage.removeItem('email');
@@ -33,7 +34,7 @@ export class PasswordResetComponent implements OnInit {
             this.validateForm.reset();
         }
       });
-      */
+      
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -44,7 +45,7 @@ export class PasswordResetComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder, private userService:UserServiceService) { 
     this.validateForm = this.fb.group({
       password: ['', [Validators.required]],
       confirm: ['', [,Validators.required, this.confirmValidator]]    

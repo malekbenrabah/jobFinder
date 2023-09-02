@@ -12,7 +12,24 @@
     </ul>
 
     
-    <a routerLink="/auth/register" nz-button nzType="primary" class="sign-in-button" nzShape="round">Sign In </a>
+    <a *ngIf="!userLoggedIn"  routerLink="/auth/register" nz-button nzType="primary" class="sign-in-button" nzShape="round">Sign In </a>
+
+    
+    <div class="profile" *ngIf="userLoggedIn">
+      <a nz-dropdown [nzDropdownMenu]="menu">
+        <nz-avatar nzIcon="user" class="avatar-center"></nz-avatar>
+        
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu class="profile-menu">
+          <li nz-menu-item  class="profile-menu-item"><a routerLink="/user/profile">Pofile</a></li>
+          <li nz-menu-item class="profile-menu-item" (click)="logout()">logout</li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+     
+    
+      
    
 
     <!-- small screen -->

@@ -1,0 +1,268 @@
+<div class="job-detail">
+    <div nz-row [nzGutter]="30">
+        <div nz-col nzFlex="750px">
+           
+            <nz-card>
+                <nz-card-meta
+                    [nzAvatar]="avatarTemplate"
+                    [nzTitle]="titleCard"
+                    [nzDescription]="descCard"
+                ></nz-card-meta>
+
+                <div nz-row [nzGutter]="10" class="job-details">
+                    <div nz-col nzSpan="6">
+                        <div class="job-square-salary">
+                            <div class="job-square-txt-salary">
+                                <span>Salary</span>
+                                <p>1200$</p>
+                            </div> 
+                        </div>
+                       
+                    </div>
+
+                    <div nz-col nzSpan="6">
+                        <div class="job-square-job">
+                            <div class="job-square-txt-job">
+                                <span>Job Type</span>
+                                <p>Full-Time</p>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div nz-col nzSpan="6">
+                        <div class="job-square-applicants">
+                            <div class="job-square-txt-applicants">
+                                <span>No. of Applicants</span>
+                                <p>4K</p>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div nz-col nzSpan="6">
+                        <div class="job-square-deadline">
+                            <div class="job-square-txt-deadline">
+                                <span>Deadline</span>
+                                <p>23-05-2023</p>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row nzGutter="20">
+                    
+                    <div nz-col nzSpan="12">
+                        <div class="card-btn">
+                            <button nz-button nzType="primary" class="job-detail-btn" (click)="selected = 'jobDesc'">Job Description</button>
+                        </div>
+                    </div>
+
+                    <div nz-col nzSpan="12">
+                        <div class="card-btn">
+                            <button nz-button nzType="primary" class="job-detail-btn" (click)="selected = 'company'">Company</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div nz-row *ngIf="selected==='jobDesc'">
+                    <div class="job-desc-detailes">
+                        <h3>Job Description</h3>
+                        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam aperiam esse nam minima? Nihil aspernatur accusantium aut possimus corporis, neque repellat maxime voluptatum suscipit consequatur, quos impedit ratione excepturi eum.</p>
+                    </div>
+
+                    <div class="job-desc-detailes">
+                        <h3>Requirement</h3>
+                        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam aperiam esse nam minima? Nihil aspernatur accusantium aut possimus corporis, neque repellat maxime voluptatum suscipit consequatur, quos impedit ratione excepturi eum.</p>
+                    </div>
+
+                    <button nz-button nzType="primary" class="job-detail-btn apply-btn">Apply Now</button>
+                </div>
+
+                <div nz-row *ngIf="selected==='company'">
+                    <div class="company-info">
+                        <a>Company Name</a>
+                       
+                        <p>
+                            <i nz-icon nzType="mail" nzTheme="outline"></i> <span> company@gmail.com</span><br>
+                            <fa-icon [icon]="myLocationIcon"></fa-icon> <span> Job location</span> 
+                        </p>
+                        
+                        
+                    </div>
+
+                    <div class="job-desc-detailes">
+                        <h3>About Company</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam aperiam esse nam minima? Nihil aspernatur accusantium aut possimus corporis, neque repellat maxime voluptatum suscipit consequatur, quos impedit ratione excepturi eum.</p>
+                    </div>
+
+                    <button nz-button nzType="primary" class="job-detail-btn apply-btn">Apply Now</button>
+                </div>
+
+                
+
+
+
+
+            </nz-card>
+
+
+            <ng-template #avatarTemplate>
+                <nz-avatar [nzShape]="'square'" [nzSize]="100" nzSrc="../assets/job.jpg"></nz-avatar>
+            </ng-template>
+            <ng-template #titleCard>
+                <p class="job-title">Job Title</p>
+                <div class="job-location-title">
+                    <fa-icon [icon]="myLocationIcon"></fa-icon>
+                    <p>Job location</p> 
+                </div>
+               <p class="company-name"><a routerLink="/">Company Name</a></p>
+            </ng-template>
+
+            <ng-template #descCard >
+                <p class="cardDesc"> a  minute ago</p>
+            </ng-template>
+
+            
+
+
+        </div>
+
+        <div nz-col nzFlex="auto">
+            <p class="similar-job-txt">Similar job Post</p>
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="12">
+                    <nz-card  class="similar-job-card">
+                    
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        ></nz-card-meta>
+    
+                        <div nz-row [nzGutter]="74" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+                        
+                    </nz-card>
+                    <ng-template #avatarTemplate>
+                        <nz-avatar  nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+    
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-card  class="similar-job-card">
+                    
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        ></nz-card-meta>
+    
+                        <div nz-row [nzGutter]="74" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+                        
+                    </nz-card>
+                    <ng-template #avatarTemplate>
+                        <nz-avatar  nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+    
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+                </div>
+
+            </div>
+
+            <!-- yetaawed -->
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="12">
+                    <nz-card  class="similar-job-card">
+                    
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        ></nz-card-meta>
+    
+                        <div nz-row [nzGutter]="74" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+                        
+                    </nz-card>
+                    <ng-template #avatarTemplate>
+                        <nz-avatar  nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+    
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div nz-col nzSpan="12">
+                    <nz-card  class="similar-job-card">
+                    
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        ></nz-card-meta>
+    
+                        <div nz-row [nzGutter]="74" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+                        
+                    </nz-card>
+                    <ng-template #avatarTemplate>
+                        <nz-avatar  nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+    
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

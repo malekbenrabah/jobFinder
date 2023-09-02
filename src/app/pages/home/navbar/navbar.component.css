@@ -122,3 +122,42 @@ ul[nz-menu] li a{
     font-family: 'Rubik', sans-serif;
 }
 
+/*user profile*/
+
+.profile{
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+}
+
+.profile-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 10;
+}
+  
+.profile:hover .profile-menu {
+    display: block;
+    
+}
+  
+.profile-menu-item{
+    display: block;
+    padding: 8px 16px;
+    font-family: 'Rubik', sans-serif;
+    color: #424344;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.profile-menu .profile-menu-item:hover{
+    font-weight: 600;
+    background-color: #fff;
+}
+

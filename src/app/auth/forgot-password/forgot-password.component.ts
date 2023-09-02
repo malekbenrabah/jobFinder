@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Observable, Observer } from 'rxjs';
+import { UserServiceService } from 'src/app/services/user/user-service.service';
 //import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
@@ -20,8 +22,8 @@ export class ForgotPasswordComponent implements OnInit {
       console.log('submit', this.validateForm.value);
       console.log('email',this.validateForm.value['email']);
       this.isLoadingOne=true;
-      /*
-      this.authService.forgotPassword(this.validateForm.value['email']).subscribe(r=>{  
+      
+      this.userService.forgotPassword(this.validateForm.value['email']).subscribe(r=>{  
         localStorage.setItem('email',this.validateForm.value['email']);
       
         console.log("forgot password successfully",r);
@@ -36,7 +38,7 @@ export class ForgotPasswordComponent implements OnInit {
 
         }
     });
-    */
+    
 
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -57,13 +59,36 @@ export class ForgotPasswordComponent implements OnInit {
     this.userNotFoundErr="";
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private userService:UserServiceService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      email: [null, [Validators.required, Validators.email]]
+      email: [null, [Validators.required, Validators.email],[this.userEmailAsyncValidator]]
     });
   }
+
+  userEmailAsyncValidator = (control: FormControl) =>{
+    const email=control.value;
+    console.log('userEmail',email);
+    return new Observable((observer: Observer<ValidationErrors | null>) => {
+      this.userService.checkUserEmail(email).subscribe(
+        (exists) => {
+          console.log('exists', exists);
+          if (!exists) {
+            observer.next({ error: true, duplicated: true });
+          } else {
+            observer.next(null);
+          }
+          observer.complete();
+        },
+        (error) => {
+          console.error('Error:', error);
+          observer.next(null);
+          observer.complete();
+        }
+      );
+    });
+  };
 
   //button loading
   isLoadingOne = false;
