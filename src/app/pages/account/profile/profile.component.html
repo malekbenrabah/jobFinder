@@ -1,0 +1,457 @@
+<div class="profile">
+    <div nz-row>
+        <div nz-col [nzSpan]="24">
+            <div class="user-cover-img">
+
+                <div class="update-img-btn">
+                    <button nz-button nzType="default" nzShape="circle" class="add-img-btn" (click)="showModalMiddle()">
+                        <span nz-icon nzType="picture" nzTheme="fill" class="update-icon"></span>
+                    </button>
+                    <nz-modal
+                        [(nzVisible)]="isVisibleMiddle"
+                        nzTitle="Update your profile picture"
+                        nzCentered
+                        (nzOnCancel)="handleCancelMiddle()"
+                        (nzOnOk)="handleOkMiddle()"
+                        [nzFooter]="null" >
+                        <ng-container *nzModalContent>
+                        
+                            <div class="modal-but-container">
+                                <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput/>
+                                <button nz-button nzType="default"  class="modal-btn-update" (click)="updateImg()">Update profile picture</button>
+                                
+
+                                <hr  style="width: 100%;">
+                                <button nz-button nzType="default" class="modal-btn-delte"  (click)="deleteCurrentPhoto()"  [disabled]="user.photo === null">Reset profile picture</button>
+                            </div>
+                           
+                        </ng-container>
+                    </nz-modal>
+                </div>
+
+                <div class="user-info">
+                    <div class="media">
+                       
+                        <img [src]="this.uploadedPhoto || user.photo" alt="user" class="user-img" *ngIf="uploadedPhoto!=null || user.photo!==null">
+                        <ng-container *ngIf="uploadedPhoto === null && user.photo===null">
+                            <nz-avatar [nzShape]="'square'" [nzSize]="64" nzText={{getFirstLetter(user.firstname)}} class="user-avatar" ></nz-avatar>
+                        </ng-container>
+
+                        <div class="media-body">
+                            <h3 class="text-white">{{user.firstname}} {{user.lastname}}</h3>
+                            <span class="user-email">{{user.email}}</span>
+                        </div>
+                        <button  nz-button  class="view-cv-btn">View CV</button>
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="8">
+            <div class="profile-btn">
+               
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'profile'"> <fa-icon [icon]="profileIcon" class="profile-icon"></fa-icon>My profile</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'cv'"> <fa-icon [icon]="jobIcon" class="profile-icon"></fa-icon> My CV</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'saved'"> <fa-icon [icon]="saveIcone" class="profile-icon"></fa-icon> Saved jobs</button>
+
+                <button nz-button nzType="text" class="logout-btn"><i nz-icon nzType="logout" nzTheme="outline" class="logoutIcon"></i>Logout</button>
+
+            </div>
+    
+        </div>
+
+        <div nz-col [nzSpan]="16">
+           <h3>Welcome Back, Randy Blue</h3>
+           <nz-alert nzType="success" nzCloseable nzMessage={{profileUpdatedSucc}} nzShowIcon  (nzOnClose)="afterCloseProfile()"
+           *ngIf="profileUpdatedSucc !=='' " ></nz-alert>
+           <form nz-form nzLayout="vertical"  [formGroup]="validateForm" (ngSubmit)="submitForm()" *ngIf="selectedProfileOption==='profile'">
+                <div nz-row >
+
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="vertical">First Name</nz-form-label>
+                            <nz-form-control nzSpan="vertical" [nzErrorTip]="firstnameErrorTemplate">
+                            <input nz-input  placeholder="FirstName"  formControlName="firstname" />
+                            <ng-template #firstnameErrorTemplate>
+                            <div  *ngIf="validateForm.get('firstname')?.value === '' && validateForm.get('firstname')?.hasError('required')" class="error-message">FirstName is required</div>
+                            </ng-template>
+                            </nz-form-control>
+                        </nz-form-item>
+        
+                        
+                    </div>
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="vertical">Last Name</nz-form-label>
+                            <nz-form-control nzSpan="vertical" [nzErrorTip]="lastnameErrorTemplate">
+                            <input nz-input  placeholder="LastName" formControlName="lastname" />
+                            <ng-template #lastnameErrorTemplate>
+                                <div  *ngIf="validateForm.get('lastname')?.value === '' && validateForm.get('lastname')?.hasError('required')" class="error-message">LastName is required</div>
+                                </ng-template>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row >
+
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="vertical">Email</nz-form-label>
+                            <nz-form-control nzSpan="vertical" >
+                                <input nz-input [value]="user.email"  placeholder="Email"  [disabled]="true"  />
+                            </nz-form-control>
+                        </nz-form-item>
+    
+                    </div>
+
+                    <div nz-col [nzSpan]="12">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="vertical">Phone</nz-form-label>
+                            <nz-form-control nzSpan="vertical" nzErrorTip="Your phone is not valid">
+                            <input nz-input  placeholder="user's phone"  formControlName="phone"/>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row>
+
+                    <div nz-col nzSpan="24">
+                        <nz-form-item>
+                            <nz-form-label nzSpan="vertical">About me</nz-form-label>
+                            <nz-form-control nzSpan="vertical" >
+                                <textarea rows="4" nz-input formControlName="aboutMe" ></textarea>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    
+                </div>
+
+                <button nz-button class="update-form-button " [nzType]="'primary'">Save Changes</button>
+
+           </form>
+
+
+           <div *ngIf="selectedProfileOption==='cv'">
+                <div nz-row >
+                    <div nz-col nzSpan="24">
+                        <nz-steps [nzCurrent]="current" >
+                            <nz-step nzTitle="Education" [nzIcon]="iconTemplateEd"></nz-step>
+                            <ng-template #iconTemplateEd><fa-icon [icon]="educationIcon"></fa-icon></ng-template>
+
+                            <nz-step nzTitle="Experience" [nzIcon]="iconTemplateExp"></nz-step>
+                            <ng-template #iconTemplateExp><fa-icon [icon]="jobIcon"></fa-icon></ng-template>
+
+                            <nz-step nzTitle="Skills" nzIcon="solution"></nz-step>
+
+                            <nz-step nzTitle="Hobbies" [nzIcon]="iconTemplate"></nz-step>
+                            <ng-template #iconTemplate><fa-icon [icon]="educationIcon"></fa-icon></ng-template>
+
+                        </nz-steps>
+                    </div>
+
+                </div>
+
+                <div nz-row >
+                    <div nz-col nzSpan="24">
+                        <div class="steps-content">
+                            <h3> {{ index }}</h3>
+                            
+
+                            <form nz-form [formGroup]="validateFormEd" (ngSubmit)="submitFormEd()" *ngIf="index === 'Education'">
+                                <ng-container *ngFor="let control of listOfControl; let i = index"> 
+                                    
+                                    <div class="education-container">
+                                        <div class="input-container ">
+
+                                            <nz-form-item >
+                                                
+                                                <nz-form-control
+                                                    [nzXs]="24"
+                                                    [nzSm]="20"
+                                                    
+                                                    nzErrorTip="Please input your degree"
+                                                >
+                                                    <input
+                                                    class="passenger-input"
+                                                    nz-input
+                                                    placeholder="Degree"
+                                                    [attr.id]="control.id"
+                                                    [formControlName]="control.controlInstance.input"
+                                                    />
+                                                </nz-form-control>
+                                            </nz-form-item>
+
+                                            <nz-form-item >
+                                                
+                                                <nz-form-control
+                                                    [nzXs]="24"
+                                                    [nzSm]="20"
+                                                    
+                                                    nzErrorTip="Please input the institution name"
+                                                >
+                                                    <input
+                                                    class="passenger-input"
+                                                    nz-input
+                                                    placeholder="Institution"
+                                                    [attr.id]="control.id"
+                                                    [formControlName]="control.controlInstance.institution"
+                                                    />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                                
+                                            <nz-form-item>
+                                                <nz-form-control  nzErrorTip="Please select the year.">
+                                                    <!--
+                                                    <nz-select   [formControlName]="control.controlInstance.year">
+                                                    <nz-option *ngFor="let year of years" [nzValue]="year" [nzLabel]="year" class="passenger-select"></nz-option>
+                                                    </nz-select>
+                                                    -->
+                                                    <nz-date-picker  nzMode="year" [nzFormat]="'yyyy'" [formControlName]="control.controlInstance.year" [nzDisabledDate]="disabledDate"></nz-date-picker>
+
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                            
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+                                           
+                                        </div>
+                                    </div>   
+                                   
+    
+                                </ng-container>
+                               
+                               
+
+                                <nz-form-item>
+                                  <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                    <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+                                      <i nz-icon nzType="plus"></i>
+                                      Add field
+                                    </button>
+                                  </nz-form-control>
+                                </nz-form-item>
+                                
+                                <nz-form-item>
+                                    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                        <button nz-button nzType="primary" class="submit-ed-btn" >Update your CV</button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                
+                               
+                            </form>
+
+
+
+                            <form nz-form [formGroup]="validateFormExp" (ngSubmit)="submitFormExp()" *ngIf="index === 'Experience'">
+                                <ng-container *ngFor="let control of listOfControlExp; let i = index"> 
+                                    
+                                    <div class="education-container">
+                                        <div class="input-container ">
+
+                                            <nz-form-item >
+                                                
+                                                <nz-form-control
+                                                    [nzXs]="24"
+                                                    [nzSm]="20"
+                                                    
+                                                    nzErrorTip="Please input your degree"
+                                                >
+                                                    <input
+                                                    class="passenger-input"
+                                                    nz-input
+                                                    placeholder="Degree"
+                                                    [attr.id]="control.id"
+                                                    [formControlName]="control.controlInstance.input"
+                                                    />
+                                                </nz-form-control>
+                                            </nz-form-item>
+
+                                            <nz-form-item >
+                                                
+                                                <nz-form-control
+                                                    [nzXs]="24"
+                                                    [nzSm]="20"
+                                                    
+                                                    nzErrorTip="Please input the institution name"
+                                                >
+                                                    <input
+                                                    class="passenger-input"
+                                                    nz-input
+                                                    placeholder="Institution"
+                                                    [attr.id]="control.id"
+                                                    [formControlName]="control.controlInstance.location"
+                                                    />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                                
+                                            <nz-form-item>
+                                                <nz-form-control  nzErrorTip="Please select the year.">
+                                                    <!--<nz-date-picker  nzMode="year" [nzFormat]="'yyyy'" [formControlName]="control.controlInstance.date" [nzDisabledDate]="disabledDate"></nz-date-picker>-->
+                                                    <nz-range-picker [formControlName]="control.controlInstance.date" (ngModelChange)="onChangeDate($event)"></nz-range-picker>
+
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                            
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeFieldExp(control, $event)"></i>
+                                           
+                                        </div>
+                                    </div>   
+                                   
+    
+                                </ng-container>
+                               
+                               
+
+                                <nz-form-item>
+                                  <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                    <button nz-button nzType="dashed" class="add-button" (click)="addFieldExp($event)">
+                                      <i nz-icon nzType="plus"></i>
+                                      Add field
+                                    </button>
+                                  </nz-form-control>
+                                </nz-form-item>
+                                
+                                <nz-form-item>
+                                    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                        <button nz-button nzType="primary" class="submit-ed-btn" >Update your CV</button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                
+                               
+                            </form>
+                            
+                            <!--
+                            <form  (ngSubmit)="submitFormSkills()" *ngIf="index === 'Skills'">
+                                <div class="skills-container">
+                                    <nz-form-item>
+                                    
+                                        <nz-form-control>
+                                            <nz-tag *ngFor="let tag of tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleClose(tag)" class="skills-tags">
+                                                {{ sliceTagName(tag) }}
+                                            </nz-tag>
+                                            <nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation (click)="showInput()">
+                                                <i nz-icon nzType="plus"></i>
+                                                New Skill
+                                            </nz-tag>
+                                            <input
+                                                #inputElement
+                                                nz-input
+                                                nzSize="small"
+                                                *ngIf="inputVisible"
+                                                [formControl]="inputValueControl"
+                                                type="text"
+                                                class="skills-input"
+                                                (blur)="handleInputConfirm()"
+                                                (keydown.enter)="handleInputConfirm()"
+                                            />
+            
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-rate [formControl]="rateFormControl" (blur)="handleInputConfirm()"
+                                            (keydown.enter)="handleInputConfirm()" [nzTooltips]="tooltips"></nz-rate>
+                                        </nz-form-control>
+                                        
+                                    </nz-form-item>
+
+                                    <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"></i>
+
+    
+                                    <nz-form-item>
+                                        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                            <button nz-button nzType="primary" class="submit-ed-btn skills-btn" >Update your CV</button>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                
+
+                            </form>
+                            -->
+
+                            <form nz-form [formGroup]="validateFormSkills" (ngSubmit)="submitFormSkill()" *ngIf="index === 'Skills'">
+                                <ng-container *ngFor="let control of listOfControlSkills; let i = index">
+                                    <div class="skills-container">
+
+                                        
+
+                                        <nz-form-item >
+                                            <nz-form-control
+                                                [nzXs]="24"
+                                                [nzSm]="20"
+                                                nzErrorTip="Please input your skill"
+
+                                            >
+                                                <input
+                                                    #skillInput
+                                                    class="skills-input"
+                                                    nz-input
+                                                    placeholder="Skill"
+                                                    [attr.id]="control.id"
+                                                    [formControlName]="control.controlInstance.skill"
+                                                />
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                        <nz-form-item>
+                                            <nz-form-control>
+                                                <nz-rate [attr.id]="control.id" [formControlName]="control.controlInstance.level"[nzTooltips]="tooltips"></nz-rate>
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                        <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeSkills(control, $event)"></i>
+
+                                    </div>
+
+                                </ng-container>
+                                <nz-form-item>
+                                    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                      <button nz-button nzType="dashed" class="add-button" (click)="addSkills($event)">
+                                        <i nz-icon nzType="plus"></i>
+                                        Add field
+                                      </button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                  
+                                <nz-form-item>
+                                    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+                                        <button nz-button nzType="primary" class="submit-ed-btn" >Update your CV</button>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </form>
+
+                        </div>
+                        <div class="steps-action">
+                            <nz-space>
+                                <button nz-button  nzType="default" (click)="pre()" *ngIf="current > 0">
+                                <span>Previous</span>
+                                </button>
+                                <button nz-button  nzType="default" (click)="next()" *ngIf="current < 3">
+                                <span>Next</span>
+                                </button>
+                                <button nz-button  nzType="primary" (click)="done()" *ngIf="current === 3">
+                                <span>Done</span>
+                                </button>
+                            </nz-space>
+                        </div>
+
+                    </div>
+
+                </div>
+           </div>
+            
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,390 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+
+.profile-btn{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    
+}
+
+/*btn*/
+.btn-user-profile{
+    margin-bottom: 25px;
+    width: 250px;
+    height: 50px;
+    border-radius: 8px;
+    font-weight:600 ;
+    font-size: 100%;
+    transition: .3s;
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1);
+
+    display: flex;
+    align-items: center; 
+}
+
+.btn-user-profile:hover{
+    background-color:#2563eb;
+    color: #fff;
+}
+
+.btn-user-profile:focus{
+    background-color:#2563eb;
+    color: #fff;
+}
+
+.profile-icon{
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+
+/*logout btn*/
+.logoutIcon{
+    color: #ff4764;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.logoutIcon:hover{
+    color: #fff;
+}
+
+.logout-btn{
+
+    margin-bottom: 25px;
+    width: 250px;
+    height: 50px;
+    border-radius: 8px;
+    font-weight:600 ;
+    font-size: 100%;
+    transition: .3s;
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1);
+    background-color: #ffbfc9;
+    color: #ff4764;
+    display: flex;
+    align-items: center; 
+    
+}
+
+.logout-btn:hover{
+    color: #fff;
+    background-color: #ff4764;
+}
+
+.logout-btn:hover .logoutIcon {
+    color: #fff;
+}
+
+/*user profile form*/
+
+.update-form-button{
+    border-radius: 8px;
+    line-height:24px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+nz-form-label{
+    font-weight: 700;
+    font-family: 'Rubik', sans-serif;
+}
+
+nz-form-control input{
+    border-radius: 8px;
+    width: 400px;
+    letter-spacing:0.1px;
+    font-size: 14px;
+    padding: 8px 15px;
+    height: 50px;
+    
+}
+
+
+nz-form-control textarea{
+    border-radius: 8px;
+    letter-spacing:0.1px;
+    font-size: 14px;
+    padding: 8px 15px;
+    
+}
+
+/*stepper*/
+
+.steps-content {
+    margin-top: 16px;
+    border: 1px dashed #e9e9e9;
+    border-radius: 6px;
+    background-color: #fafafa;
+    min-height: 200px;
+    /*text-align: center;*/
+    padding-top: 10px;
+    padding-left: 25px;
+}
+
+.steps-action {
+    margin-top: 24px;
+}
+
+/* education form*/
+
+.dynamic-delete-button {
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    font-size: 24px;
+    color: #ff4764;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.dynamic-delete-button:hover {
+    color: #ff8396;
+}
+/*
+.passenger-input {
+    width: 300px !important;
+    margin-left: 5px;
+    margin-right: 8px;
+    letter-spacing:0.1px;
+    font-size: 14px;
+    height: 30px!important;
+}
+*/
+
+/*education container*/
+
+.education-container{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+
+.input-container {
+    flex-grow: 1;
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+/*
+.input-container input {
+    flex-grow: 1;
+}*/
+
+.passenger-input,
+.input-container input {
+    letter-spacing: 0.1px;
+    font-size: 14px;
+    height: 30px !important;
+    width: 100%;
+}
+
+
+
+nz-date-picker{
+    border-radius: 8px;
+    height: 30px!important;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+
+.submit-ed-btn, .add-button{
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/*tags*/
+
+.editable-tag{
+    cursor: pointer;
+    border-radius: 8px;
+    height: 32px!important;
+    font-size: 14px;
+    font-weight: 600;
+    border-style: dashed;
+    border-color: #d9d9d9;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.85);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skills-tags{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    height: 40px;
+    font-size: 16px;
+
+    width: 400px;
+}
+
+.skills-input{
+    width: 350px!important;
+    height: 35px!important;
+}
+
+.skills-container{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.skills-btn{
+    margin-left: -35px;
+}
+
+
+/*user info */
+
+.user-avatar{
+    font-weight: 600;
+    font-size: 24px;
+}
+
+/*user photo*/
+
+.user-cover-img{ 
+    /*background-image: url('src\assets\office.jpg');*/
+    background-image: linear-gradient(to top, rgba(117, 115, 182, 0.7), transparent);
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 100%;
+    height: 100%;
+
+    border-radius: 8px;
+    margin-bottom: 200px;
+    margin-top: -20px;
+
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    
+
+   
+}
+
+.add-img-btn {
+    border: 0;
+    cursor: pointer;
+    background-color: #2563eb;
+    margin-left: 50px;
+}
+
+
+.add-img-btn:hover {
+    color: #001529;
+}
+
+.add-img-btn:focus {
+    color: #001529;
+}
+
+.update-icon {
+    color: #fff;
+}
+
+
+/*end user photo*/
+
+/* modal */
+.modal-but-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+  
+.modal-btn-delte{
+    border: none;
+    color: #ff4d4f;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+}
+  
+.modal-btn-delte:disabled{
+    border: none;
+    color: #ff4d4f;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    background-color: transparent;
+}
+  
+.modal-btn-update{
+    border: none;
+    color: #03417c;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+}
+  
+/* end modal*/
+.user-info{
+    background-color: rgba(255,255,255,.3);
+    border-radius: 8px;
+    display: flex;
+    justify-content: flex-start;
+    width: 60%;
+
+    padding: 20px;
+    align-items: center;
+    margin: 0 0 10px;
+}
+
+.user-info .user-img{
+    border-radius: 8px;
+    width: 100px;
+}
+
+.media{
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.media-body{
+    margin-left: 15px;
+}
+
+.media-body h3{
+    font-weight: 700;
+}
+
+.view-cv-btn{
+    background-color: #2563eb;
+    color: #fff;
+    font-family: 'Rubik', sans-serif;
+    border-radius: 8px;
+    font-weight: 600;
+    border-color: #2563eb;
+   
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    transition: .3s;
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
+
+}
+
+.view-cv-btn:hover{
+    border-color: #fff;
+    background-color: #fff;
+    color: #2563eb;
+}
+

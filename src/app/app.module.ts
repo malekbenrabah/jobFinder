@@ -7,11 +7,13 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import{ FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TokenInterceptorService } from './services/interceptor/token-interceptor.service';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 registerLocaleData(en);
 
 @NgModule({
@@ -24,7 +26,10 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormlyModule.forRoot(),
+    ReactiveFormsModule,
+    FormlyNgZorroAntdModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US },{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]

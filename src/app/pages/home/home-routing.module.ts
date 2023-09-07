@@ -12,6 +12,8 @@ const routes: Routes = [
     {path:'',component:HomeComponent},
     {path:"job-detail/:id",component:JobDetailComponent},
     {path:"not-found", component:NotFoundComponent},
+    {path:"account" , loadChildren:()=>import("../account/account.module").then(module=>module.AccountModule),canActivate:[AuthGuard]},
+
   ]},
   
   

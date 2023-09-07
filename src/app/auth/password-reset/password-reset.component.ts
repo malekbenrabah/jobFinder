@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
 //import { AuthService } from 'src/app/service/auth/auth.service';
 
@@ -27,6 +28,8 @@ export class PasswordResetComponent implements OnInit {
         console.log('reset pass', r);
         this.resetSuccess="Password updated successfully";
         localStorage.removeItem('email');
+        this.router.navigate(['/auth/login']);
+
       },(error: HttpErrorResponse)=>{
         if(error.status === 400 && error.error.success === false){
           this.passwordExists="Your new password should be different to your old one";
@@ -45,7 +48,7 @@ export class PasswordResetComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder, private userService:UserServiceService) { 
+  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router) { 
     this.validateForm = this.fb.group({
       password: ['', [Validators.required]],
       confirm: ['', [,Validators.required, this.confirmValidator]]    

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from './model/user';
 import { of } from 'rxjs';
+import { Skill } from './model/Skill';
 
 @Injectable({
   providedIn: 'root'
@@ -55,11 +56,6 @@ export class UserServiceService {
   }
 
 
-  //get user credentials
-  getUserInfo(){
-    return this.http.get("http://localhost:8086/app/user/userInfo");
-  }
-
   checkCompanyName(companyName:string){
     return this.http.get<boolean>('http://localhost:8086/app/user/checkCompanyName?companyName='+companyName);
   }
@@ -82,5 +78,50 @@ export class UserServiceService {
     return this.http.put("http://localhost:8086/app/user/set-password",formData,{headers:headers});
   }
 
+  /*user info */
+  //get user credentials
+  getUserInfo(){
+    return this.http.get("http://localhost:8086/app/user/userInfo");
+  }
+
+
+  updateUser(user:User, photo:File){
+    //create formdata object
+    const formData = new FormData();
+
+    // adding json data for user fields
+    formData.append('user', JSON.stringify(user));
+
+    // Add the profile picture file
+    
+    if (photo) {
+      formData.append('photo', photo);
+    }
+
+    return this.http.put("http://localhost:8086/app/user/updateUser",formData);
+
+  }
+
+  updateProfileImg(photo:any){
+    const formData=new FormData();
+    formData.append('photo',photo);
+
+    return this.http.put("http://localhost:8086/app/user/updatePhoto",formData);
+  }
+
+  /*cv */
+
+  addSkills(skill:Skill){
+    return this.http.post("http://localhost:8086/app/skills/addSkill",skill);
+  }
+
+  getUserSkills(){
+    return this.http.get("http://localhost:8086/app/skills/getSkills");
+  }
+
+  deleteSkill(id:any){
+   
+    return this.http.delete("http://localhost:8086/app/skills/deleteSkill?id="+id);
+  }
 
 }
