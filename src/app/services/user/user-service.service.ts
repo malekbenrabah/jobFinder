@@ -111,6 +111,7 @@ export class UserServiceService {
 
   /*cv */
 
+  /*Skills */
   addSkills(skill:Skill){
     return this.http.post("http://localhost:8086/app/skills/addSkill",skill);
   }
@@ -123,5 +124,16 @@ export class UserServiceService {
    
     return this.http.delete("http://localhost:8086/app/skills/deleteSkill?id="+id);
   }
+
+  updateSkill(skill:Skill){
+    return this.http.put("http://localhost:8086/app/skills/updateSkill",skill)
+  }
+  /*Skills */
+
+  
+  /*Experience*/
+
+
+  /*Experience */
 
 }

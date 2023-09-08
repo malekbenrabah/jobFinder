@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { faBookmark} from '@fortawesome/free-regular-svg-icons';
 import{ faIdBadge}from"@fortawesome/free-solid-svg-icons"
 import{faSuitcase, faGraduationCap} from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +16,7 @@ import { Skill } from 'src/app/services/user/model/Skill';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit{
 
   saveIcone=faBookmark;
   profileIcon=faIdBadge;
@@ -91,15 +91,10 @@ export class ProfileComponent implements OnInit {
     })
     this.fetchUserSkills();
     
-    
-
-    
-
-    
-
-
-    
+   
   }
+
+  
 
   //profile update 
 
@@ -286,7 +281,7 @@ export class ProfileComponent implements OnInit {
   }
   
   /*skills with level */
-  
+
   listOfControlSkills: Array<{ 
     id: number; 
     controlInstance:{
@@ -295,7 +290,6 @@ export class ProfileComponent implements OnInit {
     };
   }> = [];
 
-  @ViewChild('skillInput', { static: false }) skillInput?: ElementRef;
 
 
   originalSkillsCount: number = 0;
@@ -329,37 +323,184 @@ export class ProfileComponent implements OnInit {
     this.validateFormSkills.addControl(
       control.controlInstance.level,
       new FormControl(3, Validators.required)
-    );
-
-   
-    
-    
-
-    
+    ); 
   }
 
-  
+  /*
+  addSkillssss(e?: MouseEvent): void {
+    if (e) {
+      e.preventDefault();
+    }
 
-  removeSkills(i: { id: number; controlInstance: { skill: string; level: string} }, e: MouseEvent): void {
+   
+    // add a new field with an incremented ID
+    const id = this.listOfControlSkills.length > 0 ? this.listOfControlSkills[this.listOfControlSkills.length - 1].id + 1 : 0;
+
+
+    const control = {
+      id,
+      controlInstance: {
+        skill:`skill${id}`,
+        level:`level${id}` },
+    };
+    //const index = this.listOfControlSkills.push(control);
+    console.log('Skills add',this.listOfControlSkills[this.listOfControlSkills.length - 1]);
+    
+    this.validateFormSkills.addControl(
+      control.controlInstance.skill,
+      new FormControl(null, Validators.required)
+    );
+
+    this.validateFormSkills.addControl(
+      control.controlInstance.level,
+      new FormControl(3, Validators.required)
+    ); 
+  }
+  */
+
+ 
+
+  removeSkills(i: { id: number;controlInstance: { skill: string; level: string} }, e: MouseEvent): void {
     e.preventDefault();
     if (this.listOfControlSkills.length > 0) {
+
+      
+    
       const index = this.listOfControlSkills.indexOf(i);
+
+      
+
       this.listOfControlSkills.splice(index, 1);
       console.log('Skills Remove',this.listOfControlSkills);
       // Remove form controls for both inputs
       this.validateFormSkills.removeControl(i.controlInstance.skill);
       this.validateFormSkills.removeControl(i.controlInstance.level);
+
+      if(i.controlInstance.skill!==null){
+        //calling the removeSkill API
+        // accessing the corresponding hidden input
+        const hiddenInput = this.hiddenInputs[index];
+        const skillIdToRemove = hiddenInput.value;
+
+        console.log('skill id to remove', skillIdToRemove);
+          
+          // Call the deleteSkill API with the skillIdToRemove
+          this.userService.deleteSkill(parseInt(skillIdToRemove)).subscribe(
+            (r) => {
+              console.log('Skill removed successfully',r);
+            },
+            (error) => {
+              console.error('Error removing skill:', error);
+            }
+          );  
+      }
+     
+      
+
     }
+  }
+
+  updateSkill(i: { id: number;controlInstance: { skill: string; level: string} }, e: MouseEvent){
+    e.preventDefault();
+    if (this.listOfControlSkills.length > 0) {
+      const index = this.listOfControlSkills.indexOf(i);
+
+      const hiddenInput = this.hiddenInputs[index];
+      const skillIdToUpdate = hiddenInput.value;
+      console.log('skill id to Update', skillIdToUpdate);
+
+      const skillControlName = this.listOfControlSkills[index].controlInstance.skill;
+      const levelControlName = this.listOfControlSkills[index].controlInstance.level;
+  
+      const skillValue = this.validateFormSkills.get(skillControlName)?.value;
+      const levelValue = this.validateFormSkills.get(levelControlName)?.value;
+
+      const userskill:Skill=new Skill();
+      userskill.skill=skillValue;
+      userskill.level=levelValue;
+      userskill.id=parseInt(skillIdToUpdate);
+
+      console.log('skill to update', skillValue);
+      console.log('level to update', levelValue);
+
+      this.userService.updateSkill(userskill).subscribe((r)=>{
+        console.log('skill updated successfully',r)
+        this.router.navigateByUrl('/account/profile');
+      }, 
+      (error) => {
+        console.error('Error removing skill:', error);
+      });
+
+    }
+
   }
 
   submitFormSkill(): void {
 
     if (this.validateFormSkills.valid) {
-      console.log('submit Skills ', this.validateFormSkills.value);
+
+      //updating the old dirty inputs  
+
+      // creating an array to keep track of updated skills
+      const updatedSkills: Skill[] = [];
+
+      // Iterate through the hidden input fields
+      this.hiddenInputs.forEach((hiddenInput, index) => {
+        const skillId = hiddenInput.value;
+
+        // Check if the corresponding skill control or level control is dirty
+        const skillControlName = this.listOfControlSkills[index].controlInstance.skill;
+        const levelControlName = this.listOfControlSkills[index].controlInstance.level;
+        const skillValue = this.validateFormSkills.get(skillControlName)?.value;
+        const levelValue = this.validateFormSkills.get(levelControlName)?.value;
+
+        if (
+          (this.validateFormSkills.get(skillControlName)?.dirty || this.validateFormSkills.get(levelControlName)?.dirty) &&
+          skillValue !== null
+        ) {
+          const userskill: Skill = new Skill();
+          userskill.skill = skillValue;
+          userskill.level = levelValue;
+          userskill.id = parseInt(skillId);
+
+          updatedSkills.push(userskill);
+        }
+      });
+
+      // Make API calls to update the dirty skills
+      updatedSkills.forEach(skill => {
+        console.log('skills to update ',skill);
+        
+        this.userService.updateSkill(skill).subscribe(
+          (r) => {
+            console.log('Skill updated successfully:', skill.id);
+          },
+          (error) => {
+            console.error('Error updating skill:', error);
+          }
+        );
+        
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       //adding a new control
-      
+      console.log('submit Skills ', this.validateFormSkills.value);
+
       const id = this.listOfControlSkills.length > 0 ? this.listOfControlSkills[this.listOfControlSkills.length - 1].id + 1 : 0;
+
 
       const control = {
         id,
@@ -398,6 +539,7 @@ export class ProfileComponent implements OnInit {
         const levelValue=formValue[control.controlInstance.level];
         console.log('level test', levelValue);
 
+
         const userskill:Skill=new Skill();
         userskill.skill=skillValue;
         userskill.level=levelValue;
@@ -425,6 +567,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  @ViewChild('skillInput', { static: false }) skillInput?: ElementRef;
+
+  hiddenInputs: HTMLInputElement[] = [];
   fetchUserSkills() {
     this.userService.getUserSkills().subscribe(
       (response) => {
@@ -441,8 +586,18 @@ export class ProfileComponent implements OnInit {
   
         // Iterate over the retrieved skills and add them to the form
         skills.forEach((skill, index) => {
+          //create a hidden input 
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = `skillId${index}`;
+          input.value = skill.id.toString();
+          this.hiddenInputs.push(input);
+
+          console.log('hidden input created',input.value);
+
           const control = {
             id: index,
+            idSkill: skill.id,
             controlInstance: {
               skill: `skill${index}`,
               level: `level${index}`,
@@ -452,6 +607,7 @@ export class ProfileComponent implements OnInit {
           this.listOfControlSkills.push(control);
   
           // Add form controls for skill name and level
+
           this.validateFormSkills.addControl(
             control.controlInstance.skill,
             new FormControl(skill.skill, Validators.required)
@@ -462,7 +618,14 @@ export class ProfileComponent implements OnInit {
             new FormControl(parseInt(skill.level), Validators.required)
           );
 
-          this.router.navigateByUrl("/account/profile");
+          /*
+          if (this.skillInput) {
+            this.skillInput.nativeElement.value = control.idSkill;
+          }
+          */
+          console.log('fetch user Skills',control.idSkill);
+
+          //this.router.navigateByUrl("/account/profile");
         });
       },
       (error) => {
@@ -471,6 +634,10 @@ export class ProfileComponent implements OnInit {
     );
   }
   
+ 
+
+
+  /*
   addSkills3(e?: MouseEvent): void {
     if (e) {
       e.preventDefault();
@@ -593,6 +760,7 @@ export class ProfileComponent implements OnInit {
 
     
   }
+  */
 
 
 
