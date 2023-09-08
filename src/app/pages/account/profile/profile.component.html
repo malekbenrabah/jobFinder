@@ -167,7 +167,7 @@
                             <h3> {{ index }}</h3>
                             
 
-                            <form nz-form [formGroup]="validateFormEd" (ngSubmit)="submitFormEd()" *ngIf="index === 'Education'">
+                            <form nz-form [formGroup]="validateFormEd" (ngSubmit)="submitFormEducation()" *ngIf="index === 'Education'">
                                 <ng-container *ngFor="let control of listOfControl; let i = index"> 
                                     
                                     <div class="education-container">
@@ -216,12 +216,11 @@
                                                     <nz-option *ngFor="let year of years" [nzValue]="year" [nzLabel]="year" class="passenger-select"></nz-option>
                                                     </nz-select>
                                                     -->
-                                                    <nz-date-picker  nzMode="year" [nzFormat]="'yyyy'" [formControlName]="control.controlInstance.year" [nzDisabledDate]="disabledDate"></nz-date-picker>
-
+                                                    <nz-range-picker [formControlName]="control.controlInstance.date" (ngModelChange)="onChangeDate($event)"></nz-range-picker>
                                                 </nz-form-control>
                                             </nz-form-item>
                                             
-                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)=" removeEducation(control, $event)"></i>
                                            
                                         </div>
                                     </div>   
@@ -251,7 +250,7 @@
 
 
 
-                            <form nz-form [formGroup]="validateFormExp" (ngSubmit)="submitFormExp()" *ngIf="index === 'Experience'">
+                            <form nz-form [formGroup]="validateFormExp" (ngSubmit)="submitFormExperience()" *ngIf="index === 'Experience'">
                                 <ng-container *ngFor="let control of listOfControlExp; let i = index"> 
                                     
                                     <div class="education-container">
@@ -263,12 +262,12 @@
                                                     [nzXs]="24"
                                                     [nzSm]="20"
                                                     
-                                                    nzErrorTip="Please input your degree"
+                                                    nzErrorTip="Please input your experience"
                                                 >
                                                     <input
                                                     class="passenger-input"
                                                     nz-input
-                                                    placeholder="Degree"
+                                                    placeholder="Experience"
                                                     [attr.id]="control.id"
                                                     [formControlName]="control.controlInstance.input"
                                                     />
@@ -280,13 +279,12 @@
                                                 <nz-form-control
                                                     [nzXs]="24"
                                                     [nzSm]="20"
-                                                    
-                                                    nzErrorTip="Please input the institution name"
+                                                    nzErrorTip="Please input the location"
                                                 >
                                                     <input
                                                     class="passenger-input"
                                                     nz-input
-                                                    placeholder="Institution"
+                                                    placeholder="Location"
                                                     [attr.id]="control.id"
                                                     [formControlName]="control.controlInstance.location"
                                                     />
@@ -301,7 +299,7 @@
                                                 </nz-form-control>
                                             </nz-form-item>
                                             
-                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeFieldExp(control, $event)"></i>
+                                            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeExperience(control, $event)"></i>
                                            
                                         </div>
                                     </div>   

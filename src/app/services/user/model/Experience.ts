@@ -5,7 +5,7 @@ export class Experience{
 
     location!:string;
 
-    startDate!:Date;
+    startDate!:string;
 
-    endDate!:Date
+    endDate!:string
 } 

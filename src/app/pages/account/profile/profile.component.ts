@@ -7,9 +7,12 @@ import { differenceInCalendarDays, setHours } from 'date-fns';
 import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
 import { User } from 'src/app/services/user/model/user';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Skill } from 'src/app/services/user/model/Skill';
+import { Experience } from 'src/app/services/user/model/Experience';
+import { formatDate } from '@angular/common';
+import { Education } from 'src/app/services/user/model/Education';
 
 @Component({
   selector: 'app-profile',
@@ -78,13 +81,13 @@ export class ProfileComponent implements OnInit{
 
     //education form  
     this.validateFormEd = this.fb.group({});
-    this.addField();
+    this.fetchUserEd();
 
     //experience form 
     this.validateFormExp= this.fb.group({
       
     });
-    this.addFieldExp();
+    this.fetchUserExp();
 
     //skills
     this.validateFormSkills=this.fb.group({
@@ -358,7 +361,8 @@ export class ProfileComponent implements OnInit{
   }
   */
 
- 
+
+
 
   removeSkills(i: { id: number;controlInstance: { skill: string; level: string} }, e: MouseEvent): void {
     e.preventDefault();
@@ -380,6 +384,11 @@ export class ProfileComponent implements OnInit{
         //calling the removeSkill API
         // accessing the corresponding hidden input
         const hiddenInput = this.hiddenInputs[index];
+
+        if(hiddenInput===null || hiddenInput===undefined){
+          return;
+        }
+
         const skillIdToRemove = hiddenInput.value;
 
         console.log('skill id to remove', skillIdToRemove);
@@ -481,17 +490,6 @@ export class ProfileComponent implements OnInit{
         );
         
       });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -845,10 +843,13 @@ export class ProfileComponent implements OnInit{
     id: number; 
     controlInstance:{
       input: string;
-      year: string;
       institution:string;
+      date: string;
     };
   }> = [];
+
+  hiddenInputsEd: HTMLInputElement[] = [];
+  originalEdCount: number = 0;
   
 
   
@@ -863,8 +864,9 @@ export class ProfileComponent implements OnInit{
       id,
       controlInstance: {
         input:`degree${id}`,
-        year:`year${id}`,
-        institution:`institution${id}`
+        institution:`institution${id}`,
+        date:`date${id}`
+
       },
     };
     const index = this.listOfControl.push(control);
@@ -890,7 +892,7 @@ export class ProfileComponent implements OnInit{
     );
 
     this.validateFormEd.addControl(
-      control.controlInstance.year,
+      control.controlInstance.date,
       new FormControl(null, Validators.required)
     );
 
@@ -898,18 +900,291 @@ export class ProfileComponent implements OnInit{
 
   }
 
-  removeField(i: { id: number; controlInstance: { input: string; year: string; institution:string } }, e: MouseEvent): void {
+  removeField(i: { id: number; controlInstance: { input: string; institution:string; date: string; } }, e: MouseEvent): void {
     e.preventDefault();
     if (this.listOfControl.length > 0) {
       const index = this.listOfControl.indexOf(i);
       this.listOfControl.splice(index, 1);
       console.log('education',this.listOfControl);
-    // Remove form controls for both input and select
-    this.validateFormEd.removeControl(i.controlInstance.input);
-    this.validateFormEd.removeControl(i.controlInstance.institution);
-    this.validateFormEd.removeControl(i.controlInstance.year);    }
+      // Remove form controls for both input and select
+      this.validateFormEd.removeControl(i.controlInstance.input);
+      this.validateFormEd.removeControl(i.controlInstance.institution);
+      this.validateFormEd.removeControl(i.controlInstance.date);    
+   }
   }
 
+  removeEducation(i: { id: number; controlInstance: { input: string; institution: string; date:string } }, e: MouseEvent): void {
+    e.preventDefault();
+    if (this.listOfControl.length > 0) {
+
+      
+    
+      const index = this.listOfControl.indexOf(i);
+
+      
+
+      this.listOfControl.splice(index, 1);
+      console.log('Education Remove',this.listOfControlExp);
+      // Remove form controls for both inputs
+      this.validateFormEd.removeControl(i.controlInstance.input);
+      this.validateFormEd.removeControl(i.controlInstance.institution);
+      this.validateFormEd.removeControl(i.controlInstance.date);
+
+
+
+      if(i.controlInstance.input!==null){
+
+        //calling the removeEducation API
+        // accessing the corresponding hidden input
+        const hiddenInputEd = this. hiddenInputsEd[index];
+        if(hiddenInputEd===null || hiddenInputEd===undefined){
+          return;
+        }
+
+        const edIdToRemove = hiddenInputEd.value;
+
+        console.log('Education id to remove', edIdToRemove);
+          
+        // Call the deleteEducation API with the edIdToRemove
+        this.userService.removeEducation(parseInt(edIdToRemove)).subscribe(
+          (r) => {
+            console.log('education removed successfully',r);
+          },
+          (error:HttpErrorResponse) => {
+            console.error('Error removing education:', error);
+            if(error.status === 403 ){
+              this.router.navigate(['/auth/login']);
+            }
+          }
+        );  
+      }
+     
+      
+
+    }
+  }
+
+  
+
+  submitFormEducation(): void {
+
+    if (this.validateFormEd.valid) {
+
+      //updating the old dirty inputs  
+
+      // creating an array to keep track of updated educations
+      const updatedEds: Education[] = [];
+
+      // Iterate through the hidden input fields
+      this.hiddenInputsEd.forEach((hiddenInput, index) => {
+        const educationId = hiddenInput.value;
+
+        // Check if the corresponding skill control or level control is dirty
+        const inputControlName = this.listOfControl[index].controlInstance.input;
+        const inputValue = this.validateFormEd.get(inputControlName)?.value;
+
+        const instituitionControlName = this.listOfControl[index].controlInstance.institution;
+        const instituitionValue = this.validateFormEd.get(instituitionControlName)?.value;
+
+        const dateControlName = this.listOfControl[index].controlInstance.date;
+        const dateRangeControl = this.validateFormEd.get(dateControlName);
+
+        if (
+          (this.validateFormEd.get(inputControlName)?.dirty || this.validateFormEd.get(instituitionControlName)?.dirty) &&
+          inputValue !== null && instituitionValue!==null && dateRangeControl!==null
+        ) {
+
+          if (dateRangeControl && dateRangeControl.value && Array.isArray(dateRangeControl.value) && dateRangeControl.value.length === 2) {
+            const [startDate, endDate] = dateRangeControl.value;
+
+            const userEducation: Education = new Education();
+            userEducation.description = inputValue;
+            userEducation.institution = instituitionValue;
+            userEducation.id = parseInt(educationId);
+
+            userEducation.startDate = formatDate(startDate, 'yyyy-MM-dd', 'en-US');
+            userEducation.endDate = formatDate(endDate, 'yyyy-MM-dd', 'en-US');
+
+            updatedEds.push(userEducation);
+          }
+        }
+      });
+
+      // Make API calls to update the dirty experience
+      updatedEds.forEach(education => {
+        console.log('Education to update ',education);
+        
+        this.userService.updateEducation(education).subscribe(
+          (r) => {
+            console.log('Education updated successfully:', education.id);
+          },
+          (error:HttpErrorResponse) => {
+            console.error('Error updating education:', error);
+           
+          }
+        );
+        
+      });
+
+
+      //Add Education
+
+      //adding a new control
+      console.log('submit education add ', this.validateFormEd.value);
+
+      const id = this.listOfControl.length > 0 ? this.listOfControl[this.listOfControl.length - 1].id + 1 : 0;
+
+
+      const control = {
+        id,
+        controlInstance: {
+          input:`experience${id}`,
+          institution:`institution${id}`,
+          date:`date${id}`
+        },
+      };
+
+      // adding a new control without modifying the existing ones
+      this.listOfControl = [...this.listOfControl, control];
+
+      // adding form controls for the new skill and level
+      this.validateFormEd.addControl(
+        control.controlInstance.input,
+        new FormControl(null, Validators.required)
+      );
+
+      this.validateFormEd.addControl(
+        control.controlInstance.institution,
+        new FormControl(null, Validators.required)
+      );
+
+      this.validateFormEd.addControl(
+        control.controlInstance.date,
+        new FormControl(null, Validators.required)
+      );
+
+      // iterating over the newly added controls
+      const newControls = this.listOfControl.slice(-1 * (this.listOfControl.length - this.originalEdCount));
+
+      
+
+      //calling the addskil API 
+      
+      const formValue = this.validateFormEd.value;
+      newControls.forEach(control => {
+        const inputValue = formValue[control.controlInstance.input];
+        console.log('input test', inputValue);
+        
+        const institutionValue=formValue[control.controlInstance.institution];
+        console.log('level test', institutionValue);
+
+        const dateValue=formValue[control.controlInstance.date];
+        console.log('date value', dateValue);
+
+        const dateRangeControl = this.validateFormExp.get(control.controlInstance.date);
+
+        if (dateRangeControl && dateRangeControl.value && dateRangeControl.value.length === 2) {
+          const [startDate, endDate] = dateRangeControl.value;
+
+          const userEducation:Education=new Education();
+          userEducation.description=inputValue;
+          userEducation.institution=institutionValue;
+          userEducation.startDate = formatDate(startDate, 'yyyy-MM-dd', 'en-US');
+          userEducation.endDate = formatDate(endDate, 'yyyy-MM-dd', 'en-US');
+
+    
+       
+          if(inputValue!==null)
+          this.userService.addEducation(userEducation).subscribe((r)=>{
+            console.log('education added successfully', r);
+          },
+            (error:HttpErrorResponse)=>{
+              console.log("error adding education", error);
+              
+            }
+          );
+          }
+
+      });
+      
+    
+    } else {
+      Object.values(this.validateFormEd.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+  fetchUserEd() {
+    this.userService.getUserEducations().subscribe(
+      (response) => {
+        console.log('user eeducations', response);
+        // skills is an array of Skill objects
+        const educations: Education[] = response as Education[]; // explicitly cast to Skill[]
+
+
+        this.originalEdCount = educations.length;
+
+  
+  
+        // iterate over the retrieved skills and add them to the form
+        educations.forEach((education, index) => {
+          //create a hidden input 
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = `educationId${index}`;
+          input.value = education.id.toString();
+          this.hiddenInputsEd.push(input);
+
+          console.log('hidden input created education',input.value);
+
+          const control = {
+            id: index,
+            idEducation: education.id,
+            controlInstance: {
+              input:`degree${index}`,
+              institution:`institution${index}`,
+              date:`date${index}`
+            },
+          };
+  
+          this.listOfControl.push(control);
+  
+          // Add form controls for education description, instituition, and date
+
+          this.validateFormEd.addControl(
+            control.controlInstance.input,
+            new FormControl(education.description, Validators.required)
+          );
+  
+          this.validateFormEd.addControl(
+            control.controlInstance.institution,
+            new FormControl(education.institution, Validators.required)
+          );
+      
+          
+          this.validateFormEd.addControl(
+            control.controlInstance.date,
+            new FormControl([new Date(education.startDate),new Date(education.endDate)], Validators.required)
+          );
+
+       
+          console.log('fetch user education',control.idEducation);
+
+          //this.router.navigateByUrl("/account/profile");
+        });
+      },
+      (error) => {
+        console.error('Error fetching user experiences:', error);
+      }
+    );
+  }
+
+
+  /*
   submitFormEd(): void {
     if (this.validateFormEd.valid) {
       // extract only the year
@@ -930,6 +1205,7 @@ export class ProfileComponent implements OnInit{
       });
     }
   }
+  */
 
   /*date picker year */
   //disable futur dates
@@ -954,8 +1230,10 @@ export class ProfileComponent implements OnInit{
     nzDisabledSeconds: () => [55, 56]
   });
 
+  /* end education form */
 
   /*experience form */
+
   listOfControlExp: Array<{ 
     id: number; 
     controlInstance:{
@@ -965,6 +1243,12 @@ export class ProfileComponent implements OnInit{
       
     };
   }> = [];
+
+
+  
+  hiddenInputsExperience: HTMLInputElement[] = [];
+  originalExpCount: number = 0;
+
   
   addFieldExp(e?: MouseEvent): void {
     if (e) {
@@ -983,9 +1267,6 @@ export class ProfileComponent implements OnInit{
     const index = this.listOfControlExp.push(control);
     console.log('experience',this.listOfControlExp[this.listOfControlExp.length - 1]);
     
-    
-    
-
     // adding form controls for both input
     this.validateFormExp.addControl(
       control.controlInstance.input,
@@ -1009,18 +1290,300 @@ export class ProfileComponent implements OnInit{
 
   }
 
-  removeFieldExp(i: { id: number; controlInstance: { input: string; location: string; date:string } }, e: MouseEvent): void {
-    e.preventDefault();
-    if (this.listOfControlExp.length > 0) {
-      const index = this.listOfControlExp.indexOf(i);
-      this.listOfControlExp.splice(index, 1);
-      console.log('experience',this.listOfControlExp);
-    // Remove form controls for both input and select
-    this.validateFormExp.removeControl(i.controlInstance.input);
-    this.validateFormExp.removeControl(i.controlInstance.location);
-    this.validateFormExp.removeControl(i.controlInstance.date);    }
+  fetchUserExp() {
+    this.userService.getUserExperiences().subscribe(
+      (response) => {
+        console.log('user experiences', response);
+        // skills is an array of Skill objects
+        const experiences: Experience[] = response as Experience[]; // explicitly cast to Skill[]
+
+
+        this.originalExpCount = experiences.length;
+
+  
+        // clear the existing skills
+        //this.listOfControlSkills = [];
+  
+        // iterate over the retrieved skills and add them to the form
+        experiences.forEach((experience, index) => {
+          //create a hidden input 
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = `experienceId${index}`;
+          input.value = experience.id.toString();
+          this.hiddenInputsExperience.push(input);
+
+          console.log('hidden input created experience',input.value);
+
+          const control = {
+            id: index,
+            idExperience: experience.id,
+            controlInstance: {
+              input:`experience${index}`,
+              location:`location${index}`,
+              date:`date${index}`
+            },
+          };
+  
+          this.listOfControlExp.push(control);
+  
+          // Add form controls for skill name and level
+
+          this.validateFormExp.addControl(
+            control.controlInstance.input,
+            new FormControl(experience.description, Validators.required)
+          );
+  
+          this.validateFormExp.addControl(
+            control.controlInstance.location,
+            new FormControl(experience.location, Validators.required)
+          );
+      
+          
+          this.validateFormExp.addControl(
+            control.controlInstance.date,
+            new FormControl([new Date(experience.startDate),new Date(experience.endDate)], Validators.required)
+          );
+
+       
+          console.log('fetch user experiences',control.idExperience);
+
+          //this.router.navigateByUrl("/account/profile");
+        });
+      },
+      (error) => {
+        console.error('Error fetching user experiences:', error);
+      }
+    );
   }
 
+  submitFormExperience(): void {
+
+    if (this.validateFormExp.valid) {
+
+      //updating the old dirty inputs  
+
+      // creating an array to keep track of updated experiences
+      const updatedExp: Experience[] = [];
+
+      // iterate through the hidden input fields
+      this.hiddenInputsExperience.forEach((hiddenInput, index) => {
+        const experienceId = hiddenInput.value;
+
+        // check if the corresponding input control ,locatrion or date is dirty
+        const inputControlName = this.listOfControlExp[index].controlInstance.input;
+        const locationControlName = this.listOfControlExp[index].controlInstance.location;
+        const inputValue = this.validateFormExp.get(inputControlName)?.value;
+        const locationValue = this.validateFormExp.get(locationControlName)?.value;
+
+       
+        const dateControlName = this.listOfControlExp[index].controlInstance.date;
+        const dateRangeControl = this.validateFormExp.get(dateControlName);
+
+
+        console.log('update start');
+
+        if (
+          (this.validateFormExp.get(inputControlName)?.dirty || this.validateFormExp.get(inputControlName)?.dirty)&&
+          inputValue !== null
+        ) {
+          console.log('dirty?');
+          console.log('update skill id ', experienceId);
+
+          console.log('date Range control', dateRangeControl);
+         
+          if (dateRangeControl && dateRangeControl.value && Array.isArray(dateRangeControl.value) && dateRangeControl.value.length === 2) {
+            const [startDate, endDate] = dateRangeControl.value;
+
+            console.log('date range working');
+            const userExp: Experience = new Experience();
+            userExp.description = inputValue;
+            userExp.location = locationValue;
+            userExp.id = parseInt(experienceId);
+            userExp.startDate = formatDate(startDate, 'yyyy-MM-dd', 'en-US');
+            userExp.endDate = formatDate(endDate, 'yyyy-MM-dd', 'en-US');
+
+            
+            updatedExp.push(userExp);
+          }
+          
+        }
+
+        
+
+      });
+
+      // Make API calls to update the dirty experiences
+      updatedExp.forEach(experience => {
+      
+        this.userService.updateExperience(experience).subscribe(
+          (r) => {
+            console.log('Experience updated successfully:', experience.id);
+            this.router.navigateByUrl("/account/profile");
+          },
+          (error:HttpErrorResponse) => {
+            console.error('Error updating experience:', error);
+            if(error.status === 403 ){
+              this.router.navigate(['/auth/login']);
+            }
+          }
+        );
+        
+      });
+
+
+
+
+
+
+
+
+      //Add Experience 
+
+      //adding a new control
+      console.log('submit experiences', this.validateFormExp.value);
+
+      const id = this.listOfControlExp.length > 0 ? this.listOfControlExp[this.listOfControlExp.length - 1].id + 1 : 0;
+
+
+      const control = {
+        id,
+        controlInstance: {
+          input:`experience${id}`,
+          location:`location${id}`,
+          date:`date${id}`
+        },
+      };
+
+      // adding a new control without modifying the existing ones
+      this.listOfControlExp = [...this.listOfControlExp, control];
+
+      // adding form controls for the new skill and level
+      this.validateFormExp.addControl(
+        control.controlInstance.input,
+        new FormControl(null, Validators.required)
+      );
+
+      this.validateFormExp.addControl(
+        control.controlInstance.location,
+        new FormControl(null, Validators.required)
+      );
+
+      this.validateFormExp.addControl(
+        control.controlInstance.date,
+        new FormControl(null, Validators.required)
+      );
+
+      // iterating over the newly added controls
+      const newControls = this.listOfControlExp.slice(-1 * (this.listOfControlExp.length - this.originalExpCount));
+
+      
+
+      //calling the addExperience API 
+      
+      const formValue = this.validateFormExp.value;
+      newControls.forEach(control => {
+        const inputValue = formValue[control.controlInstance.input];
+        console.log('input test', inputValue);
+        
+        const locationValue=formValue[control.controlInstance.location];
+        console.log('location test', locationValue);
+
+        const dateValue=formValue[control.controlInstance.date];
+        console.log('date value', dateValue);
+
+        const dateRangeControl = this.validateFormExp.get(control.controlInstance.date);
+
+        if (dateRangeControl && dateRangeControl.value && dateRangeControl.value.length === 2) {
+          const [startDate, endDate] = dateRangeControl.value;
+
+
+          const userExp:Experience=new Experience();
+          userExp.description=inputValue;
+          userExp.location=locationValue;
+          userExp.startDate = formatDate(startDate, 'yyyy-MM-dd', 'en-US');
+          userExp.endDate = formatDate(endDate, 'yyyy-MM-dd', 'en-US');
+
+       
+          if(inputValue!==null && locationValue!==null && dateValue!==null)
+            this.userService.addExperience(userExp).subscribe((r)=>{
+            console.log('Experience successfully', r);
+          },
+            (error:HttpErrorResponse)=>{
+              console.log("error adding experience", error);
+              if(error.status === 403 ){
+                this.router.navigate(['/auth/login']);
+              }
+            }
+          );
+       
+        }
+      });
+      
+    
+    } else {
+      Object.values(this.validateFormExp.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+  
+  
+
+  removeExperience(i: { id: number; controlInstance: { input: string; location: string; date:string } }, e: MouseEvent): void {
+    e.preventDefault();
+    if (this.listOfControlExp.length > 0) {
+
+      
+    
+      const index = this.listOfControlExp.indexOf(i);
+
+      
+
+      this.listOfControlExp.splice(index, 1);
+      console.log('Experience Remove',this.listOfControlExp);
+      // Remove form controls for both inputs
+      this.validateFormExp.removeControl(i.controlInstance.input);
+      this.validateFormExp.removeControl(i.controlInstance.location);
+      this.validateFormExp.removeControl(i.controlInstance.date);
+
+
+
+      if(i.controlInstance.input!==null){
+        //calling the removeExperience API
+        // accessing the corresponding hidden input
+        const hiddenInputExp = this. hiddenInputsExperience[index];
+
+        if(hiddenInputExp===null || hiddenInputExp===undefined){
+          return;
+        }
+
+        const experienceIdToRemove = hiddenInputExp.value;
+
+        console.log('Experience id to remove', experienceIdToRemove);
+          
+          // Call the deleteExperience API with the ExperienceIdToRemove
+          this.userService.removeExperience(parseInt(experienceIdToRemove)).subscribe(
+            (r) => {
+              console.log('Experience removed successfully',r);
+            },
+            (error) => {
+              console.error('Error removing experience:', error);
+            }
+          );  
+      }
+     
+      
+
+    }
+  }
+
+
+  /*
   submitFormExp(): void {
     if (this.validateFormExp.valid) {
       
@@ -1032,7 +1595,7 @@ export class ProfileComponent implements OnInit{
           const startDate = dateRange[0];
           const endDate = dateRange[1];
           console.log(`${control.controlInstance.date} - Start Date:`, startDate);
-          console.log(`${control.controlInstance.date} - Start Date modified:`, this.formatDate(startDate));
+          console.log(`${control.controlInstance.date} - Start Date modified:`, this.ParseDate(startDate));
 
           console.log(`${control.controlInstance.date} - End Date:`, endDate);
         }
@@ -1049,24 +1612,29 @@ export class ProfileComponent implements OnInit{
       });
     }
   }
- 
+  */
 
+
+ 
+  
+ 
+  
   onChangeDate(result: Date[]): void {
     console.log('onChange: ', result);
   }
 
-  formatDate(date: Date): string {
+  ParseDate(date: Date): string {
     if (date instanceof Date) {
       const day = date.getDate().toString().padStart(2, '0');
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
+      return `${year}-${month}-${day}`;
     }
     return '';
   }
   
   
-
+ /* end experience */
 
 
 }

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { User } from './model/user';
 import { of } from 'rxjs';
 import { Skill } from './model/Skill';
+import { Experience } from './model/Experience';
+import { Education } from './model/Education';
 
 @Injectable({
   providedIn: 'root'
@@ -130,10 +132,46 @@ export class UserServiceService {
   }
   /*Skills */
 
-  
-  /*Experience*/
 
+  /*Experience*/
+  
+    addExperience(experience:Experience){
+      return this.http.post("http://localhost:8086/app/experience/addExp", experience);
+    }
+
+    getUserExperiences(){
+      return this.http.get("http://localhost:8086/app/experience/getExperiences")
+    }
+
+
+    updateExperience(experience:Experience){
+      return this.http.put("http://localhost:8086/app/experience/updateExperience",experience);
+    }
+
+    removeExperience(id:number){
+      return this.http.delete("http://localhost:8086/app/experience/removeExperience?id="+id);
+    }
 
   /*Experience */
+
+  /*Education */
+
+    addEducation(education:Education){
+      return this.http.post("http://localhost:8086/app/education/addEducation", education);
+    }
+
+    getUserEducations(){
+      return this.http.get("http://localhost:8086/app/education/getEducations");
+    }
+
+
+    updateEducation(education:Education){
+      return this.http.put("http://localhost:8086/app/education/updateEducation",education);
+    }
+
+    removeEducation(id:number){
+      return this.http.delete("http://localhost:8086/app/education/deleteEducation?id="+id);
+    }
+  /*Education */
 
 }

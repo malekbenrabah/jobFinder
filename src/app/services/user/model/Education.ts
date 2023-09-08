@@ -5,7 +5,7 @@ export class Education{
 
     institution!:string;
 
-    startDate!:Date;
+    startDate!:string;
 
-    endDate!:Date
+    endDate!:string
 } 
