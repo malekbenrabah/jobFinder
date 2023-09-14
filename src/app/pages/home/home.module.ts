@@ -35,7 +35,11 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 import { LayoutComponent } from './layout/layout.component';
 import { NzBackTopModule } from 'ng-zorro-antd/back-top';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-
+import { JobListComponent } from './job-list/job-list.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { JobGridComponent } from './job-grid/job-grid.component';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 
 
 @NgModule({
@@ -47,7 +51,10 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     MenuComponent,
     JobDetailComponent,
     NotFoundComponent,
-    LayoutComponent
+    LayoutComponent,
+    JobListComponent,
+    BreadcrumbComponent,
+    JobGridComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +84,9 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzToolTipModule,
     NzResultModule,
     NzBackTopModule,
-    NzDropDownModule
+    NzDropDownModule,
+    NzCollapseModule,
+    NzStatisticModule
 
   ],
   exports:[NavbarComponent, FooterComponent]

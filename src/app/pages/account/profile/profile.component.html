@@ -60,6 +60,7 @@
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'profile'"> <fa-icon [icon]="profileIcon" class="profile-icon"></fa-icon>My profile</button>
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'cv'"> <fa-icon [icon]="jobIcon" class="profile-icon"></fa-icon> My CV</button>
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'saved'"> <fa-icon [icon]="saveIcone" class="profile-icon"></fa-icon> Saved jobs</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'jobs-applied'"> <fa-icon [icon]="appliedJobsIcon" class="profile-icon"></fa-icon> Applied Jobs</button>
 
                 <button nz-button nzType="text" class="logout-btn"><i nz-icon nzType="logout" nzTheme="outline" class="logoutIcon"></i>Logout</button>
 
@@ -153,8 +154,7 @@
 
                             <nz-step nzTitle="Skills" nzIcon="solution"></nz-step>
 
-                            <nz-step nzTitle="Hobbies" [nzIcon]="iconTemplate"></nz-step>
-                            <ng-template #iconTemplate><fa-icon [icon]="educationIcon"></fa-icon></ng-template>
+                            <nz-step nzTitle="CV" nzIcon="unordered-list"></nz-step>
 
                         </nz-steps>
                     </div>
@@ -426,6 +426,24 @@
                                 </nz-form-item>
                             </form>
 
+                            <div *ngIf="index==='CV'">
+                               <div nz-row>
+                                    <div class="cv-text">
+                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissim</h3>
+                                    </div>
+                               </div>
+
+                               <div nz-row>
+                                    <div nz-col [nzSpan]="12" class="cv-btn">
+                                        <button nz-button nzType="primary" class="cv-btn-view" (click)="generatePDF()" >View CV</button>
+                                    </div>
+
+                                    <div nz-col [nzSpan]="12"  class="cv-btn">
+                                        <button nz-button nzType="primary" class="cv-btn-download" >Download CV</button>
+                                    </div>
+                               </div>
+                            </div>
+
                         </div>
                         <div class="steps-action">
                             <nz-space>
@@ -446,8 +464,46 @@
                 </div>
            </div>
             
+           <div *ngIf="selectedProfileOption==='jobs-applied'">
+                <div nz-row>
+                    <div nz-col nzSpan="24">
+                        
+                    </div>
+                </div>
+           </div>
+
+            
 
         </div>
 
     </div>
+</div>
+
+<!-- PDF  -->
+
+<div #cv>
+  
+   <div *ngIf="generatePdf">
+        <div nz-row>
+            <img [src]="this.uploadedPhoto || user.photo" alt="user"  *ngIf="uploadedPhoto!=null || user.photo!==null">
+            <ng-container *ngIf="uploadedPhoto === null && user.photo===null">
+                <nz-avatar  [nzSize]="64" nzText={{getFirstLetter(user.firstname)}}  ></nz-avatar>
+            </ng-container>
+        </div>
+
+        <div nz-row>
+            {{user.firstname}} {{user.lastname}}
+        </div>
+   </div>
+
+   <div *ngIf="generatePdf">
+        <div nz-row>
+            <h2>User skills</h2>
+        </div>
+
+        <div nz-row>
+            <h2>User experiences</h2>
+        </div>
+   </div>
+   
 </div>

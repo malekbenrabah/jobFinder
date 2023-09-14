@@ -1,0 +1,435 @@
+<div class="menu">
+   
+
+    <div *ngIf="!isSmallScreen">
+        <div nz-row [nzGutter]="8" >
+            <!--search-->
+            <div nz-col [nzSpan]="6">
+                <h2 class="filter-search">Filter Search</h2>
+    
+                <div class="search-type">
+                    <p class="search-type-txt">Job Type</p>
+                    <nz-checkbox-wrapper  (nzOnChange)="jobTypeSearch($event)">
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Full-Time" [ngModel]="true">Full-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Part-Time">Part-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Contract">Contract</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Intern">Intern</label></div>
+                        </div>
+                    </nz-checkbox-wrapper>
+                </div>
+                
+                <div class="search-type">
+                    <p class="search-type-txt"><i nz-icon nzType="thunderbolt" nzTheme="outline"></i>Experience</p>
+                <nz-checkbox-wrapper  (nzOnChange)="experienceSearch($event)">
+                    <div nz-row>
+                      <div nz-col nzSpan="24"><label nz-checkbox nzValue="No experience" [ngModel]="true">No experience</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="1-2 Year">1-2 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="2-6 Years">2-6 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="Over 6 years">Over 6 years</label></div>
+                    </div>
+                </nz-checkbox-wrapper>
+                </div>
+    
+                
+    
+            </div>
+            <!--search-->
+    
+            
+            <div nz-col [nzSpan]="18">
+                <div nz-row>
+
+                    <div nz-col nzFlex="500px">
+                      <p>Showing : <span class="jobs-num">{{numJobs}}</span> Jobs Available</p>
+                    </div>
+                    <div nz-col nzFlex="auto">
+                       
+                       <div class="sort">
+                            <a [ngClass]="{'active': !isGridActive}" (click)="isGridActive = false"  routerLink="/job-list" nz-button nzType="default"  class="display-btn"><fa-icon [icon]="listIcon" class="displayIcon"></fa-icon></a>
+                            <a [ngClass]="{'active': isGridActive}" (click)="isGridActive = true" routerLink="/job-grid" nz-button nzType="default"   class="display-btn active"><fa-icon [icon]="gridIcon" class="displayIcon"></fa-icon></a>
+                       </div> 
+                    </div>
+                </div>
+
+                <!--cards-->
+                <div nz-row [nzGutter]="8">
+                    <div nz-col [nzSpan]="8">
+                        <nz-card  [nzActions]="[viewMore, applyQuick]">
+                            
+                            <nz-card-meta
+                            [nzAvatar]="avatarTemplate"
+                            [nzTitle]="titleCard"
+                            nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum."
+                            ></nz-card-meta>
+        
+                            <div nz-row [nzGutter]="128" class="card-footer">
+                                <div nz-col>
+                                    <p class="job-type">Full-Time</p>
+                                </div>
+        
+                                <div nz-col>
+                                    <p class="job-date">a minute ago</p>
+                                </div>
+                            </div>
+                            
+                        </nz-card>
+                        <ng-template #avatarTemplate>
+                            <nz-avatar  nzSrc="../assets/office.jpg"></nz-avatar>
+                        </ng-template>
+        
+                        <ng-template #titleCard>
+                            <p class="job-title">Job Title</p>
+                            <div class="job-location-title">
+                                <fa-icon [icon]="myLocationIcon"></fa-icon>
+                                <p>Job location</p> 
+                            </div>
+                        </ng-template>
+            
+                        <ng-template #viewMore>
+                            <a routerLink="/job-detail/1"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+                        </ng-template>
+            
+                        <ng-template #applyQuick>
+                            <fa-icon [icon]="myJob"  nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                        </ng-template>
+            
+                        
+                    </div>
+            
+                    <div nz-col [nzSpan]="8">
+                        <nz-card  [nzActions]="[viewMore, applyQuick]">
+                            
+                            <nz-card-meta
+                            [nzAvatar]="avatarTemplate"
+                            [nzTitle]="titleCard"
+                            nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum."
+                            ></nz-card-meta>
+        
+                            <div nz-row [nzGutter]="128" class="card-footer">
+                                <div nz-col>
+                                    <p class="job-type">Full-Time</p>
+                                </div>
+        
+                                <div nz-col>
+                                    <p class="job-date">a minute ago</p>
+                                </div>
+                            </div>
+                            
+                        </nz-card>
+                        <ng-template #avatarTemplate>
+                            <nz-avatar nzSrc="../assets/office.jpg"></nz-avatar>
+                        </ng-template>
+        
+                        <ng-template #titleCard>
+                            <p class="job-title">Job Title</p>
+                            <div class="job-location-title">
+                                <fa-icon [icon]="myLocationIcon"></fa-icon>
+                                <p>Job location</p> 
+                            </div>
+                        </ng-template>
+            
+                        <ng-template #viewMore>
+                            <a routerLink="/job-detail"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+                        </ng-template>
+            
+                        <ng-template #applyQuick>
+                            <fa-icon [icon]="myJob"  nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                        </ng-template>
+                    </div>
+                    
+                    <div nz-col [nzSpan]="8">
+                        <nz-card  [nzActions]="[viewMore, applyQuick]">
+                            
+                            <nz-card-meta
+                            [nzAvatar]="avatarTemplate"
+                            [nzTitle]="titleCard"
+                            nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum."
+                            ></nz-card-meta>
+        
+                            
+                            <div nz-row [nzGutter]="128" class="card-footer">
+                                <div nz-col>
+                                    <p class="job-type">Full-Time</p>
+                                </div>
+        
+                                <div nz-col>
+                                    <p class="job-date">a minute ago</p>
+                                </div>
+                            </div>
+                            
+                        </nz-card>
+                        <ng-template #avatarTemplate>
+                            <nz-avatar nzSrc="../assets/office.jpg"></nz-avatar>
+                        </ng-template>
+        
+                        <ng-template #titleCard>
+                            <p class="job-title">Job Title</p>
+                            <div class="job-location-title">
+                                <fa-icon [icon]="myLocationIcon"></fa-icon>
+                                <p>Job location</p> 
+                            </div>
+                        </ng-template>
+            
+                        <ng-template #viewMore>
+                            <a routerLink="/job-detail"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+                        </ng-template>
+            
+                        <ng-template #applyQuick>
+                            <fa-icon [icon]="myJob"  nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                        </ng-template>
+                    </div>
+                </div>
+                
+            </div>
+            <!--cards-->
+             
+        </div>
+
+        <!--pagination-->
+        <div nz-row>
+            <div nz-col nzSpan="12" nzOffset="6">
+                <div class="pagination">
+                    <nz-pagination [nzPageIndex]="1" [nzTotal]="500" [nzItemRender]="renderItemTemplate"></nz-pagination>
+                    <ng-template #renderItemTemplate let-type let-page="page">
+                        <ng-container [ngSwitch]="type">
+                            <a *ngSwitchCase="'page'">{{ page }}</a>
+                            <a *ngSwitchCase="'prev'">Previous</a>
+                            <a *ngSwitchCase="'next'">Next</a>
+                            <a *ngSwitchCase="'prev_5'"><<</a>
+                            <a *ngSwitchCase="'next_5'">>></a>
+                        </ng-container>
+                    </ng-template>
+                </div>
+               
+            </div>
+        </div>
+        
+    </div>
+   
+
+    <div *ngIf="isSmallScreen">
+        <div nz-row >
+            <div nz-col [nzSpan]="6">
+                <h2 class="filter-search">Filter Search</h2>
+
+                <div class="search-type">
+                    <p class="search-type-txt">Job Type</p>
+                    <nz-checkbox-wrapper  (nzOnChange)="jobTypeSearch($event)">
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Full-Time" [ngModel]="true">Full-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Part-Time">Part-Time</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Contract">Contract</label></div>
+                        </div>
+    
+                        <div nz-row>
+                            <div nz-col nzSpan="24"><label nz-checkbox nzValue="Intern">Intern</label></div>
+                        </div>
+                    </nz-checkbox-wrapper>
+                </div>
+                
+                <div class="search-type">
+                    <p class="search-type-txt"><i nz-icon nzType="thunderbolt" nzTheme="outline"></i>Experience</p>
+                <nz-checkbox-wrapper  (nzOnChange)="experienceSearch($event)">
+                    <div nz-row>
+                      <div nz-col nzSpan="24"><label nz-checkbox nzValue="No experience" [ngModel]="true">No experience</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="1-2 Year">1-2 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="2-6 Years">2-6 Year</label></div>
+                    </div>
+    
+                    <div nz-row >
+                        <div nz-col nzSpan="24"><label nz-checkbox nzValue="Over 6 years">Over 6 years</label></div>
+                    </div>
+                </nz-checkbox-wrapper>
+                </div>
+            </div>
+
+            <div nz-col [nzSpan]="18">
+
+                <div nz-row class="small-card">
+                    <nz-card [nzActions]="[viewMore, applyQuick]">
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum."
+                        ></nz-card-meta>
+
+                        <div nz-row [nzGutter]="230" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+
+                    </nz-card>
+
+
+                    <ng-template #avatarTemplate>
+                        <nz-avatar nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+
+                    <ng-template #viewMore>
+                        <a routerLink="/job-detail"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+                    </ng-template>
+        
+                    <ng-template #applyQuick>
+                        <fa-icon [icon]="myJob"  nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                    </ng-template>
+
+                </div>
+
+                <div nz-row class="small-card">
+                    <nz-card [nzActions]="[viewMore, applyQuick]">
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum."
+                        ></nz-card-meta>
+
+                        <div nz-row [nzGutter]="230" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+
+                    </nz-card>
+
+
+                    <ng-template #avatarTemplate>
+                        <nz-avatar nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+
+                    <ng-template #viewMore>
+                        <i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i>
+                    </ng-template>
+        
+                    <ng-template #applyQuick>
+                        <fa-icon [icon]="myJob"  nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                    </ng-template>
+
+                </div>
+
+                <div nz-row class="small-card">
+                    <nz-card [nzActions]="[viewMore, applyQuick]">
+                        <nz-card-meta
+                        [nzAvatar]="avatarTemplate"
+                        [nzTitle]="titleCard"
+                        nzDescription="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae odio rem eum."
+                        ></nz-card-meta>
+
+                        <div nz-row [nzGutter]="230" class="card-footer">
+                            <div nz-col>
+                                <p class="job-type">Full-Time</p>
+                            </div>
+    
+                            <div nz-col>
+                                <p class="job-date">a minute ago</p>
+                            </div>
+                        </div>
+
+                    </nz-card>
+
+
+                    <ng-template #avatarTemplate>
+                        <nz-avatar nzSrc="../assets/office.jpg"></nz-avatar>
+                    </ng-template>
+
+                    <ng-template #titleCard>
+                        <p class="job-title">Job Title</p>
+                        <div class="job-location-title">
+                            <fa-icon [icon]="myLocationIcon"></fa-icon>
+                            <p>Job location</p> 
+                        </div>
+                    </ng-template>
+
+                    <ng-template #viewMore>
+                        <a routerLink="/job-detail"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+                    </ng-template>
+        
+                    <ng-template #applyQuick>
+                        <fa-icon [icon]="myJob"  nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                    </ng-template>
+
+                </div>
+
+
+                
+                
+            </div>
+
+
+        </div>
+
+        <div nz-row>
+            <div nz-col nzSpan="12" nzOffset="6">
+                <div class="pagination">
+                    <nz-pagination [nzPageIndex]="1" [nzTotal]="500" [nzItemRender]="renderItemTemplate"></nz-pagination>
+                    <ng-template #renderItemTemplate let-type let-page="page">
+                        <ng-container [ngSwitch]="type">
+                            <a *ngSwitchCase="'page'">{{ page }}</a>
+                            <a *ngSwitchCase="'prev'">Previous</a>
+                            <a *ngSwitchCase="'next'">Next</a>
+                            <a *ngSwitchCase="'prev_5'"><<</a>
+                            <a *ngSwitchCase="'next_5'">>></a>
+                        </ng-container>
+                    </ng-template>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+</div>

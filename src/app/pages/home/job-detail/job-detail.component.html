@@ -24,7 +24,9 @@
                         <div class="job-square-job">
                             <div class="job-square-txt-job">
                                 <span>Job Type</span>
-                                <p>Full-Time</p>
+                                <p *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                                <p *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                                <p *ngIf="job.jobType==='Intern'">Intership</p>
                             </div> 
                         </div>
                     </div>
@@ -42,23 +44,25 @@
                         <div class="job-square-deadline">
                             <div class="job-square-txt-deadline">
                                 <span>Deadline</span>
-                                <p>23-05-2023</p>
+                                <p>Countdown: {{ remainingTime.days }} days, {{ remainingTime.hours }} hours, {{ remainingTime.minutes }} minutes</p>
+
+                                <nz-countdown [nzValue]="countDownTime" [nzTitle]="'Countdown'" ></nz-countdown>
                             </div> 
                         </div>
                     </div>
                 </div>
 
                 <div nz-row nzGutter="20">
-                    
+                
                     <div nz-col nzSpan="12">
                         <div class="card-btn">
-                            <button nz-button nzType="primary" class="job-detail-btn" (click)="selected = 'jobDesc'">Job Description</button>
+                            <button [ngClass]="{'active': isbtnActive}" (click)="isbtnActive = true"  nz-button nzType="primary" class="job-detail-btn active" (click)="selected = 'jobDesc'">Job Description</button>
                         </div>
                     </div>
 
                     <div nz-col nzSpan="12">
                         <div class="card-btn">
-                            <button nz-button nzType="primary" class="job-detail-btn" (click)="selected = 'company'">Company</button>
+                            <button [ngClass]="{'active': !isbtnActive}" (click)="isbtnActive = false" nz-button nzType="primary" class="job-detail-btn" (click)="selected = 'company'">Company</button>
                         </div>
                     </div>
                 </div>
@@ -66,7 +70,7 @@
                 <div nz-row *ngIf="selected==='jobDesc'">
                     <div class="job-desc-detailes">
                         <h3>Job Description</h3>
-                        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam aperiam esse nam minima? Nihil aspernatur accusantium aut possimus corporis, neque repellat maxime voluptatum suscipit consequatur, quos impedit ratione excepturi eum.</p>
+                        <p >{{job.description}}</p>
                     </div>
 
                     <div class="job-desc-detailes">
@@ -79,10 +83,10 @@
 
                 <div nz-row *ngIf="selected==='company'">
                     <div class="company-info">
-                        <a>Company Name</a>
+                        <a>{{job.companyName}}</a>
                        
                         <p>
-                            <i nz-icon nzType="mail" nzTheme="outline"></i> <span> company@gmail.com</span><br>
+                            <i nz-icon nzType="mail" nzTheme="outline"></i> <span> {{job.companyEmail}}</span><br>
                             <fa-icon [icon]="myLocationIcon"></fa-icon> <span> Job location</span> 
                         </p>
                         
@@ -91,7 +95,7 @@
 
                     <div class="job-desc-detailes">
                         <h3>About Company</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam aperiam esse nam minima? Nihil aspernatur accusantium aut possimus corporis, neque repellat maxime voluptatum suscipit consequatur, quos impedit ratione excepturi eum.</p>
+                        <p>{{job.companyAbout}}</p>
                     </div>
 
                     <button nz-button nzType="primary" class="job-detail-btn apply-btn">Apply Now</button>
@@ -106,24 +110,24 @@
 
 
             <ng-template #avatarTemplate>
-                <nz-avatar [nzShape]="'square'" [nzSize]="100" nzSrc="../assets/job.jpg"></nz-avatar>
+                <nz-avatar [nzSize]="64" [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>
+                <nz-avatar [nzSize]="64"  nzIcon="user" *ngIf="job.companyPhoto===null"></nz-avatar>
             </ng-template>
+
             <ng-template #titleCard>
-                <p class="job-title">Job Title</p>
+                <p class="job-title">{{job.title}}</p>
                 <div class="job-location-title">
                     <fa-icon [icon]="myLocationIcon"></fa-icon>
-                    <p>Job location</p> 
+                    <p>{{job.location}}</p> 
                 </div>
-               <p class="company-name"><a routerLink="/">Company Name</a></p>
+               <p class="company-name"><a routerLink="/">{{job.companyName}}</a></p>
             </ng-template>
 
             <ng-template #descCard >
-                <p class="cardDesc"> a  minute ago</p>
+                <p class="cardDesc">{{formatDate(job.created_at)}}</p>
             </ng-template>
 
             
-
-
         </div>
 
         <div nz-col nzFlex="auto">

@@ -195,7 +195,7 @@ nz-date-picker{
 
 
 
-.submit-ed-btn, .add-button{
+.submit-ed-btn, .add-button, .cv-btn-view , .cv-btn-download{
     border-radius: 8px;
     font-weight: 600;
 }
@@ -247,6 +247,57 @@ nz-date-picker{
     margin-left: -35px;
 }
 
+
+
+
+
+/* user cv*/
+.cv-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25px;
+}
+.cv-btn-view{
+   
+    height: 30px;
+    width: 180px;
+}
+
+.cv-btn-download{
+    background-color: #03417c;
+    border-color: #03417c;
+    color: #fff;
+    height: 30px;
+    width: 180px;
+}
+
+.cv-btn-download:hover{
+    background-color: #035aaac7;
+    border-color: #035aaac7;
+    color: #fff;
+}
+
+/*
+#cv {
+   
+    visibility: hidden;   
+}
+*/
+
+
+.hide-for-pdf {
+    display: none;
+}
+
+
+
+/* cv generated*/
+.cv-user-info-right{
+    background-color: #001529;
+}
+
+/* user cv*/
 
 /*user info */
 
@@ -387,4 +438,5 @@ nz-date-picker{
     background-color: #fff;
     color: #2563eb;
 }
+
 

@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.menu{
+    margin-top: 70px;
+
+}
+
+.jobs-num{
+    font-weight: bold;
+    font-size:.9rem;
+}
+
+.sort{  
+  
+  float: right;
+  display: flex;
+  
+}
+
+.sort-txt{
+    margin-right: 15px;
+}
+
+nz-select{
+    margin-bottom: 15px;
+}
+
+.sort nz-select{
+    font-family: 'Rubik', sans-serif;
+}
+
+.sort nz-select:hover{
+    border-color: #2563eb;
+}
+
+.filter-search{
+    color: #424344;
+    font-weight: bold;
+}
+
+/*search*/
+
+.search-type{
+    margin-bottom: 30px; 
+}
+
+.search-type-txt{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/*search*/
+
+.small-card{
+    margin-bottom: 25px;
+}
+
+
+/*pagination*/
+
+
+.pagination{
+    margin-top: 20px;
+    font-family: 'Rubik', sans-serif;
+}
+
+/*card*/
+
+.job-location-title{
+    display: grid;
+    grid-template-columns: 24px auto;
+    margin-top: -15px;
+}
+.job-location-title p{
+    font-size: .9rem;
+}
+
+.job-title{
+    font-weight: 600;
+    font-size:1.3rem;
+}
+
+.card-footer{
+    margin-top: 25px;
+    margin-bottom: -25px;
+}
+
+.job-type{
+    color: #1d4fd8; 
+    font-weight: 600;
+    background-color: #1d4fd826;
+    font-size: 14px;
+
+    padding-top: 0.125rem;
+    padding-bottom: 0.125rem;
+    padding-left: 0.375rem; 
+    padding-right: 0.375rem; 
+}
+
+.job-date{
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+nz-card:hover{
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    
+    border-radius: 0.375rem;
+}
+
+/*display btn*/
+.display-btn{
+    border-radius: 8px;  
+    margin-left: 5px;
+}
+
+.display-btn.active{
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.displayIcon{
+    font-size: 16px;
+}
+

@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { faBookmark} from '@fortawesome/free-regular-svg-icons';
 import{ faIdBadge}from"@fortawesome/free-solid-svg-icons"
-import{faSuitcase, faGraduationCap} from '@fortawesome/free-solid-svg-icons';
+import{faSuitcase, faGraduationCap, faUserTie} from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { differenceInCalendarDays, setHours } from 'date-fns';
 import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
@@ -13,6 +13,7 @@ import { Skill } from 'src/app/services/user/model/Skill';
 import { Experience } from 'src/app/services/user/model/Experience';
 import { formatDate } from '@angular/common';
 import { Education } from 'src/app/services/user/model/Education';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ export class ProfileComponent implements OnInit{
   saveIcone=faBookmark;
   profileIcon=faIdBadge;
   jobIcon=faSuitcase;
+  appliedJobsIcon=faUserTie;
 
   educationIcon=faGraduationCap;
 
@@ -36,7 +38,7 @@ export class ProfileComponent implements OnInit{
   validateFormExp!: FormGroup;
 
   validateFormSkills!:FormGroup;
-  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router) {
+  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router,private elementRef: ElementRef) {
 
     this.validateForm = this.fb.group({
       firstname: ['', [Validators.required]],
@@ -45,6 +47,8 @@ export class ProfileComponent implements OnInit{
       phone: ['', [Validators.pattern('[0-9]*')]],
       aboutMe:[''],
     });
+
+
 
     
   
@@ -568,10 +572,16 @@ export class ProfileComponent implements OnInit{
   @ViewChild('skillInput', { static: false }) skillInput?: ElementRef;
 
   hiddenInputs: HTMLInputElement[] = [];
+
+  userSkills:Skill[]=[]
   fetchUserSkills() {
     this.userService.getUserSkills().subscribe(
       (response) => {
         console.log('user skills', response);
+
+        this.userSkills=response as Skill[];
+
+
         // skills is an array of Skill objects
         const skills: Skill[] = response as Skill[]; // Explicitly cast to Skill[]
 
@@ -828,7 +838,7 @@ export class ProfileComponent implements OnInit{
         break;
       }
       case 3: {
-        this.index = 'Hobbies';
+        this.index = 'CV';
         break;
       }
       default: {
@@ -1118,10 +1128,14 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  userEds:Education[]=[]
+
   fetchUserEd() {
     this.userService.getUserEducations().subscribe(
       (response) => {
         console.log('user eeducations', response);
+        this.userEds=response as Education[];
+
         // skills is an array of Skill objects
         const educations: Education[] = response as Education[]; // explicitly cast to Skill[]
 
@@ -1290,10 +1304,14 @@ export class ProfileComponent implements OnInit{
 
   }
 
+  userExp:Experience[]=[]
+
   fetchUserExp() {
     this.userService.getUserExperiences().subscribe(
       (response) => {
         console.log('user experiences', response);
+        this.userExp=response as Experience[];
+
         // skills is an array of Skill objects
         const experiences: Experience[] = response as Experience[]; // explicitly cast to Skill[]
 
@@ -1635,6 +1653,89 @@ export class ProfileComponent implements OnInit{
   
   
  /* end experience */
+
+
+
+  @ViewChild('cv',{static:false })cv!:ElementRef;
+  
+  generatePdf=false;
+
+  
+  generatePDF(){
+  
+    
+
+
+    this.generatePdf=true;
+
+    setTimeout(()=>{
+      const contentElement = this.cv.nativeElement;
+
+      //create a copy of the element
+      const pdfContentCopy = contentElement.cloneNode(true) as HTMLElement;
+
+      //remove hidden elements
+      const hiddenElements = pdfContentCopy.querySelectorAll('.hide-for-pdf');
+      hiddenElements.forEach((element) => {
+          element.remove();
+      });
+
+      //generate PDF with the copied content
+      const pdf = new jsPDF('p', 'pt', 'a4');
+      pdf.html(pdfContentCopy, {
+          callback: (pdf) => {
+              pdf.save('cv.pdf');
+          }
+      });
+
+      //remove copy
+      pdfContentCopy.remove();
+      this.generatePdf = false;
+
+    },100);
+  }
+ 
+
+  /*
+  generatePDF() {
+    this.generatePdf = true;
+  
+    setTimeout(() => {
+      const contentElement = this.cv.nativeElement;
+  
+      // Wait for the images to load
+      const images = contentElement.querySelectorAll('img') as NodeListOf<HTMLImageElement>;
+      const promises = Array.from(images).map((img) => {
+        return new Promise((resolve) => {
+          img.onload = () => resolve(undefined);
+        });
+      });
+  
+      Promise.all(promises).then(() => {
+        // Create a copy of the element
+        const pdfContentCopy = contentElement.cloneNode(true) as HTMLElement;
+  
+        // Remove hidden elements
+        const hiddenElements = pdfContentCopy.querySelectorAll('.hide-for-pdf');
+        hiddenElements.forEach((element) => {
+          element.remove();
+        });
+  
+        // Generate PDF with the copied content
+        const pdf = new jsPDF('p', 'pt', 'a4');
+        pdf.html(pdfContentCopy, {
+          callback: (pdf) => {
+            pdf.save('cv.pdf');
+          }
+        });
+  
+        // Remove copy
+        pdfContentCopy.remove();
+        this.generatePdf = false;
+      });
+    }, 1000);
+  }
+  */
 
 
 }
