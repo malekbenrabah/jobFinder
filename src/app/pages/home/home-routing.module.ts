@@ -7,12 +7,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from 'src/app/services/guards/auth.guard';
 import { JobListComponent } from './job-list/job-list.component';
 import { JobGridComponent } from './job-grid/job-grid.component';
+import { JobDetail2Component } from './job-detail2/job-detail2.component';
 
 const routes: Routes = [
    
   { path:'', component : LayoutComponent, children:[
     {path:'',component:HomeComponent},
-    {path:"job-detail/:id",component:JobDetailComponent},
+    {path:"job-detail/:id",component:JobDetail2Component},
     {path:"job-list",component:JobListComponent},
     {path:"job-grid",component:JobGridComponent},
     {path:"not-found", component:NotFoundComponent},

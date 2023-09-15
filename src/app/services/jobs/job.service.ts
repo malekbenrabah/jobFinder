@@ -16,4 +16,23 @@ export class JobService {
     return this.http.get("http://localhost:8086/app/job/findJobById?id="+id);
   }
 
+  getSimilarJobs(id:any){
+    return this.http.get("http://localhost:8086/app/job/getSimilarJobs?id="+id);
+  }
+
+  getCompanyJobs(id:any){
+    return this.http.get("http://localhost:8086/app/job/companyJobs?email="+id);
+  }
+  
+  getCompanyOpenJobs(id:any){
+    return this.http.get("http://localhost:8086/app/job/companyOpenJobs?email="+id);
+
+  }
+
+  applyJob(id:any){
+    const formData=new FormData();
+    formData.append('id',id);
+    return this.http.post("http://localhost:8086/app/job/applyJob",formData);
+  }
+
 }

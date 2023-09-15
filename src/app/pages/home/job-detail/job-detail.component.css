@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
-.job-detail{
-    background-color: #f7fdfd;
-}
+
 
 .job-card-detail{
     border: 1px solid #e8e8e8;
@@ -27,6 +25,7 @@ nz-card{
     font-weight: 600;
     color: #718096;
     margin-bottom: 0px;
+    font-size: 20px;
 }
 
 /*card job detail*/
@@ -69,6 +68,9 @@ nz-avatar{
     justify-content: center;
     background-color: #bdf4c8;
     border-radius: 1rem;
+
+    height:70px;
+   
     
 }
 
@@ -91,7 +93,8 @@ nz-avatar{
     justify-content: center;
     background-color: #bae5f4;
     border-radius: 1rem;
-    
+
+    height:70px;
 }
 
 .job-square-txt-job {
@@ -113,7 +116,8 @@ nz-avatar{
     justify-content: center;
     background-color: #fed0ab;
     border-radius: 1rem;
-    
+
+    height:70px;   
 }
 
 .job-square-txt-applicants{
@@ -137,7 +141,8 @@ nz-avatar{
     justify-content: center;
     background-color: #cecdff;
     border-radius: 1rem;
-    
+
+    height:70px;   
 }
 
 .job-square-txt-deadline{
@@ -196,6 +201,35 @@ nz-avatar{
     font-weight: 600; 
 }
 
+.job-desc-detailes ul{
+    line-height:20px;
+    font-size:16px;
+}
+
+
+
+.job-desc-container{
+    margin-top: 40px;
+}
+
+.job-desc-container span{
+    color: #66789C;
+    font-weight:400px ;
+    font-size: 16px;
+    line-height: 24px;
+}
+.job-desc-container p{
+    font-size: 16px;
+    font-weight: 500px;
+    line-height: 24px;
+
+}
+
+.job-desc_icon{
+    color:#66789C;
+    margin-right: 5px;
+}
+
 .apply-btn{
     margin-top: 15px;
 }
@@ -247,5 +281,14 @@ nz-avatar{
     font-size: 0.5rem;
 }
 
+/*deadline counter*/
+.deadline-span{
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 600;
+    font-size: 1.125rem;
+}
 
-
+.deadline-txt{
+    font-weight: unset!important;
+    font-size: 14px!important;
+}

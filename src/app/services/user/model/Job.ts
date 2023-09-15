@@ -38,6 +38,8 @@ export class Job{
     companyName!:string;
     companyPhoto!:string;
     companyEmail!:string;
+    companyAdresse!:string;
+    companyPhone!:string;
     companyAbout!:string;
     skills!:Skill[];
     users!:User[];

@@ -1,28 +1,31 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { faLocationDot, faAward, faUserTie, faHourglassEnd, faSuitcase } from '@fortawesome/free-solid-svg-icons';
-import { faBuilding} from '@fortawesome/free-regular-svg-icons';
+import { ActivatedRoute, Router } from '@angular/router';
+import { faLocationDot, faAward, faUserTie, faHourglassEnd, faSuitcase , faAt , faPhone, faUsers} from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faClock} from '@fortawesome/free-regular-svg-icons';
 import { JobService } from 'src/app/services/jobs/job.service';
 import { Job } from 'src/app/services/user/model/Job';
-
+import { UserServiceService } from 'src/app/services/user/user-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
-  selector: 'app-job-detail',
-  templateUrl: './job-detail.component.html',
-  styleUrls: ['./job-detail.component.css']
+  selector: 'app-job-detail2',
+  templateUrl: './job-detail2.component.html',
+  styleUrls: ['./job-detail2.component.css']
 })
-export class JobDetailComponent implements OnInit {
+export class JobDetail2Component implements OnInit {
 
-  //icons
   myLocationIcon=faLocationDot;
   myBuildingIcon=faBuilding;
   experienceIcon=faAward;
   jobLevelIcon=faUserTie;
   deadlineIcon=faHourglassEnd;
   myJob=faSuitcase;
+  cretedatIcon=faClock;
+  companyEmailIcon=faAt;
+  companyPhoneIcon=faPhone;
+  usersIcon=faUsers;
 
   selected: string = 'jobDesc';
-  constructor(private route: ActivatedRoute, private jobService:JobService) { }
+  constructor(private route: ActivatedRoute, private jobService:JobService, private userService:UserServiceService, private router:Router) { }
 
   job:Job=new Job();
  
@@ -144,10 +147,22 @@ export class JobDetailComponent implements OnInit {
     }
     return 'Invalid Date';
   }
- 
 
+  //apply job
+  applyJob(id:number){
+    if(this.userService.isLoggedIn()){
+      this.jobService.applyJob(id).subscribe((response)=>{
+        console.log('applied successfully',response);
+      },
+      (error:HttpErrorResponse)=>{
+        if(error.status===403 && error.message==='You have already applied to this job'){
+         console.log('aaa');
 
-
-
+        });
+    }else{
+       this.router.navigate(['/auth/login']);
+    }
+    
+  }
 
 }

@@ -40,6 +40,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { JobGridComponent } from './job-grid/job-grid.component';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { JobDetail2Component } from './job-detail2/job-detail2.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
     LayoutComponent,
     JobListComponent,
     BreadcrumbComponent,
-    JobGridComponent
+    JobGridComponent,
+    JobDetail2Component
   ],
   imports: [
     CommonModule,

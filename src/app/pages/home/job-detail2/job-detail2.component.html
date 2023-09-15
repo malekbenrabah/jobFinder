@@ -1,0 +1,221 @@
+<div class="job-detail">
+    <div nz-row>
+        <img src="../assets/job-breadcrumb.PNG" class="job-detail-breadcrumb" alt="job-detail">
+    </div>
+
+    <div nz-row class="job-info">
+        
+        <div nz-col nzSpan="18" >
+            <div nz-row>
+                <h3 class="job-title">{{job.title}}</h3>
+            </div>
+
+            <div nz-row>
+                <div class="job-info-txt">
+                    <fa-icon [icon]="myJob" class="job-info-icon"></fa-icon>
+                    <span *ngIf="job.jobType==='Full_Time'">Full Time</span>
+                    <span *ngIf="job.jobType==='Part_Time'">Part Time</span>
+                    <span *ngIf="job.jobType==='Intern'">Intership</span>
+                    <fa-icon [icon]="cretedatIcon" class="job-info-icon"></fa-icon><span>{{formatDate(job.created_at)}}</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div nz-col nzSpan="6" class="btn-container">
+            <div nz-row>
+                <p *ngIf="deadlineOver===false" class="deadline-txt"><span class="deadline-span">{{ deadLineTime.days }}</span>  Days, <span class="deadline-span">{{ deadLineTime.hours }}</span> Hours,<span class="deadline-span">{{ deadLineTime.minutes }}</span>  Minutes</p>          
+                <p *ngIf="deadlineOver===true">{{formatDeadline(job.deadline)}}</p>
+            </div>
+            <div nz-row>
+                <button nz-button nzType="primary" class="apply-btn" (click)="applyJob(job.id)">Apply Now</button>
+            </div>
+        </div>
+       
+       
+    </div>
+
+    <div>
+        <hr class="border">
+    </div>
+
+    <div nz-row [nzGutter]="50">
+        <div nz-col nzFlex="750px">
+            <div nz-row>
+                <nz-card class="job-detailes-card">
+                    <h5>Job Info</h5>
+                    <hr class="border-card">
+                    <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+                        <div nz-col class="gutter-row" [nzSpan]="12">
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="myBuildingIcon" class="job-info-icon"></fa-icon><span>Industry</span>
+                            <p>{{job.sector}}</p>
+                            </div>
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="myJob" class="job-info-icon"></fa-icon><span>Job Type</span>
+                                <p *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                                <p *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                                <p *ngIf="job.jobType==='Intern'">Intership</p>
+                            </div>
+
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="cretedatIcon" class="job-info-icon"></fa-icon><span>Published</span>
+                            <p>{{formatDeadline(job.created_at)}}</p>
+                            </div>
+
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="myLocationIcon" class="job-info-icon"></fa-icon><span>Location</span>
+                                <p>{{job.location}}</p>
+                            </div>  
+                        
+                        </div>
+
+                        <div nz-col class="gutter-row" [nzSpan]="12">
+                        
+
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="jobLevelIcon" class="job-info-icon"></fa-icon><span>Job Level</span>
+                            <p>{{job.diploma}}</p>
+                            </div>
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="experienceIcon" class="job-info-icon"></fa-icon><span>Experience</span>
+                                <p *ngIf="job.experience === 0">No experience</p>
+                                <p *ngIf="job.experience !== 0">{{ job.experience }} Years</p>
+                            </div>
+
+                            <div nz-row class="inner-box">
+                            <fa-icon [icon]="deadlineIcon" class="job-info-icon"></fa-icon><span>Deadline</span>
+                            <p>{{formatDeadline(job.deadline)}}</p>
+                            </div>
+
+                            <div nz-row class="inner-box">
+                                <fa-icon [icon]="usersIcon" class="job-info-icon"></fa-icon><span>No. of Applicants</span>
+                                <p>{{nbApplicants}}</p>
+                            </div>
+
+                            
+
+                            
+                        </div>
+                        
+                    </div>
+                </nz-card>
+            </div>
+
+            <div nz-row>
+                <div class="job-desc-detailes">
+                    <h3>About Company</h3>
+                    <p>{{job.companyAbout}}</p>
+                </div>
+            </div>
+
+            <div nz-row>
+                <div class="job-desc-detailes">
+                    
+                    <h3>Requirements</h3>
+                    <ul *ngFor="let skill of job.skills">
+                        <li>{{skill.skill}}</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div nz-col nzFlex="auto">
+
+            <div nz-row>
+                <nz-card class="company-info-card">
+                    <nz-card-meta
+                      [nzAvatar]="avatarTemplate"
+                      [nzTitle]="companyName"
+                      [nzDescription]="cardDescription"
+                    ></nz-card-meta>
+                     map code here
+                </nz-card>
+                <ng-template #avatarTemplate>
+                    <nz-avatar [nzSize]="64" [nzShape]="'square'" [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>
+                    <nz-avatar [nzSize]="64" [nzShape]="'square'" nzIcon="user" *ngIf="job.companyPhoto===null"></nz-avatar>
+                </ng-template>
+
+                <ng-template #companyName>
+                    <p><a routerLink="/" class="company-name">{{job.companyName}}</a></p>
+                   <div class="companyName">
+                    <fa-icon [icon]="myJob" nz-tooltip nzTooltipTitle="Open Jobs" class="job-icon"></fa-icon> <a routerLink="" class="open-jobs-link"> {{companyOpenJobs}} Open jobs</a> 
+                   </div>
+                </ng-template>
+
+                <ng-template #cardDescription>
+                    <div class="card-description">
+                        <p><fa-icon [icon]="companyEmailIcon" class="job-info-icon"></fa-icon>{{job.companyEmail}}</p>
+                        <p><fa-icon [icon]="companyPhoneIcon" class="job-info-icon"></fa-icon>{{job.companyPhone}}</p>
+                        <p><fa-icon [icon]="myLocationIcon" class="job-info-icon"></fa-icon>{{job.companyAdresse}}</p>
+                    </div>
+                </ng-template>
+
+            </div>
+
+            <div nz-row class="similar-jobs">
+
+                <nz-card class="job-detailes-card">
+                    <h5>Similar job Post</h5>
+                    <hr class="border-card">
+
+                    <div class="similar-job">
+
+                        <div nz-row *ngFor="let similarJob of similarJobs | slice:0:4 ">
+                            <div nz-col nzSpan="24">
+                               
+                                <nz-card  [nzBordered]="false" class="similar-job-card">
+                                    <nz-card-meta
+                                      [nzAvatar]="avatarTemplate"
+                                      [nzTitle]="companyName"
+                                     
+                                    ></nz-card-meta>
+        
+                                    <ng-template #avatarTemplate>
+                                        <nz-avatar [nzSize]="64" [nzShape]="'square'" [nzSrc]="similarJob.companyPhoto"  *ngIf="similarJob.companyPhoto!==null"></nz-avatar>
+                                        <nz-avatar [nzSize]="64" [nzShape]="'square'" nzIcon="user" *ngIf="similarJob.companyPhoto===null"></nz-avatar>
+                                    </ng-template>
+
+                                    <ng-template #companyName>
+                                        <p><a routerLink="/job-detail/{{similarJob.id}}" class="similar-job-title">{{similarJob.title}}</a></p>
+                                        <div class="similar-job-detail">
+
+                                            
+                                            <div class="jobType-container">
+                                                <fa-icon [icon]="myJob"></fa-icon>
+                                                <span *ngIf="job.jobType==='Full_Time'">Full Time</span>
+                                                <span *ngIf="job.jobType==='Part_Time'">Part Time</span>
+                                                <span *ngIf="job.jobType==='Intern'">Intership</span>
+
+                                                <fa-icon [icon]="cretedatIcon"></fa-icon><span>{{formatDate(job.created_at)}}</span>
+
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                    
+                                    
+
+                                </nz-card>
+
+                                <hr class="border-card">
+                            </div>
+                        </div>
+
+
+
+                        
+                        
+                    </div>
+
+
+                </nz-card>
+                
+
+            </div>
+
+            
+
+        </div>
+    </div>
+</div>
