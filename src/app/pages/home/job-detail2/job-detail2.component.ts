@@ -6,6 +6,7 @@ import { JobService } from 'src/app/services/jobs/job.service';
 import { Job } from 'src/app/services/user/model/Job';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-job-detail2',
   templateUrl: './job-detail2.component.html',
@@ -154,14 +155,27 @@ export class JobDetail2Component implements OnInit {
 
       this.jobService.applyJob(id).subscribe((response)=>{
         console.log('applied successfully',response);
+        
+        Swal.fire({
+          icon:"success",
+          title:"Good Job",
+          text:"You have applied succesfully",
+          confirmButtonColor:"#05264E"
+        })
+        this.ngOnInit();
       },
       (error:HttpErrorResponse)=>{
-        if(error.status===403 && error.message==='You have already applied to this job'){
-         console.log('aaa');
+        if(error.status===403 ){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'You have already applied to this job',
+            confirmButtonColor:"#05264E"
+          })
         }
 
       });
-      
+
     }else{
        this.router.navigate(['/auth/login']);
     }

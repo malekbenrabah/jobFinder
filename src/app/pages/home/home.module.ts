@@ -41,6 +41,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { JobGridComponent } from './job-grid/job-grid.component';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { JobDetail2Component } from './job-detail2/job-detail2.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { JobDetail2Component } from './job-detail2/job-detail2.component';
     NzBackTopModule,
     NzDropDownModule,
     NzCollapseModule,
-    NzStatisticModule
+    NzStatisticModule,
+    SweetAlert2Module
 
   ],
   exports:[NavbarComponent, FooterComponent]
