@@ -151,14 +151,17 @@ export class JobDetail2Component implements OnInit {
   //apply job
   applyJob(id:number){
     if(this.userService.isLoggedIn()){
+
       this.jobService.applyJob(id).subscribe((response)=>{
         console.log('applied successfully',response);
       },
       (error:HttpErrorResponse)=>{
         if(error.status===403 && error.message==='You have already applied to this job'){
          console.log('aaa');
+        }
 
-        });
+      });
+      
     }else{
        this.router.navigate(['/auth/login']);
     }
