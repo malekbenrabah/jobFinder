@@ -1,0 +1,64 @@
+<div class="jobs-day-container">
+    <div nz-row class="jobs-day-text">
+        <h2>Jobs of the day</h2>
+        <p>Search and connect with the right candidates faster</p>
+    </div>
+
+    <div nz-row class="job-day-cards">
+        <div class="card-container" *ngFor="let job of jobs | slice:0:4">
+            <nz-card  [nzActions]="[viewMore, applyQuick]" class="latest-job-card">
+                        
+                <nz-card-meta
+                [nzAvatar]="avatarTemplate"
+                [nzTitle]="titleCard"
+                [nzDescription]="descriptionTmpl"
+                ></nz-card-meta>
+
+                <div nz-row [nzGutter]="128" class="card-footer">
+                    <div nz-col [nzSpan]="12">
+                        <div class="job-type-container">
+                            <p class="job-type"  *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                            <p class="job-type"  *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                            <p class="job-type"  *ngIf="job.jobType==='Intern'">Intership</p>
+                        </div>
+                    </div>
+
+                    <div nz-col [nzSpan]="12">
+                        <div class="job-date-container">
+                            <p class="job-date">{{formatDate(job.created_at)}}</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </nz-card>
+            <ng-template #avatarTemplate>
+                <nz-avatar [nzSize]="64" [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>
+                <nz-avatar [nzSize]="64"  nzIcon="user" *ngIf="job.companyPhoto===null"></nz-avatar>
+               
+            </ng-template>
+
+            <ng-template #titleCard>
+                <p class="job-title">{{job.title}}</p>
+                <div class="job-location-title">
+                    <fa-icon [icon]="locationIcon"></fa-icon>
+                    <p>{{job.location}}</p> 
+                </div>
+            </ng-template>
+
+            <ng-template #descriptionTmpl>
+                <p class="card-description" *ngIf="job.description.length<50">{{job.description}}</p>
+                <p class="card-description" *ngIf="job.description.length>50">{{job.description.slice(0,50)}}...</p>            
+            </ng-template>
+
+            <ng-template #viewMore>
+                <a routerLink="/job-detail/{{job.id}}"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+            </ng-template>
+
+            <ng-template #applyQuick>
+                <fa-icon [icon]="myJob" nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+            </ng-template>
+
+        </div>
+       
+    </div>
+</div>

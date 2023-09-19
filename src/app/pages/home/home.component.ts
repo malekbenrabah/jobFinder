@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { JobService } from 'src/app/services/jobs/job.service';
+import { Job } from 'src/app/services/user/model/Job';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +11,11 @@ export class HomeComponent implements OnInit {
 
   isCollapsed=true;
 
-  constructor() { }
+  constructor(private jobService:JobService) { }
 
+  
   ngOnInit(): void {
+   
   }
 
 }

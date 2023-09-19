@@ -72,14 +72,14 @@
 
                 <!--cards-->
                 
-                <div nz-row  *ngFor="let job of jobs.slice(startIndex, endIndex)">
+                <div nz-row  *ngFor="let job of jobs.slice(startIndex, endIndex)" >
 
-                    <nz-card  [nzActions]="[viewMore, applyQuick]">
+                    <nz-card  [nzActions]="[viewMore, applyQuick]"  >
                         
                         <nz-card-meta
                         [nzAvatar]="avatarTemplate"
                         [nzTitle]="titleCard"
-                        [nzDescription]="job.description"
+                        [nzDescription]="descriptionTmpl"
                         ></nz-card-meta>
     
                         <div nz-row [nzGutter]="128" class="card-footer">
@@ -111,6 +111,12 @@
                             <fa-icon [icon]="myLocationIcon"></fa-icon>
                             <p>{{job.location}}</p> 
                         </div>
+                    </ng-template>
+
+                    <ng-template #descriptionTmpl>
+                        <p class="card-description" *ngIf="job.description.length<100">{{job.description}}</p>
+                        <p class="card-description" *ngIf="job.description.length>100">{{job.description.slice(0,100)}}...</p>            
+
                     </ng-template>
         
                     <ng-template #viewMore>

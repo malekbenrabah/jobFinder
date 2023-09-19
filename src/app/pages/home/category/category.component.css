@@ -1,0 +1,86 @@
+.category-container{
+    margin-top:50px
+}
+
+.category-title-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.category-title-container h2{
+    color: #05264E;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.25;
+}
+
+.category-title-container p{
+    font-weight: 500;
+    font-size: 16px;
+    color: #6c757d;
+    margin-top: -5px;
+}
+
+
+
+[nz-carousel-content] {
+    text-align: center;
+    height: 160px;
+   
+    background: #364d79;
+    color: #fff;
+    overflow: hidden;
+}
+
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* two columns in the grid */
+    gap: 15px; /* adjust the gap between links horizantal , vertical  */
+    justify-items: center;   
+    margin-top: 20px;
+   
+}
+
+.carousel-content-container a{
+    height: 100%;
+    width: 210px;
+   background-color: #ffffff;
+    border: 1px solid rgba(6,18,36,0.1);
+    border-radius: 10px;
+    transition: all .3s ease 0s;
+}
+
+.carousel-content-container a:hover{
+    transform: translateY(-5px);
+}
+
+.carousel-icon-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.carousel-icon{
+    font-size: 40px;
+    color: #05264E;
+}
+
+.carousel-content-detailes{
+    padding-right: 15px;
+    padding-top: 15px;
+}
+.carousel-content-detailes h4{
+    color: #05264E;
+    font-size: 14px;
+    font-weight: 700;
+
+}
+
+.carousel-content-detailes p{
+    margin-top: -10px;
+    color: #4F5E64;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from './model/user';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Skill } from './model/Skill';
 import { Experience } from './model/Experience';
 import { Education } from './model/Education';
@@ -35,6 +35,7 @@ export class UserServiceService {
     //if there's a token it will return true, else it will return false
    return localStorage.getItem('token')!=null;
 
+   
    /*
    const token=localStorage.getItem('token')
     if (!token) {
@@ -173,5 +174,9 @@ export class UserServiceService {
       return this.http.delete("http://localhost:8086/app/education/deleteEducation?id="+id);
     }
   /*Education */
+
+  getCompanies(){
+    return this.http.get("http://localhost:8086/app/user/getCompanies");
+  }
 
 }

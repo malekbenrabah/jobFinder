@@ -10,17 +10,20 @@ export enum JobType {
 
 export enum Sector {
 
-    computer_science,
-    finance,
-    accounting,
-    consulting,
-    tourism,
-    paramedical,
-    health_care,
-    biology,
-    law,
-    media,
-    others,
+    computer_science = "Computer science",
+    finance = "Finance",
+    accounting = "Accounting",
+    consulting = "Consulting",
+    tourism = "Tourism",
+    paramedical = "Paramedical",
+    health_care = "Health care",
+    biology = "Biology",
+    law = "Law",
+    media = "Media",
+    marketing= "Marketing",
+    rh= "Human Ressouces",
+    architecture= "Architecture",
+    others = "others",
 }
 
 export class Job{

@@ -28,6 +28,9 @@ export class NavbarComponent implements OnInit {
   userLoggedIn:boolean=false;
   ngOnInit(): void {
     this.userLoggedIn=this.userService.isLoggedIn();
+
+   
+
     //check screen size at initialization
     this.checkScreenSize();
   }

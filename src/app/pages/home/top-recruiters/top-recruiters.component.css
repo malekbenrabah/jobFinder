@@ -1,0 +1,106 @@
+.recruiters-container{
+    margin-top: 45px;
+}
+
+.top-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-text h2{
+    color: #05264E;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.txt-sub{
+   text-align: center;
+}
+
+.txt-sub p{
+    font-size: 16px;
+    color: #6c757d;
+    
+}
+
+.carousel-btn{
+    display: flex;
+    gap:5px;
+}
+
+.btn-directions{
+    background-color: #e6ecff;
+    border: none;
+}
+
+.carousel-icon{
+    font-size: 16px;
+    font-weight: 700;
+    color: #6c757d;
+}
+
+.carousel-icon:hover{
+    color: #3c65f5;
+}
+
+.carousel-icon:active{
+    color: #3c65f5;
+}
+
+
+
+/*carousel*/
+
+
+.companies{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center!important;
+}
+
+[nz-carousel-content] {
+    text-align: center;
+    height: 250px;
+    line-height: 160px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.carousel-container{
+   margin-top: 15px;
+}
+
+
+
+.company-card{
+    margin-bottom: 16px;
+    max-width: 290px;
+    border: 1px solid rgba(6,18,36,0.1);
+    border-radius: 10px;
+    transition: all .3s ease 0s;
+}
+
+.company-card:hover{
+    transform: translateY(-5px);
+    border-color: #05264E;
+}
+
+.job-location-title{
+    display: grid;
+    grid-template-columns: 24px auto;
+    justify-content: start;
+    align-items: baseline;
+    margin-top: -10px;
+}
+
+.company-title{
+    font-size: 14px;
+    font-weight: 700;
+    color: #05264E;
+    display: flex;
+}
+
+
+/*end carousel*/

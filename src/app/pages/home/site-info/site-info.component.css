@@ -1,0 +1,32 @@
+.site-info-container{
+    margin-top: 50px;
+}
+
+.inner-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:column;  
+}
+
+.inner-box h1{
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1.268;
+    color: #3C65F5;
+}
+
+.inner-box h5{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.3;
+    color: #05264E;
+    margin-top: -20px;
+}
+
+.inner-box p{
+    font-size: 14px;
+    color: #4F5E64;
+    font-weight: 500;
+
+}

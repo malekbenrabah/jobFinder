@@ -42,6 +42,11 @@ import { JobGridComponent } from './job-grid/job-grid.component';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { JobDetail2Component } from './job-detail2/job-detail2.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { SiteInfoComponent } from './site-info/site-info.component';
+import { CategoryComponent } from './category/category.component';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
+import { DayJobsComponent } from './day-jobs/day-jobs.component';
+import { TopRecruitersComponent } from './top-recruiters/top-recruiters.component';
 
 
 @NgModule({
@@ -57,7 +62,11 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     JobListComponent,
     BreadcrumbComponent,
     JobGridComponent,
-    JobDetail2Component
+    JobDetail2Component,
+    SiteInfoComponent,
+    CategoryComponent,
+    DayJobsComponent,
+    TopRecruitersComponent
   ],
   imports: [
     CommonModule,
@@ -90,7 +99,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     NzDropDownModule,
     NzCollapseModule,
     NzStatisticModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    NzCarouselModule
 
   ],
   exports:[NavbarComponent, FooterComponent]
