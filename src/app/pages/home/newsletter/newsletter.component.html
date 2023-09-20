@@ -1,0 +1,42 @@
+<div class="news-container">
+    <div nz-row >
+        <div class="news-title">
+           <h2 class="news-title-txt">New Things Will Always Update Regularly</h2>
+        </div>
+    </div>
+    <div nz-row class="form-news">
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+
+            <nz-form-control >
+
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixButton" [nzPrefix]="prefixTemplateEmail" class="news-email" >
+                    <input type="text" nz-input formControlName="email" placeholder="Email" class="email-input" />
+                </nz-input-group>
+
+                <ng-template #suffixButton>
+                    <button nz-button nzType="primary"  nzSearch class="search-btn">Subscribe</button>
+                </ng-template>
+
+                <ng-template #prefixTemplateEmail>
+                    <i nz-icon nz-tooltip nzTooltipTitle="Email" nzType="mail" class="input-icon"></i>
+                </ng-template>
+               
+                
+                <ng-container *ngIf="validateForm.get('email')?.hasError('required')&&(validateForm.get('email')?.touched || validateForm.get('email')?.dirty)">
+                    <div class="error-pass">
+                        Please input your E-mail 
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="validateForm.get('email')?.hasError('email')&&(validateForm.get('email')?.touched || validateForm.get('email')?.dirty)">
+                    <div class="error-pass">
+                     This E-mail is not valid
+                    </div>
+                </ng-container>
+
+            </nz-form-control>
+
+        </form>
+ 
+    </div>
+</div>

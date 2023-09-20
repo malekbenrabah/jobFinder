@@ -62,8 +62,8 @@
 
 [nz-carousel-content] {
     text-align: center;
-    height: 250px;
     line-height: 160px;
+    height: 70%;
     background: #fff;
     overflow: hidden;
 }

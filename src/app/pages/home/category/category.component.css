@@ -1,3 +1,4 @@
+/*
 .category-container{
     margin-top:50px
 }
@@ -35,8 +36,8 @@
 
 .grid-container{
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* two columns in the grid */
-    gap: 15px; /* adjust the gap between links horizantal , vertical  */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
     justify-items: center;   
     margin-top: 20px;
    
@@ -83,4 +84,89 @@
     font-weight: 500;
 }
 
+*/
 
+.category-container{
+    margin-top:55px
+}
+.top-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-text h2{
+    color: #05264E;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.top-text p{
+    font-size: 16px;
+    color: #6c757d;
+    margin-top:-15px;
+}
+[nz-carousel-content] {
+    text-align: center;
+    height: 105px;
+    line-height: 160px;
+    background: #fff;
+    overflow: hidden;
+    
+}
+
+.ant-carousel .slick-dots li button{
+    background: #05264E;
+
+}
+
+.ng-star-inserted{
+    color: aqua;
+}
+/*new*/
+
+.category-content{
+    height: 50%;
+    width: 70%;
+    background-color: #ffffff;
+    border: 1px solid rgba(6,18,36,0.1);
+    border-radius: 10px;
+    transition: all .3s ease 0s;
+}
+
+.category-content:hover{
+    transform: translateY(-5px);
+}
+
+.carousel-container{
+   margin-top: 15px;
+}
+
+.carousel-icon-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.carousel-icon{
+    font-size: 40px;
+    color: #05264E;
+}
+
+.carousel-content-detailes{
+    padding-right: 15px;
+    padding-top: 15px;
+}
+.carousel-content-detailes h4{
+    color: #05264E;
+    font-size: 14px;
+    font-weight: 700;
+
+}
+
+.carousel-content-detailes p{
+    margin-top: -10px;
+    color: #4F5E64;
+    font-size: 12px;
+    font-weight: 500;
+}

@@ -47,7 +47,8 @@ import { CategoryComponent } from './category/category.component';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { DayJobsComponent } from './day-jobs/day-jobs.component';
 import { TopRecruitersComponent } from './top-recruiters/top-recruiters.component';
-
+import { NewsletterComponent } from './newsletter/newsletter.component';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { TopRecruitersComponent } from './top-recruiters/top-recruiters.componen
     SiteInfoComponent,
     CategoryComponent,
     DayJobsComponent,
-    TopRecruitersComponent
+    TopRecruitersComponent,
+    NewsletterComponent
   ],
   imports: [
     CommonModule,
@@ -100,7 +102,8 @@ import { TopRecruitersComponent } from './top-recruiters/top-recruiters.componen
     NzCollapseModule,
     NzStatisticModule,
     SweetAlert2Module,
-    NzCarouselModule
+    NzCarouselModule,
+    NzAutocompleteModule
 
   ],
   exports:[NavbarComponent, FooterComponent]

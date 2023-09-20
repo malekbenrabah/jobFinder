@@ -72,6 +72,7 @@
                             <nz-form-control >
                                 <nz-input-group nzPrefixIcon="search" class="input-pass">
                                     <input nz-input nzRequired formControlName="title" placeholder="Job Title or Keyword" />
+                                  
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
@@ -94,7 +95,7 @@
                     
 
                     <div nz-col nzSpan="4">
-                        <button nz-button nzType="primary" class="search-btn">Search</button>
+                        <button nz-button nzType="primary" class="search-btn" (click)="searchJob()">Search</button>
                     </div>
 
                 </div>
@@ -115,7 +116,7 @@
                     </div>
 
                     <div nz-col nzFlex="12">
-                        <button nz-button nzType="primary" class="search-btn">Search</button>
+                        <button nz-button nzType="primary" class="search-btn" >Search</button>
                     </div>
                 </div>
                

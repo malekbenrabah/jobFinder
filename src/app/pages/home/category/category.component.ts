@@ -84,7 +84,7 @@ export class CategoryComponent implements OnInit {
     return { id: index + 1, type: type, icon: icon, title:title };
   });
 
-  numSlides=Math.ceil(this.categoriesWithIcons.length/4);
+  numSlides=Math.ceil(this.categoriesWithIcons.length/6);
   categorieSlides:any[]=[];
 
 
@@ -92,8 +92,8 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
 
     for (let i = 0; i < this.numSlides; i++) {
-      const start = i * 4;
-      const end = (i + 1) * 4;
+      const start = i * 6;
+      const end = (i + 1) * 6;
       this.categorieSlides.push(this.categoriesWithIcons.slice(start, end));
     }
 

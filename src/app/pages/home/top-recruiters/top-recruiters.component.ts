@@ -38,15 +38,10 @@ export class TopRecruitersComponent implements OnInit {
       }
       console.log('companies slide', this.companieSlides);
       /*carousel */
-    
-    
-
     });
 
-   
+    
 
-    
-    
   }
 
   @ViewChild('carousel') carousel: any;
@@ -60,17 +55,9 @@ export class TopRecruitersComponent implements OnInit {
     this.carousel.next();
   }
 
-  /*open jobs*/
+  
 
-  openJobs:Job[]=[];
-  companyOpenJobs!:number;
-  calculateOpenJobs(companyEmail:string){
-    this.jobService.getCompanyOpenJobs(companyEmail).subscribe((response)=>{
-      this.openJobs=response as Job[];
-      this.companyOpenJobs=this.openJobs.length;
-    });
-    return this.companyOpenJobs;
-  }
+  
 
  
 }

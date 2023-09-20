@@ -1,10 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faLocationDot,faList, faTableCellsLarge } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/free-regular-svg-icons';
 import{faSuitcase} from '@fortawesome/free-solid-svg-icons';
 import { JobService } from 'src/app/services/jobs/job.service';
 import { Job } from 'src/app/services/user/model/Job';
+import { SharedService } from 'src/app/services/shared/shared.service';
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
@@ -21,18 +22,68 @@ export class JobListComponent implements OnInit {
   //active btn
   isGridActive:boolean=true;
 
-  constructor(private jobService:JobService , private router:Router) { }
+  constructor(private jobService:JobService , private sharedService:SharedService ,private route: ActivatedRoute) { }
 
   jobs:Job[]=[];
   numJobs!:number;
 
+  searchResults:Job[]=[];
+  hasSearchResults!:boolean;
   ngOnInit(): void {
+
+
+    
+    this.searchResults = this.sharedService.getSearchResults();
+    console.log('search reasult intially', this.searchResults);
+
+    this.hasSearchResults = this.sharedService.getHasSearchResults();
+    console.log('has search result ', this.hasSearchResults);
+    if (this.searchResults.length > 0) {
+      console.log(this.searchResults, 'getting the result from the search: LIST');
+      this.totalItemsSearch=this.searchResults.length;
+    } else {
+      this.jobService.getJobs().subscribe((response) => {
+        console.log('jobs listings', response);
+        this.jobs = response as Job[];
+        this.numJobs = this.jobs.length;
+        this.totalItems = this.jobs.length;
+      });
+    }
+
+    
+
+    /*
+    this.route.queryParams.subscribe((queryParams) => {
+      const hasSearchResults = queryParams['searchResults'];
+      if (hasSearchResults) {
+        this.sharedService.searchResults$.subscribe((results) => {
+          this.searchResults = results;
+          console.log(this.searchResults, 'getting the result from the search: LIST');
+        });
+      } else {
+        this.jobService.getJobs().subscribe((response) => {
+          console.log('jobs listings', response);
+          this.jobs = response as Job[];
+          this.numJobs = this.jobs.length;
+          this.totalItems = this.jobs.length;
+        });
+      }
+    });
+    */
+
+    /* old
     this.jobService.getJobs().subscribe((response)=>{
       console.log("jobs listings", response);
       this.jobs=response as Job[];
       this.numJobs=this.jobs.length;
       this.totalItems=this.jobs.length;
     });
+
+    this.sharedService.searchResults$.subscribe(results => {
+      this.searchResults = results;
+      console.log(this.searchResults,' getting the result from the search : LIST');
+    });
+    */
 
   }
 
@@ -73,9 +124,6 @@ export class JobListComponent implements OnInit {
   itemsPerPage = 6; // Number of items to display per page
   totalItems!:number; // Total number of items (adjust as needed)
 
-  
-
-  
   changePage(page: number) {
     this.currentPage = page;
   }
@@ -87,6 +135,25 @@ export class JobListComponent implements OnInit {
   get endIndex() {
     return this.currentPage * this.itemsPerPage;
   }
+
+  //pagination search 
+  currentPageSearch = 1; // Initialize to the first page
+  itemsPerPageSearch = 6; // Number of items to display per page
+  totalItemsSearch!:number; // Total number of items (adjust as needed)
+
+  changePageSearch(page: number) {
+    this.currentPage = page;
+  }
+
+  get startIndexSearch() {
+    return (this.currentPage - 1) * this.itemsPerPage;
+  }
+
+  get endIndexSearch() {
+    return this.currentPage * this.itemsPerPage;
+  }
+
+
 
 
 
@@ -100,6 +167,9 @@ export class JobListComponent implements OnInit {
    
 
 /*search*/
+
+  selectedJobTypeValue = null;
+
 
   jobTypeSearch(value: string[]): void {
     console.log('checked values',value);

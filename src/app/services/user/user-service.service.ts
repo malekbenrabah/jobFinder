@@ -179,4 +179,8 @@ export class UserServiceService {
     return this.http.get("http://localhost:8086/app/user/getCompanies");
   }
 
+  getNbUser(){
+    return this.http.get("http://localhost:8086/app/user/nbUsers");
+  }
+
 }

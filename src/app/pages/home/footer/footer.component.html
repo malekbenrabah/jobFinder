@@ -64,11 +64,11 @@
                <div nz-col nzSpan="16">
                   <nz-form-item>
                      <nz-form-control [nzErrorTip]="emailErrorTpl">
-                     <nz-input-group nzPrefixIcon="user">
-                        <input type="email" nz-input formControlName="email" placeholder="Email" />
-                     </nz-input-group>
+                        <nz-input-group nzPrefixIcon="user">
+                           <input type="email" nz-input formControlName="email" placeholder="Email" />
+                        </nz-input-group>
       
-                     <ng-template #emailErrorTpl let-control>
+                        <ng-template #emailErrorTpl let-control>
                            <ng-container *ngIf="control.hasError('email')">This E-mail is not valid</ng-container>
                            <ng-container *ngIf="control.hasError('required')">Please input your E-mail!</ng-container>
                         </ng-template>
@@ -80,7 +80,7 @@
                   <button nz-button class="news-btn" [nzType]="'primary'">Subscribe</button>
                </div>
            </div>
-        </form>
+         </form>
 
         
 

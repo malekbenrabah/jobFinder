@@ -1,9 +1,11 @@
+<!--
 <div class="category-container">
     <div nz-row class="category-title-container">
         <h2>Browse by category</h2> 
         <p>Find the job that’s perfect for you.</p>
     </div>
-    <div nz-row>
+    <div nz-row class="categories">
+       
         <nz-carousel nzAutoPlay>
             <div nz-carousel-content *ngFor="let slide of categorieSlides">
               <div class="carousel-content-container"> 
@@ -27,6 +29,43 @@
                   
               </div>
               
+            </div>
+        </nz-carousel>
+       
+    </div>
+   
+</div>
+-->
+
+<div class="category-container">
+    <div nz-row class="top-text">
+        <h2>Browse by category</h2>
+        <p>Find the job that’s perfect for you.</p>
+    </div>
+
+  
+    <div nz-row class="companies">
+        <nz-carousel nzAutoPlay>
+            <div nz-carousel-content *ngFor="let slide of categorieSlides" >
+                <div nz-row nzGutter="4" class="carousel-container">
+                    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" *ngFor="let index of slide"  >
+                        <a nz-button nzType="primary" class="category-content">
+                            <div nz-row>
+                                <div nz-col nzSpan="9" class="carousel-icon-container">
+                                    <fa-icon [icon]="index.icon" class="carousel-icon"></fa-icon>
+                                </div>
+                                <div nz-col nzSpan="15" class="carousel-content-detailes">
+                                    <div nz-row>
+                                        <h4>{{index.title}}</h4>
+                                    </div>
+                                    <div nz-row>
+                                        <p> 2 Jobs Available</p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>   
+                    </div>
+                </div>
             </div>
         </nz-carousel>
     </div>
