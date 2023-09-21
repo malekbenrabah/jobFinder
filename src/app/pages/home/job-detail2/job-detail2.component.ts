@@ -7,6 +7,8 @@ import { Job } from 'src/app/services/user/model/Job';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import * as L from'leaflet';
+import { LocationService } from 'src/app/services/location/location.service';
 @Component({
   selector: 'app-job-detail2',
   templateUrl: './job-detail2.component.html',
@@ -26,7 +28,7 @@ export class JobDetail2Component implements OnInit {
   usersIcon=faUsers;
 
   selected: string = 'jobDesc';
-  constructor(private route: ActivatedRoute, private jobService:JobService, private userService:UserServiceService, private router:Router) { }
+  constructor(private route: ActivatedRoute, private jobService:JobService, private userService:UserServiceService, private router:Router, private locationService:LocationService) { }
 
   job:Job=new Job();
  
@@ -181,5 +183,24 @@ export class JobDetail2Component implements OnInit {
     }
     
   }
+
+  //map
+  private map!:L.Map;
+  private centroid:L.LatLngExpression=[36.806389, 10.181667]; //Tunisia
+
+  private initMap():void{
+    this.map=L.map('map',{
+      center:this.centroid,
+      zoom:12
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    
+
+  }
+
 
 }

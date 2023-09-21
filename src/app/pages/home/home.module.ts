@@ -49,7 +49,7 @@ import { DayJobsComponent } from './day-jobs/day-jobs.component';
 import { TopRecruitersComponent } from './top-recruiters/top-recruiters.component';
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -103,8 +103,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     NzStatisticModule,
     SweetAlert2Module,
     NzCarouselModule,
-    NzAutocompleteModule
-
+    NzAutocompleteModule,
+    NzRadioModule
   ],
   exports:[NavbarComponent, FooterComponent]
 })

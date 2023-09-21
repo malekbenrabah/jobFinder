@@ -130,7 +130,13 @@
                       [nzTitle]="companyName"
                       [nzDescription]="cardDescription"
                     ></nz-card-meta>
-                     map code here
+                     <div class="map-container">
+                        <div class="map-frame">
+                            <div id="map">
+                               
+                            </div>
+                        </div>
+                     </div>
                 </nz-card>
                 <ng-template #avatarTemplate>
                     <nz-avatar [nzSize]="64" [nzShape]="'square'" [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>

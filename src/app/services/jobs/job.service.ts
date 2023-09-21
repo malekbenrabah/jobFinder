@@ -40,7 +40,7 @@ export class JobService {
     return this.http.get("http://localhost:8086/app/job/nbJobs");
   }
 
-  searchJobs(title?:string, description?:string, jobType?:string, experience?:number,
+  searchJobs(title?:string, description?:string, jobType?:string, experience?:string,
     location?:string , sector?:string, diploma?:string,skills?:string[]){
     
     let params = new HttpParams();
@@ -55,7 +55,7 @@ export class JobService {
     params = params.set('jobType', jobType);
     }
     if (experience) {
-    params = params.set('experience', experience.toString());
+    params = params.set('experience', experience);
     }
     if (location) {
     params = params.set('location', location);
