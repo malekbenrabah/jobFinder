@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
+import { User } from 'src/app/services/user/model/user';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
 
 @Component({
@@ -26,10 +28,24 @@ export class NavbarComponent implements OnInit {
   }
 
   userLoggedIn:boolean=false;
+
+  user:User=new User();
   ngOnInit(): void {
     this.userLoggedIn=this.userService.isLoggedIn();
 
-   
+
+    /*
+    this.userService.getUserInfo().subscribe(r => {
+      console.log('user info', r);
+      this.user = r as User;
+    },
+      (error:HttpErrorResponse)=>{
+        if(error.status===403){
+          localStorage.removeItem('token');
+
+        }
+    });
+    */
 
     //check screen size at initialization
     this.checkScreenSize();

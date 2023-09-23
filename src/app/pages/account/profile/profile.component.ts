@@ -38,6 +38,8 @@ export class ProfileComponent implements OnInit{
   validateFormExp!: FormGroup;
 
   validateFormSkills!:FormGroup;
+
+
   constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router,private elementRef: ElementRef) {
 
     this.validateForm = this.fb.group({
@@ -47,6 +49,8 @@ export class ProfileComponent implements OnInit{
       phone: ['', [Validators.pattern('[0-9]*')]],
       aboutMe:[''],
     });
+
+   
 
 
 
@@ -223,6 +227,8 @@ export class ProfileComponent implements OnInit{
 
   /*btn*/
   selectedProfileOption='profile';
+
+  
 
 
   /*skills tag*/
@@ -1736,6 +1742,8 @@ export class ProfileComponent implements OnInit{
     }, 1000);
   }
   */
+
+
 
 
 }

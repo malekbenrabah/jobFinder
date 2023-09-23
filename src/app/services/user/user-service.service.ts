@@ -105,11 +105,29 @@ export class UserServiceService {
 
   }
 
+  updateUserInfo(user:User){
+    const formData = new FormData();
+
+    // adding json data for user fields
+    formData.append('user', JSON.stringify(user));
+    return this.http.put("http://localhost:8086/app/user/updateUserInfo",formData);
+
+  }
+
+
   updateProfileImg(photo:any){
     const formData=new FormData();
     formData.append('photo',photo);
 
     return this.http.put("http://localhost:8086/app/user/updatePhoto",formData);
+  }
+
+  updatePassword(oldPass:string, newPass:string){
+    const formData=new FormData();
+    formData.append('oldPass',oldPass);
+    formData.append('newPass',newPass);
+
+    return this.http.put("http://localhost:8086/app/user/updatePass",formData);
   }
 
   /*cv */

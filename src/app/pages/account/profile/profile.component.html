@@ -56,11 +56,13 @@
     <div nz-row [nzGutter]="8">
         <div nz-col [nzSpan]="8">
             <div class="profile-btn">
-               
+
+
+             
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'profile'"> <fa-icon [icon]="profileIcon" class="profile-icon"></fa-icon>My profile</button>
-                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'cv'"> <fa-icon [icon]="jobIcon" class="profile-icon"></fa-icon> My CV</button>
-                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'saved'"> <fa-icon [icon]="saveIcone" class="profile-icon"></fa-icon> Saved jobs</button>
-                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'jobs-applied'"> <fa-icon [icon]="appliedJobsIcon" class="profile-icon"></fa-icon> Applied Jobs</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'cv'" > <fa-icon [icon]="jobIcon" class="profile-icon"></fa-icon> My CV</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'saved'" > <fa-icon [icon]="saveIcone" class="profile-icon"></fa-icon> Saved jobs</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'jobs-applied'" > <fa-icon [icon]="appliedJobsIcon" class="profile-icon"></fa-icon> Applied Jobs</button>
 
                 <button nz-button nzType="text" class="logout-btn"><i nz-icon nzType="logout" nzTheme="outline" class="logoutIcon"></i>Logout</button>
 
@@ -69,77 +71,88 @@
         </div>
 
         <div nz-col [nzSpan]="16">
-           <h3>Welcome Back, Randy Blue</h3>
-           <nz-alert nzType="success" nzCloseable nzMessage={{profileUpdatedSucc}} nzShowIcon  (nzOnClose)="afterCloseProfile()"
-           *ngIf="profileUpdatedSucc !=='' " ></nz-alert>
-           <form nz-form nzLayout="vertical"  [formGroup]="validateForm" (ngSubmit)="submitForm()" *ngIf="selectedProfileOption==='profile'">
-                <div nz-row >
-
-                    <div nz-col [nzSpan]="12">
-                        <nz-form-item>
-                            <nz-form-label nzSpan="vertical">First Name</nz-form-label>
-                            <nz-form-control nzSpan="vertical" [nzErrorTip]="firstnameErrorTemplate">
-                            <input nz-input  placeholder="FirstName"  formControlName="firstname" />
-                            <ng-template #firstnameErrorTemplate>
-                            <div  *ngIf="validateForm.get('firstname')?.value === '' && validateForm.get('firstname')?.hasError('required')" class="error-message">FirstName is required</div>
-                            </ng-template>
-                            </nz-form-control>
-                        </nz-form-item>
+           
+           <!--PROFILE USER-->
+           <ng-container *ngIf="selectedProfileOption==='profile'">
+                <h3>Welcome Back, {{user.firstname}} {{user.lastname}}</h3>
+                <nz-alert nzType="success" nzCloseable nzMessage={{profileUpdatedSucc}} nzShowIcon  (nzOnClose)="afterCloseProfile()"
+                *ngIf="profileUpdatedSucc !=='' " ></nz-alert>
+    
+                
+                <form nz-form nzLayout="vertical"  [formGroup]="validateForm" (ngSubmit)="submitForm()" >
+                    <div nz-row >
+    
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical">First Name</nz-form-label>
+                                <nz-form-control nzSpan="vertical" [nzErrorTip]="firstnameErrorTemplate">
+                                <input nz-input  placeholder="FirstName"  formControlName="firstname" />
+                                <ng-template #firstnameErrorTemplate>
+                                <div  *ngIf="validateForm.get('firstname')?.value === '' && validateForm.get('firstname')?.hasError('required')" class="error-message">FirstName is required</div>
+                                </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+            
+                            
+                        </div>
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical">Last Name</nz-form-label>
+                                <nz-form-control nzSpan="vertical" [nzErrorTip]="lastnameErrorTemplate">
+                                <input nz-input  placeholder="LastName" formControlName="lastname" />
+                                <ng-template #lastnameErrorTemplate>
+                                    <div  *ngIf="validateForm.get('lastname')?.value === '' && validateForm.get('lastname')?.hasError('required')" class="error-message">LastName is required</div>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    
+                    <div nz-row >
+    
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical">Email</nz-form-label>
+                                <nz-form-control nzSpan="vertical" >
+                                    <input nz-input [value]="user.email"  placeholder="Email"  [disabled]="true"  />
+                                </nz-form-control>
+                            </nz-form-item>
         
+                        </div>
+    
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical">Phone</nz-form-label>
+                                <nz-form-control nzSpan="vertical" nzErrorTip="Your phone is not valid">
+                                <input nz-input  placeholder="user's phone"  formControlName="phone"/>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+    
+                    <div nz-row>
+    
+                        <div nz-col nzSpan="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical">About me</nz-form-label>
+                                <nz-form-control nzSpan="vertical" >
+                                    <textarea rows="4" nz-input formControlName="aboutMe" ></textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+    
                         
                     </div>
-                    <div nz-col [nzSpan]="12">
-                        <nz-form-item>
-                            <nz-form-label nzSpan="vertical">Last Name</nz-form-label>
-                            <nz-form-control nzSpan="vertical" [nzErrorTip]="lastnameErrorTemplate">
-                            <input nz-input  placeholder="LastName" formControlName="lastname" />
-                            <ng-template #lastnameErrorTemplate>
-                                <div  *ngIf="validateForm.get('lastname')?.value === '' && validateForm.get('lastname')?.hasError('required')" class="error-message">LastName is required</div>
-                                </ng-template>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                </div>
-
-                <div nz-row >
-
-                    <div nz-col [nzSpan]="12">
-                        <nz-form-item>
-                            <nz-form-label nzSpan="vertical">Email</nz-form-label>
-                            <nz-form-control nzSpan="vertical" >
-                                <input nz-input [value]="user.email"  placeholder="Email"  [disabled]="true"  />
-                            </nz-form-control>
-                        </nz-form-item>
     
-                    </div>
+                    <button nz-button class="update-form-button " [nzType]="'primary'">Save Changes</button>
+    
+                </form>
+           </ng-container>
+          
 
-                    <div nz-col [nzSpan]="12">
-                        <nz-form-item>
-                            <nz-form-label nzSpan="vertical">Phone</nz-form-label>
-                            <nz-form-control nzSpan="vertical" nzErrorTip="Your phone is not valid">
-                            <input nz-input  placeholder="user's phone"  formControlName="phone"/>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-                </div>
+          
 
-                <div nz-row>
-
-                    <div nz-col nzSpan="24">
-                        <nz-form-item>
-                            <nz-form-label nzSpan="vertical">About me</nz-form-label>
-                            <nz-form-control nzSpan="vertical" >
-                                <textarea rows="4" nz-input formControlName="aboutMe" ></textarea>
-                            </nz-form-control>
-                        </nz-form-item>
-                    </div>
-
-                    
-                </div>
-
-                <button nz-button class="update-form-button " [nzType]="'primary'">Save Changes</button>
-
-           </form>
+           
 
 
            <div *ngIf="selectedProfileOption==='cv'">
@@ -472,7 +485,7 @@
                 </div>
            </div>
 
-            
+           
 
         </div>
 

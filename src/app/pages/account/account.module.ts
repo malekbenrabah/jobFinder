@@ -34,11 +34,13 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzRateModule } from 'ng-zorro-antd/rate';
+import { CompanyProfileComponent } from './company-profile/company-profile.component';
 
 @NgModule({
   declarations: [
     AccountComponent,
-    ProfileComponent
+    ProfileComponent,
+    CompanyProfileComponent
   ],
   imports: [
     CommonModule,

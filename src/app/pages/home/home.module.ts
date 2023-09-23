@@ -50,6 +50,7 @@ import { TopRecruitersComponent } from './top-recruiters/top-recruiters.componen
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -68,9 +69,11 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     CategoryComponent,
     DayJobsComponent,
     TopRecruitersComponent,
-    NewsletterComponent
+    NewsletterComponent,
+   
   ],
   imports: [
+    
     CommonModule,
     HomeRoutingModule,
     NzLayoutModule,
@@ -104,7 +107,9 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     SweetAlert2Module,
     NzCarouselModule,
     NzAutocompleteModule,
-    NzRadioModule
+    NzRadioModule,
+   
+
   ],
   exports:[NavbarComponent, FooterComponent]
 })

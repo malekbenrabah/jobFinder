@@ -14,11 +14,14 @@ import{ FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TokenInterceptorService } from './services/interceptor/token-interceptor.service';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
+import { FilterPipe } from './pipes/filter.pipe';
+
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -29,8 +32,11 @@ registerLocaleData(en);
     FontAwesomeModule,
     FormlyModule.forRoot(),
     ReactiveFormsModule,
-    FormlyNgZorroAntdModule
+    FormlyNgZorroAntdModule,
+    
+  
   ],
+  exports: [FilterPipe],
   providers: [{ provide: NZ_I18N, useValue: en_US },{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}],
   bootstrap: [AppComponent]
 })

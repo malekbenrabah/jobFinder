@@ -113,6 +113,7 @@
                 <div class="job-desc-detailes">
                     
                     <h3>Requirements</h3>
+                    <p *ngIf="job.skills.length === 0">No sepcified requirements </p>
                     <ul *ngFor="let skill of job.skills">
                         <li>{{skill.skill}}</li>
                     </ul>

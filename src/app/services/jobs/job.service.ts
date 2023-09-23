@@ -30,6 +30,10 @@ export class JobService {
 
   }
 
+  getCompanyPostedJobs(){
+    return this.http.get("http://localhost:8086/app/job/getCompanyPostedJobs");
+  }
+
   applyJob(id:any){
     const formData=new FormData();
     formData.append('id',id);
