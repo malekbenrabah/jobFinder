@@ -343,31 +343,10 @@ export class CompanyProfileComponent implements OnInit {
     
   }
 
-  //search
+  
  
-  _searchText!:string;
-  filteredJobs:Job[]=[];
 
-  get searchText():string{
-    return this._searchText;
-  }
-
-  set searchText(value:string){
-    this._searchText=value;
-    this.filteredJobs=this.filterJobs(value);
-  }
-
-  filterJobs(filterTerm:string){
-    if(this.companyJobs.length===0 || this._searchText===''){
-      return this.companyJobs;
-    }else{
-      return this.filteredJobs.filter((job)=>{
-        return job.title.toLocaleLowerCase()===filterTerm.toLocaleLowerCase();
-      })
-    }
-  }
-
-  //search my version 
+  /*search*/
   searchJobs:Job[]=[];
   search:string='';
   searchJob(){ 
@@ -401,6 +380,7 @@ export class CompanyProfileComponent implements OnInit {
     
 
   }
+  /*end search*/
   
 
 }
