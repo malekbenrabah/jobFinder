@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import{ faIdBadge,faSuitcase, faLock, faCamera, faLocationDot}from"@fortawesome/free-solid-svg-icons"
+import{ faIdBadge,faSuitcase, faLock, faCamera, faLocationDot, faTrash, faUsers}from"@fortawesome/free-solid-svg-icons"
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/services/user/model/user';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,7 +8,12 @@ import { UserServiceService } from 'src/app/services/user/user-service.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { JobService } from 'src/app/services/jobs/job.service';
-import { Job } from 'src/app/services/user/model/Job';
+import { Job, JobType, Sector } from 'src/app/services/user/model/Job';
+import { differenceInCalendarDays, setHours } from 'date-fns';
+
+import { DisabledTimeFn, DisabledTimePartial } from 'ng-zorro-antd/date-picker';
+import { DatePipe, formatDate } from '@angular/common';
+import { Skill } from 'src/app/services/user/model/Skill';
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
@@ -17,8 +23,15 @@ export class CompanyProfileComponent implements OnInit {
 
   validateForm!: FormGroup;
   validateFormPass!:FormGroup;
+  addJobFormStep1!:FormGroup;
+  addJobFormStep2!:FormGroup;
+  addJobFormStep3!:FormGroup;
 
-  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router, private jobService:JobService) { 
+  updateJobFormStep1!:FormGroup;
+  updateJobFormStep2!:FormGroup;
+  updateJobFormStep3!:FormGroup;
+  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router, private jobService:JobService, private datePipe:DatePipe) { 
+
     this.validateForm = this.fb.group({
       companyName: ['', [Validators.required]],
       email: ['', [Validators.email, Validators.required]],
@@ -32,13 +45,61 @@ export class CompanyProfileComponent implements OnInit {
       password: ['', [this.confirmNewPass]],
       confirm: ['', [this.confirmValidator]]
     });
+
+    
+    /*add job*/
+
+    this.addJobFormStep1=this.fb.group({
+      title: ['', [Validators.required]],
+      description: [''],
+      jobType:['', [Validators.required]],
+      sector:['', [Validators.required]],
+
+    });
+
+    this.addJobFormStep2=this.fb.group({
+      experience:['', [Validators.required]],
+      diploma:['', [Validators.required]],
+      skills:[''],
+
+    });
+
+    this.addJobFormStep3=this.fb.group({
+      deadLine:[],
+      location:['', [Validators.required]],
+    });
+
+    /*update job*/
+
+    this.updateJobFormStep1=this.fb.group({
+      title: ['', [Validators.required]],
+      description: [''],
+      jobType:['', [Validators.required]],
+      sector:['', [Validators.required]],
+
+    });
+
+    this.updateJobFormStep2=this.fb.group({
+      experience:['', [Validators.required]],
+      diploma:['', [Validators.required]],
+      skills:[''],
+
+    });
+
+    this.updateJobFormStep3=this.fb.group({
+      deadLine:[],
+      location:['', [Validators.required]],
+    });
+
   }
 
   profileIcon=faIdBadge;
   jobIcon=faSuitcase;
   securityIcon=faLock;
   updateImgIcon=faCamera;
-
+  updateIcon=faPenToSquare;
+  deleteIcon=faTrash;
+  usersIcon=faUsers;
   selectedProfileOption='profile';
 
   user:User=new User;
@@ -78,6 +139,8 @@ export class CompanyProfileComponent implements OnInit {
       this.searchJobs = this.companyJobs;
 
     });
+
+   
   }
   
   profileUpdatedSucc:string="";
@@ -381,6 +444,515 @@ export class CompanyProfileComponent implements OnInit {
 
   }
   /*end search*/
+  
+  /*add Job MODAL */
+
+  jobModal = false;
+
+  addJobModal(){
+    this.jobModal=true;
+  } 
+  handleOkJobModal(): void {
+    this.jobModal = false;
+  }
+
+  handleCancelJobModal(): void {
+    this.jobModal = false;
+  }
+  //stepper
+  current = 0;
+
+  index = 'First-content';
+
+  pre(): void {
+    this.current -= 1;
+    this.changeContent();
+  }
+
+  next(): void {
+    const currentStepForm = this.getCurrentStepForm();
+    if(currentStepForm.valid){
+      this.current += 1;
+      this.changeContent();
+      console.log('infos',currentStepForm.value);
+    }else {
+      Object.values(currentStepForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+    
+  }
+
+  getCurrentStepForm(): FormGroup {
+    if (this.current === 0) {
+      return this.addJobFormStep1;
+    } else if (this.current === 1) {
+      return this.addJobFormStep2;
+    } else if (this.current === 2) {
+      return this.addJobFormStep3;
+    }
+    //return empty grp if the current step is invalid
+    return this.fb.group({});
+  }
+
+  done(): void {
+    console.log('done');
+    console.log('step1', this.addJobFormStep1.value);
+    console.log('step2', this.addJobFormStep2.value);
+    console.log('step3', this.addJobFormStep3.value);
+    console.log('deadline',this.addJobFormStep3.value['deadLine']);
+    const deadline=this.addJobFormStep3.value['deadLine'];
+    const addedDate = new Date(deadline);
+    addedDate.setHours(addedDate.getHours() + 1);
+
+    const formatedDeadLine:any=this.datePipe.transform(this.addJobFormStep3.value['deadLine'], 'yyyy-MM-ddTHH:mm:ss');
+    console.log('formatted deadline', formatedDeadLine);
+
+    if(this.addJobFormStep3.valid){
+
+      
+      const job=new Job();
+      job.title=this.addJobFormStep1.value['title'];
+      job.description=this.addJobFormStep1.value['description'];
+      job.jobType=this.addJobFormStep1.value['jobType'];
+      job.experience=this.addJobFormStep2.value['experience']
+      job.deadline=formatedDeadLine;
+      job.location=this.addJobFormStep3.value['location'];
+      job.sector=this.addJobFormStep1.value['sector'];
+      job.diploma=this.addJobFormStep2.value['diploma'];
+
+
+      //adding a job
+      const skills:Skill[]=[];
+      this.tags.forEach(tag => {
+        const skill=new Skill();
+        skill.skill=tag;
+        skills.push(skill);
+      });
+      job.skills=skills;
+
+      this.jobService.addJob(job).subscribe((response)=>{
+        console.log('job add success', response);
+        this.handleCancelJobModal();
+        
+        this.ngOnInit();
+        
+        
+
+      });
+
+
+    }else {
+      Object.values(this.addJobFormStep3.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+
+
+
+  }
+
+  changeContent(): void {
+    switch (this.current) {
+      case 0: {
+        this.index = 'First-content';
+        break;
+      }
+      case 1: {
+        this.index = 'Second-content';
+        break;
+      }
+      case 2: {
+        this.index = 'third-content';
+        break;
+      }
+      default: {
+        this.index = 'error';
+      }
+    }
+  }
+
+  //add Job
+  jobSector = Object.values(Sector);
+  jobType=Object.values(JobType);
+
+
+  selectedJobTypeValue: any=null;
+  selectedJobLevelValue: any=null;
+  addJob(){
+
+  }
+
+  //skills tag 
+
+  tags : string[]=[];
+  inputVisible = false;
+  inputValueControl: FormControl = new FormControl('');
+  @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
+
+  handleClose(removedTag: {}): void {
+    this.tags = this.tags.filter(tag => tag !== removedTag);
+    console.log('After removing: ',this.tags);
+  }
+
+  sliceTagName(tag: string): string {
+    const isLongTag = tag.length > 20;
+    return isLongTag ? `${tag.slice(0, 20)}...` : tag;
+  }
+
+  showInput(): void {
+    this.inputVisible = true;
+    setTimeout(() => {
+      this.inputElement?.nativeElement.focus();
+    }, 10);
+  }
+
+  handleInputConfirm(): void {
+    
+    if (this.validateForm.value['inputValue'] && this.tags.indexOf(this.validateForm.value['inputValue']) === -1) {
+      this.tags = [...this.tags, this.validateForm.value['inputValue']];
+    }
+    this.validateForm.value['inputValue'] = '';
+    this.inputVisible = false; const inputValue = this.inputValueControl.value;
+    if (inputValue && this.tags.indexOf(inputValue) === -1) {
+      this.tags = [...this.tags, inputValue];
+    }
+    console.log('TAGS-SKILLS: ',this.tags);
+    this.inputValueControl.reset('');
+    this.inputVisible = false;
+  }
+  //end skills tag 
+
+  //deadline picker
+  today = new Date();
+  timeDefaultValue = setHours(new Date(), 0);
+
+  range(start: number, end: number): number[] {
+    const result: number[] = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+  differenceInCalendarDays(current, this.today) < 0;
+
+  
+  /*
+  disabledDateTime: DisabledTimeFn = () => ({
+   
+    
+    nzDisabledHours: () => this.range(0, this.today.getHours()),
+    nzDisabledMinutes: () => this.range(0, this.today.getMinutes()),
+    nzDisabledSeconds: () => [55, 56]
+  });
+  */
+ 
+
+  disabledDateTime: any = (current: Date) => {
+    
+    
+    if (differenceInCalendarDays(current, this.today) === 0) {
+      // Disable previous times for today
+      return {
+        nzDisabledHours: () => this.range(0, this.today.getHours()),
+        nzDisabledMinutes: () => this.range(0, this.today.getMinutes()),
+        nzDisabledSeconds: () => [55, 56]
+      };
+    }
+  
+    // Allow any time for future dates
+    return {};
+  };
+
+  /*END ADD JOB*/
+
+  /*delete Job*/
+  deletJobPost(id:number){
+  
+    Swal.fire({
+      title: 'Proceed deleting posted ?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.jobService.deleteJob(id).subscribe((response)=>{
+          console.log('delete successflly', response);
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          );
+          this.ngOnInit();
+
+        })
+       
+      }
+    })
+  }
+  /*end delete job*/
+
+  /*update Job */
+  
+  //update Job Modal 
+  updateModal = false;
+  updatedJob:Job=new Job();
+
+  updateJobModal(id:number): void {
+    this.updateModal = true;
+    this.jobService.getJobById(id).subscribe((response)=>{
+      this.updatedJob=response as Job;
+
+      console.log('job to update', this.updatedJob);
+      // updating form controls with job data
+    
+      this.updateJobFormStep1.patchValue({
+        title: this.updatedJob.title,
+        description:this.updatedJob.description,
+        jobType:this.updatedJob.jobType,
+        sector:this.updatedJob.sector,
+  
+      });
+  
+      this.updateJobFormStep2.patchValue({
+        experience:this.updatedJob.experience,
+        diploma:this.updatedJob.diploma,
+        skills:this.updatedJob.skills,
+  
+      });
+  
+      
+      this.updateJobFormStep3.patchValue({
+        deadLine:this.formatingDate(this.updatedJob.deadline),
+        location:this.updatedJob.location,
+      });
+
+    });
+  }
+
+  formatingDate(created_at: any[]) {
+
+    const year = created_at[0];
+    const month = created_at[1] - 1; // months in js are 0-based
+    const day = created_at[2];
+    const hours = created_at[3];
+    const minutes = created_at[4];
+    const seconds = created_at[5];
+
+    return new Date(year, month, day, hours, minutes, seconds);
+   
+  }
+  okUpdateModal(): void {
+    console.log('click ok');
+    this.updateModal = false;
+  }
+
+  cancelUpdateModal(): void {
+    this.updateModal = false;
+  }
+
+  //stepper update
+  currentUpdate = 0;
+
+  indexUpdate = 'First-content-update';
+
+  preUpdate(): void {
+    this.currentUpdate -= 1;
+    this.changeContentUpdate();
+  }
+
+  nextUpdate(): void {
+    const currentStepForm = this.getCurrentStepFormUpdate();
+    if(currentStepForm.valid){
+      this.currentUpdate += 1;
+      this.changeContentUpdate();
+      console.log('infos',currentStepForm.value);
+    }else {
+      Object.values(currentStepForm.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+    
+  }
+
+  getCurrentStepFormUpdate(): FormGroup {
+    if (this.currentUpdate === 0) {
+      return this.updateJobFormStep1;
+    } else if (this.currentUpdate === 1) {
+      return this.updateJobFormStep2;
+    } else if (this.currentUpdate === 2) {
+      return this.updateJobFormStep3;
+    }
+    //return empty grp if the current step is invalid
+    return this.fb.group({});
+  }
+
+  doneUpdate(): void {
+    console.log('done');
+    console.log('step1', this.updateJobFormStep1.value);
+    console.log('step2', this.updateJobFormStep2.value);
+    console.log('step3', this.updateJobFormStep3.value);
+    console.log('formated Date',this.updateJobFormStep3.value['deadLine']);
+    const formatedDeadLine: any=this.datePipe.transform(this.updateJobFormStep3.value['deadLine'], 'yyyy-MM-ddTHH:mm:ss');
+    console.log('formatted deadline', formatedDeadLine);
+
+    if(this.updateJobFormStep3.valid){
+
+      
+      const job=new Job();
+      job.id=this.updatedJob.id;
+      job.title=this.updateJobFormStep1.value['title'];
+      job.description=this.updateJobFormStep1.value['description'];
+      job.jobType=this.updateJobFormStep1.value['jobType'];
+      job.experience=this.updateJobFormStep2.value['experience']
+      job.deadline=formatedDeadLine;
+      job.location=this.updateJobFormStep3.value['location'];
+      job.sector=this.updateJobFormStep1.value['sector'];
+      job.diploma=this.updateJobFormStep2.value['diploma'];
+
+      if(this.tagsupdate.length!==0){
+        const skills:Skill[]=[];
+        this.tagsupdate.forEach(tag => {
+          const skill=new Skill();
+          skill.skill=tag;
+          skills.push(skill);
+        });
+        job.skills=skills;
+      }else{
+        job.skills=this.updatedJob.skills;
+      }
+      
+      console.log('job entity to update', job);
+      
+      this.jobService.updateJob(job).subscribe((response)=>{
+        console.log('update successfully', response);
+        
+        
+        this.ngOnInit();
+        
+      });
+      
+
+      
+
+
+    }else {
+      Object.values(this.updateJobFormStep3.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+
+
+
+  }
+
+  changeContentUpdate(): void {
+    switch (this.currentUpdate) {
+      case 0: {
+        this.indexUpdate = 'First-content-update';
+        break;
+      }
+      case 1: {
+        this.indexUpdate = 'Second-content-update';
+        break;
+      }
+      case 2: {
+        this.indexUpdate = 'third-content-update';
+        break;
+      }
+      default: {
+        this.indexUpdate = 'error';
+      }
+    }
+  }
+
+  /*update skills tag */
+  tagsupdate : string[]=[];
+  inputVisibleUpdate = false;
+  inputValueControlUpdate: FormControl = new FormControl('');
+  @ViewChild('inputElementUpdate', { static: false }) inputElementUpdate?: ElementRef;
+
+  handleCloseUpdate(skillId:number): void {
+    this.jobService.deleteJobSkill(this.updatedJob.id,skillId).subscribe((response)=>{
+      console.log(response);
+      
+    });
+  }
+
+  sliceTagNameUpdate(tag: string): string {
+    const isLongTag = tag.length > 20;
+    return isLongTag ? `${tag.slice(0, 20)}...` : tag;
+  }
+
+  showInputUpdate(): void {
+    this.inputVisibleUpdate = true;
+    setTimeout(() => {
+      this.inputElementUpdate?.nativeElement.focus();
+    }, 10);
+  }
+
+  handleInputConfirmUpdate(): void {
+    
+   
+   
+    
+    this.inputVisibleUpdate = false; 
+    const inputValue = this.inputValueControlUpdate.value;
+    if (inputValue && this.tagsupdate.indexOf(inputValue) === -1) {
+      this.tagsupdate = [...this.tagsupdate, inputValue];
+    }
+    console.log('TAGS-SKILLS: ',this.tagsupdate);
+    this.inputValueControlUpdate.reset('');
+    this.inputVisibleUpdate = false;
+  }
+ 
+  candidates:User[]=[];
+  jobCandidates:Job=new Job();
+  /*Candidates */
+  displayCandidates(id:number){
+    this.selectedProfileOption = 'candidates';
+    localStorage.setItem("jobId",id.toString());
+    this.jobService.getJobById(id).subscribe((response)=>{
+      this.jobCandidates=response as Job;
+      this.candidates=this.jobCandidates.users;
+      console.log('candidates', this.candidates);
+    });
+
+  }
+
+
+
+  
+
+
+  
+  
+ 
+  
+  
+  
+  
+  
+
+  
   
 
 }

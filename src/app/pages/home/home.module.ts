@@ -50,7 +50,7 @@ import { TopRecruitersComponent } from './top-recruiters/top-recruiters.componen
 import { NewsletterComponent } from './newsletter/newsletter.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -111,6 +111,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
    
 
   ],
+  providers: [DatePipe], 
   exports:[NavbarComponent, FooterComponent]
 })
 export class HomeModule { }

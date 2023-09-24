@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Job, JobType, Sector } from '../user/model/Job';
+import { thru } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -80,4 +81,18 @@ export class JobService {
 
   }
 
+  addJob(job:Job){
+    return this.http.post("http://localhost:8086/app/job/addJob",job);
+  }
+
+  deleteJob(id:number){
+    return this.http.delete("http://localhost:8086/app/job/deleteJob?id="+id);
+  }
+
+  updateJob(job:Job){
+    return this.http.put("http://localhost:8086/app/job/updateJob",job);
+  }
+  deleteJobSkill(id:number, skillId:number){
+    return this.http.delete("http://localhost:8086/app/job/deleteJobSkill?id="+id+"&skillId="+skillId);
+  }
 }

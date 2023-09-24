@@ -167,13 +167,224 @@
                     </div>
 
                     <div nz-col nzFlex="2" class="add-job-container" >
-                        <button nz-button class="update-form-btn" [nzType]="'primary'">Add Job</button>
+                        <button nz-button class="update-form-btn" [nzType]="'primary'" (click)="addJobModal()">Add Job</button>
+
+                        <!--ADD JOB MODAL-->
+                            <nz-modal
+                                [(nzVisible)]="jobModal"
+                                nzTitle="Add a job"
+                                nzCentered
+                                (nzOnCancel)=" handleCancelJobModal()"
+                                (nzOnOk)="handleOkJobModal()"
+                                [nzFooter]="null" >
+                                <ng-container *nzModalContent>
+                                    <!--STEPPER-->
+                                   <div nz-row>
+                                        <div nz-col nzSpan="24">
+                                            <nz-steps [nzCurrent]="current">
+                                                <nz-step nzTitle="Job description"></nz-step>
+                                                <nz-step nzTitle="Requirements"></nz-step>
+                                                <nz-step nzTitle="Finishing"></nz-step>
+                                            </nz-steps>
+                                    
+                                            <div class="steps-content">
+                                                <div *ngIf="this.index==='First-content'">
+                                                    <form nz-form nzLayout="vertical" [formGroup]="addJobFormStep1" >
+                                                        <div nz-row>
+                                
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label" >Job Title</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" nzErrorTip="Please input a title">
+                                                                        <input nz-input formControlName="title" class="form-input-job"  placeholder="Title"  />
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                               
+                                                            </div>
+                                                        </div>
+
+                                                        <div nz-row nzGutter="8">
+                                
+                                                            <div nz-col nzSpan="12">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label">Job Type</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical"  nzErrorTip="Please select a job type" >
+                                                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Job Type" formControlName="jobType"  >
+                                                                            <nz-option *ngFor="let type of jobType" [nzLabel]="type" [nzValue]="type"></nz-option>
+                                                                        </nz-select>
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                               
+                                                            </div>
+                                                            <div nz-col nzSpan="12">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label"  nzErrorTip="Please select a job industry">Job Industry</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" nzErrorTip="Please select a job industry">
+                                                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Job Industry" formControlName="sector" >
+                                                                            <nz-option *ngFor="let type of jobSector" [nzLabel]="type" [nzValue]="type"></nz-option>
+                                                                        </nz-select>
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                               
+                                                            </div>
+                                                        </div>
+
+                                                        <div nz-row>
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label">Description</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" >
+                                                                        <textarea rows="4" nz-input formControlName="description" class="form-input about-input-job" placeholder="Write something about your company.." ></textarea>
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                            </div>
+                                                        </div>
+
+                                                       
+                                                        
+                                                    </form>
+
+                                                </div>
+
+                                                <div *ngIf="this.index==='Second-content'">
+                                                    <form nz-form nzLayout="vertical" [formGroup]="addJobFormStep2">
+                                                        <div nz-row>
+                                
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label" >Experience </nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required experience">
+                                                                        <input nz-input formControlName="experience" class="form-input-job"  placeholder="Required experience"  />
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                               
+                                                            </div>
+                                                        </div>
+
+                                                        <div nz-row>
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label">Job Level</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required job level">
+                                                                        <input nz-input formControlName="diploma" class="form-input-job"  placeholder="Required Job Level"  />
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                            </div>
+                                                        </div>
+
+                                                        <div nz-row>
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label">Skills</nz-form-label>
+        
+                                                                    <nz-form-control nzSpan="vertical">
+                                                                       <div class="tags-container">
+                                                                            <div class="tags-display">
+                                                                                <nz-tag
+                                                                                *ngFor="let tag of tags; let i = index"
+                                                                                [nzMode]="'closeable'"
+                                                                                (nzOnClose)="handleClose(tag)"
+                                                                                class="tag">
+                                                                                {{ sliceTagName(tag) }}
+                                                                                </nz-tag>
+                                                                            </div>
+                                                                            
+                                                                            <nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation (click)="showInput()" class="new-tag">
+                                                                                <i nz-icon nzType="plus"></i>
+                                                                                Add SKill
+                                                                            </nz-tag>
+                                                                            <input
+                                                                                #inputElement
+                                                                                nz-input
+                                                                                *ngIf="inputVisible"
+                                                                                type="text"
+                                                                                [formControl]="inputValueControl"
+                                                                                (blur)="handleInputConfirm()"
+                                                                                (keydown.enter)="handleInputConfirm()"
+                                                                                class="form-input-job"
+                                                                            />
+                                                                       </div>
+
+
+                                                                    </nz-form-control>
+                                                                   
+                                                                </nz-form-item>
+                                                            </div>
+                                                        </div>
+
+                                                       
+                                                        
+                                                    </form>
+
+                                                </div>
+
+                                                <div *ngIf="this.index==='third-content'">
+                                                    <form nz-form nzLayout="vertical" [formGroup]="addJobFormStep3" (ngSubmit)="addJob()">
+                                                        <div nz-row>
+                                
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label" >Job Location</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required experience">
+                                                                        <input nz-input formControlName="location" class="form-input-job"  placeholder="Location"  />
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                               
+                                                            </div>
+                                                        </div>
+
+                                                        <div nz-row>
+                                                            <div nz-col nzSpan="24">
+                                                                <nz-form-item>
+                                                                    <nz-form-label nzSpan="vertical" class="form-label">Deadline</nz-form-label>
+                                                                    <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required job level">
+                                                                        <nz-date-picker
+                                                                            nzFormat="yyyy-MM-dd HH:mm:ss"
+                                                                            [nzDisabledDate]="disabledDate"
+                                                                            [nzDisabledTime]="disabledDateTime"
+                                                                            [nzShowTime]="{ nzDefaultOpenValue: timeDefaultValue }"
+                                                                            formControlName="deadLine"
+                                                                            class="datePicker"
+                                                                        ></nz-date-picker>
+                                                                    </nz-form-control>
+                                                                </nz-form-item>
+                                                            </div>
+                                                        </div>
+
+                                                       
+
+                                                       
+                                                        
+                                                    </form>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="steps-action">
+                                                    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0" class="stepper-btn">
+                                                    <span>Previous</span>
+                                                    </button>
+                                                    <button nz-button nzType="default" (click)="next()" *ngIf="current < 2" class="stepper-btn">
+                                                    <span>Next</span>
+                                                    </button>
+                                                    <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2" class="stepper-btn">
+                                                    <span>Add Job</span>
+                                                    </button>
+                                            </div>
+                                        </div>
+                                        
+                                   </div>
+                                   <!--STEPPER-->
+                                </ng-container>
+                            </nz-modal>
+                        <!--ADD JOB MODAL-->
                     </div>
                 </div>
                 <div class="job-cards">
                    <div nz-row  *ngFor="let job of searchJobs.slice(startIndexSearch, endIndexSearch) " >
 
-                        <nz-card  [nzActions]="[viewMore, applyQuick]" class="job-card" >
+                        <nz-card  [nzActions]="[viewMore, applyQuick, candidates,deleteJob]" class="job-card" >
                             
                             <nz-card-meta
                             [nzAvatar]="avatarTemplate"
@@ -219,12 +430,235 @@
                         </ng-template>
             
                         <ng-template #viewMore>
-                            <a routerLink="/job-detail/{{job.id}}"><i nz-icon nzType="eye" nz-tooltip nzTooltipTitle="View more"></i></a>
+                            <a routerLink="/job-detail/{{job.id}}" nz-tooltip nzTooltipTitle="View more"><i nz-icon nzType="eye" ></i></a>
                         </ng-template>
             
                         <ng-template #applyQuick>
-                            <fa-icon [icon]="myJob" nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                            <button nz-button (click)="updateJobModal(job.id)"  class="update-job-btn" nz-tooltip nzTooltipTitle="Update Job"><fa-icon [icon]="updateIcon" ></fa-icon></button>
+
+                           
+
+                            <!--UPDATE JOB MODAL-->
+                                <nz-modal
+                                    [(nzVisible)]="updateModal"
+                                    nzTitle="Add a job"
+                                    nzCentered
+                                    (nzOnCancel)="cancelUpdateModal()"
+                                    (nzOnOk)="okUpdateModal()"
+                                    [nzFooter]="null" 
+                                    class="updateModal">
+                                    <ng-container *nzModalContent>
+                                        <!--STEPPER UPDATE-->
+                                        <div nz-row>
+                                            <div nz-col nzSpan="24">
+                                                <nz-steps [nzCurrent]="current">
+                                                    <nz-step nzTitle="Job description"></nz-step>
+                                                    <nz-step nzTitle="Requirements"></nz-step>
+                                                    <nz-step nzTitle="Finishing"></nz-step>
+                                                </nz-steps>
+                                        
+                                                <div class="steps-content">
+                                                    <div *ngIf="this.indexUpdate==='First-content-update'">
+                                                        <form nz-form nzLayout="vertical" [formGroup]="updateJobFormStep1" >
+                                                            <div nz-row>
+                                    
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label" >Job Title</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" nzErrorTip="Please input a title">
+                                                                            <input nz-input formControlName="title" class="form-input-job"  placeholder="Title"  />
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                   
+                                                                </div>
+                                                            </div>
+    
+                                                            <div nz-row nzGutter="8">
+                                    
+                                                                <div nz-col nzSpan="12">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label">Job Type</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical"  nzErrorTip="Please select a job type" >
+                                                                            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Job Type" formControlName="jobType"  >
+                                                                                <nz-option *ngFor="let type of jobType" [nzLabel]="type" [nzValue]="type" ></nz-option>
+                                                                            </nz-select>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                   
+                                                                </div>
+                                                                <div nz-col nzSpan="12">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label"  nzErrorTip="Please select a job industry">Job Industry</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" nzErrorTip="Please select a job industry">
+                                                                            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Job Industry" formControlName="sector" >
+                                                                                <nz-option *ngFor="let type of jobSector" [nzLabel]="type" [nzValue]="type"></nz-option>
+                                                                            </nz-select>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                   
+                                                                </div>
+                                                            </div>
+    
+                                                            <div nz-row>
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label">Description</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" >
+                                                                            <textarea rows="4" nz-input formControlName="description" class="form-input about-input-job" placeholder="Write something about your company.." ></textarea>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+                                                            </div>
+    
+                                                        </form>
+    
+                                                    </div>
+    
+                                                    <div *ngIf="this.indexUpdate==='Second-content-update'">
+                                                        <form nz-form nzLayout="vertical" [formGroup]="updateJobFormStep2">
+                                                            <div nz-row>
+                                    
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label" >Experience </nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required experience">
+                                                                            <input nz-input formControlName="experience" class="form-input-job"  placeholder="Required experience"  />
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                   
+                                                                </div>
+                                                            </div>
+    
+                                                            <div nz-row>
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label">Job Level</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required job level">
+                                                                            <input nz-input formControlName="diploma" class="form-input-job"  placeholder="Required Job Level"  />
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+                                                            </div>
+    
+                                                            <div nz-row>
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label">Skills</nz-form-label>
+            
+                                                                        <nz-form-control nzSpan="vertical">
+                                                                           <div class="tags-container">
+                                                                                <div class="tags-display">
+                                                                                    <nz-tag
+                                                                                    *ngFor="let tag of updatedJob.skills; let i = index"
+                                                                                    [nzMode]="'closeable'"
+                                                                                    (nzOnClose)="handleCloseUpdate(tag.id)"
+                                                                                    class="tag">
+                                                                                    {{ sliceTagNameUpdate(tag.skill) }}
+                                                                                    </nz-tag>
+                                                                                </div>
+                                                                                
+                                                                                <nz-tag *ngIf="!inputVisibleUpdate" class="editable-tag" nzNoAnimation (click)="showInputUpdate()" class="new-tag">
+                                                                                    <i nz-icon nzType="plus"></i>
+                                                                                    Add SKill
+                                                                                </nz-tag>
+                                                                                <input
+                                                                                    #inputElementUpdate
+                                                                                    nz-input
+                                                                                    *ngIf="inputVisibleUpdate"
+                                                                                    type="text"
+                                                                                    [formControl]="inputValueControlUpdate"
+                                                                                    (blur)="handleInputConfirmUpdate()"
+                                                                                    (keydown.enter)="handleInputConfirmUpdate()"
+                                                                                    class="form-input-job"
+                                                                                />
+                                                                           </div>
+    
+    
+                                                                        </nz-form-control>
+                                                                       
+                                                                    </nz-form-item>
+                                                                </div>
+                                                            </div>
+    
+                                                           
+                                                            
+                                                        </form>
+    
+                                                    </div>
+    
+                                                    <div *ngIf="this.indexUpdate==='third-content-update'">
+                                                        <form nz-form nzLayout="vertical" [formGroup]="updateJobFormStep3" (ngSubmit)="addJob()">
+                                                            <div nz-row>
+                                    
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label" >Job Location</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required experience">
+                                                                            <input nz-input formControlName="location" class="form-input-job"  placeholder="Location"  />
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                   
+                                                                </div>
+                                                            </div>
+    
+                                                            <div nz-row>
+                                                                <div nz-col nzSpan="24">
+                                                                    <nz-form-item>
+                                                                        <nz-form-label nzSpan="vertical" class="form-label">Deadline</nz-form-label>
+                                                                        <nz-form-control nzSpan="vertical" nzErrorTip="Please input the required job level">
+                                                                            <nz-date-picker
+                                                                                nzFormat="yyyy-MM-dd HH:mm:ss"
+                                                                                [nzDisabledDate]="disabledDate"
+                                                                                [nzDisabledTime]="disabledDateTime"
+                                                                                [nzShowTime]="{ nzDefaultOpenValue: timeDefaultValue }"
+                                                                                formControlName="deadLine"
+                                                                                class="datePicker"
+                                                                            ></nz-date-picker>
+                                                                        </nz-form-control>
+                                                                    </nz-form-item>
+                                                                </div>
+                                                            </div>
+    
+                                                           
+    
+                                                           
+                                                            
+                                                        </form>
+    
+                                                    </div>
+                                                </div>
+    
+    
+                                                <div class="steps-action">
+                                                        <button nz-button nzType="default" (click)="preUpdate()" *ngIf="currentUpdate > 0" class="stepper-btn">
+                                                        <span>Previous</span>
+                                                        </button>
+                                                        <button nz-button nzType="default" (click)="nextUpdate()" *ngIf="currentUpdate < 2" class="stepper-btn">
+                                                        <span>Next</span>
+                                                        </button>
+                                                        <button nz-button nzType="primary" (click)="doneUpdate()" *ngIf="currentUpdate === 2" class="stepper-btn">
+                                                        <span>Update Job</span>
+                                                        </button>
+                                                </div>
+                                            </div>
+                                       </div>
+                                       <!--STEPPER UPDATE-->
+                                       
+                                    
+                                    </ng-container>
+                                </nz-modal>
+                            <!--UPDATE JOB MODAL-->
                         </ng-template>
+
+                        <ng-template #candidates>
+                            <button nz-button  (click)="displayCandidates(job.id)" class="job-candidates-btn"><fa-icon [icon]="usersIcon" nz-tooltip nzTooltipTitle="Candidates" ></fa-icon></button> 
+                         </ng-template>
+
+                        <ng-template #deleteJob>
+                           <button nz-button nzType="default" (click)="deletJobPost(job.id)" class="delete-job-btn" nz-tooltip nzTooltipTitle="Delete Job"><fa-icon [icon]="deleteIcon"  class="delete-job-icon"></fa-icon></button> 
+                        </ng-template>
+
+                        
         
                     
 
@@ -381,6 +815,47 @@
             </div>
 
             <!-- END PASSWORD -->
+
+            <!--Job Candidates-->
+            <div *ngIf="selectedProfileOption==='candidates'">
+                <div nz-row class="top-text">
+                    <h3>Candidates For :</h3> 
+                    <p></p>
+                </div>
+                
+                <div nz-row >
+                    <div nz-col nzSpan="12" nzOffset="6">
+                        <div class="job-search">
+                            <input nz-input  placeholder="Search by candidate name"  class="job-search-input" [(ngModel)]="search" (keyup)="searchJob()"/>
+                            <button nz-button  [nzType]="'primary'" class="job-serach-btn"><i nz-icon nzType="search" ></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="job-cards">
+                    <div nz-row  *ngFor="let user of candidates" >
+ 
+                        <nz-card  >
+                             
+                          {{user.firstname}}
+                             
+                        </nz-card>
+                        
+         
+                     
+ 
+                    </div> 
+                    <div nz-row>
+                        <div nz-col nzSpan="12" nzOffset="6">
+                    
+                            <div class="pagination">
+                               <!-- <nz-pagination [nzPageIndex]="currentPageSearch" [nzPageSize]="itemsPerPageSearch" [nzTotal]="totalItemsSearch" (nzPageIndexChange)="currentPageSearch = $event"></nz-pagination>-->
+                            </div>
+                        
+                        </div>
+                    </div>
+                 </div>
+
+            </div>
             
             
 
