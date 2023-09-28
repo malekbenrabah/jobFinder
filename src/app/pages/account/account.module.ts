@@ -35,12 +35,15 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
+import { CandidateDetailesComponent } from './candidate-detailes/candidate-detailes.component';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 
 @NgModule({
   declarations: [
     AccountComponent,
     ProfileComponent,
-    CompanyProfileComponent
+    CompanyProfileComponent,
+    CandidateDetailesComponent
   ],
   imports: [
     CommonModule,
@@ -75,7 +78,8 @@ import { CompanyProfileComponent } from './company-profile/company-profile.compo
     NzDatePickerModule,
     NzModalModule,
     NzPopconfirmModule,
-    NzRateModule
+    NzRateModule,
+    NzTimelineModule
 
 
 

@@ -1,7 +1,7 @@
 <div class="profile">
   
-    <div nz-row [nzGutter]="4">
-        <div nz-col [nzSpan]="6">
+    <div nz-row [nzGutter]="8">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8">
             <div class="profile-btn">
 
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'profile'"> <fa-icon [icon]="profileIcon" class="profile-icon"></fa-icon>My profile</button>
@@ -13,7 +13,7 @@
     
         </div>
 
-        <div nz-col [nzSpan]="18">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16">
             
             <!--PROFILE USER-->
             <div *ngIf="selectedProfileOption === 'profile'">
@@ -674,12 +674,8 @@
                     </div>
                 </div>
                 
-
-                
-
-
             </div>
-             <!--COMPANY JOBS-->
+            <!--COMPANY JOBS-->
 
             <!--PASSWORD -->
 
@@ -819,44 +815,82 @@
             <!--Job Candidates-->
             <div *ngIf="selectedProfileOption==='candidates'">
                 <div nz-row class="top-text">
-                    <h3>Candidates For :</h3> 
-                    <p></p>
+                    <h3>Candidates For <a routerLink="/job-detail/{{jobCandidates.id}}" class="top-text-link">{{jobCandidates.title}} Job</a></h3> 
+                   
                 </div>
                 
                 <div nz-row >
-                    <div nz-col nzSpan="12" nzOffset="6">
+                    <div nz-col [nzSpan]="12">
                         <div class="job-search">
-                            <input nz-input  placeholder="Search by candidate name"  class="job-search-input" [(ngModel)]="search" (keyup)="searchJob()"/>
+                            <input nz-input  placeholder="Search by candidate name, email..."  class="job-search-input" [(ngModel)]="searchUser" (keyup)="searchUsers()"/>
                             <button nz-button  [nzType]="'primary'" class="job-serach-btn"><i nz-icon nzType="search" ></i></button>
                         </div>
                     </div>
-                </div>
-                <div class="job-cards">
-                    <div nz-row  *ngFor="let user of candidates" >
- 
-                        <nz-card  >
-                             
-                          {{user.firstname}}
-                             
-                        </nz-card>
-                        
-         
-                     
- 
-                    </div> 
-                    <div nz-row>
-                        <div nz-col nzSpan="12" nzOffset="6">
-                    
-                            <div class="pagination">
-                               <!-- <nz-pagination [nzPageIndex]="currentPageSearch" [nzPageSize]="itemsPerPageSearch" [nzTotal]="totalItemsSearch" (nzPageIndexChange)="currentPageSearch = $event"></nz-pagination>-->
-                            </div>
-                        
-                        </div>
+
+                    <div nz-col [nzSpan]="12" class="candidates-num">
+                        <p>Showing : <span class="jobs-num">{{searchResult.length}}</span> Jobs Available</p>
                     </div>
-                 </div>
+                </div>
+
+                <div class="job-cards">
+                    <div nz-row nzGutter="7" >
+                        <div nz-col  [nzXs]="24" [nzSm]="12" [nzMd]="8" *ngFor="let user of searchResult.slice(startIndexCandidate, endIndexCandidate)">
+                            
+        
+
+                        <nz-card class="candidate-card">
+                            <nz-card-meta
+                              [nzAvatar]="avatarTemplate"
+                              [nzTitle]="titleTemplate"
+                              [nzDescription]="cardDescription"
+                            ></nz-card-meta>
+
+                            <div nz-row  class="card-description">
+                                <p *ngIf="!user.aboutMe">No description provided</p>
+                                <div *ngIf="user.aboutMe">
+                                    <p class="candidate-info" *ngIf="user.aboutMe.length<100">{{user.aboutMe}}</p>
+                                    <p class="candidate-info" *ngIf="user.aboutMe.length>100">{{user.aboutMe.slice(0,100)}}...</p>
+                                </div>  
+                            </div>
+
+                            <div nz-row class="candidate-skills" *ngIf="user.candidateSkills" nzGutter="4">
+                                <div nz-col  [nzXs]="24" [nzSm]="12" [nzMd]="8" *ngFor="let skill of user.candidateSkills" >
+                                   <p class="candidate-skill">{{skill.skill}}</p> 
+                                </div>
+                            </div>
+                        </nz-card>
+                        <ng-template #avatarTemplate>
+                            <nz-avatar [nzSize]="64" [nzSrc]="user.photo"  *ngIf="user.photo!==null"></nz-avatar>
+                            <nz-avatar [nzSize]="64" nzIcon="user" *ngIf="user.photo===null"></nz-avatar>                        
+                        </ng-template>
+
+                        <ng-template #titleTemplate>
+                            <h5 class="candidate-title"><a routerLink="/account/candidate-detailes" class="candidate-title" (click)="goToCandidate(user.id)">{{user.firstname}} {{user.lastname}}</a></h5>
+                        </ng-template>
+
+                        <ng-template #cardDescription >
+                            <div class="candidate-email">
+                                <p >{{user.email}}</p>
+
+                            </div>
+                        </ng-template>
+ 
+                        
+                    </div> 
+                    
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                
+                        <div class="pagination">
+                           <nz-pagination [nzPageIndex]="currentPageCandidate" [nzPageSize]="itemsPerPageCandidate" [nzTotal]="totalCandidates" (nzPageIndexChange)="currentPageCandidate = $event"></nz-pagination>
+                        </div>
+                    
+                    </div>
+                </div>
 
             </div>
-            
+            <!--Job Candidates-->
             
 
             

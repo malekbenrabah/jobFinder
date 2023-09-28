@@ -51,6 +51,8 @@ import { NewsletterComponent } from './newsletter/newsletter.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { DatePipe } from '@angular/common';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -108,6 +110,7 @@ import { DatePipe } from '@angular/common';
     NzCarouselModule,
     NzAutocompleteModule,
     NzRadioModule,
+    NzTimelineModule
    
 
   ],

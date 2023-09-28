@@ -1,0 +1,139 @@
+<div class="candidate-container">
+    <div nz-row>
+        <div nz-col  [nzXs]="24" [nzSm]="16" [nzMd]="16" [nzLg]="16">
+            <div nz-row class="candidate-info">
+                <div >
+                    <nz-avatar  [nzShape]="'square'" [nzSrc]="user.photo"  *ngIf="user.photo!==null" class="user-avatar"></nz-avatar>
+                    <nz-avatar  [nzShape]="'square'" nzIcon="user" *ngIf="user.photo===null" class="user-avatar"></nz-avatar> 
+                </div>
+                <div >
+                    <h5>{{user.firstname}} {{user.lastname}} </h5>  
+                    <p><span> <fa-icon [icon]="locationIcon" class="candidate-location-icon"></fa-icon>{{user.email}}</span></p>
+                    <p class="candidate-info-txt"><span> <fa-icon [icon]="mailIcon" class="candidate-location-icon"></fa-icon>{{user.adresse}}</span></p>
+                </div> 
+            </div>
+        </div>
+
+        <div nz-col  [nzXs]="24" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="btn-cv-container">
+            <button nz-button nzType="primary" class="btn-cv">Download CV</button>
+        </div>
+
+
+    </div>
+    <div nz-row>
+        <div class="candidate-info-btn">
+            <button nz-button nzType="default" class="btn-candidate active" [ngClass]="{'active': selectedProfileOption === 'aboutme'}" (click)="isbtnActive = true; selectedProfileOption = 'aboutme'"> <fa-icon [icon]="userTieIcon" class="candidate-info-icon"></fa-icon>About Candidate</button>
+            <button nz-button nzType="default" class="btn-candidate" [ngClass]="{'active': selectedProfileOption === 'education'}"  (click)=" isbtnActive = false; selectedProfileOption = 'education'"> <fa-icon [icon]="educationIcon" class="candidate-info-icon"></fa-icon>Education</button>
+            <button nz-button nzType="default" class="btn-candidate" [ngClass]="{'active': selectedProfileOption === 'experience'}"  (click)="isbtnActive = false; selectedProfileOption = 'experience'"> <fa-icon [icon]="experienceIcon" class="candidate-info-icon"></fa-icon>Experience</button>
+        </div>
+       
+        
+    </div>
+
+    <div nz-row>
+        
+        <div class="horizontal-line"></div>
+
+    </div>
+
+    <div nz-row [nzGutter]="70"  class="candidate-option">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" class="about-me-info" *ngIf="selectedProfileOption === 'aboutme'">
+            
+            <h2>About candidate</h2>
+            <p>{{user.aboutMe}}</p>
+
+           
+        
+            <div nz-row nzGutter="10">
+                <div nz-col  [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6" *ngFor="let skill of candidateSkills" class="candidate-skills">
+                    <p>{{skill.skill}}</p>
+                    <nz-rate [ngModel]="skill.level" [nzTooltips]="tooltips" nzDisabled [nzCount]="5"></nz-rate>
+                </div>
+            </div>
+           
+            
+
+
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" class="about-me-info" *ngIf="selectedProfileOption === 'education'">
+            
+            <h2>Education</h2>
+
+          
+        
+            <div nz-row >
+                <nz-timeline>
+                    <nz-timeline-item *ngFor="let education of candidateEducations">
+                        <div nz-row class="education-timeLine">
+                            <h4>{{this.education.startDate}} - {{this.education.endDate}}</h4>
+                            <p>{{education.description}}</p>
+                            <p>{{education.institution}}</p>
+                        </div>
+                    </nz-timeline-item>
+                   
+                </nz-timeline>
+            </div>
+           
+            
+
+
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" class="about-me-info" *ngIf="selectedProfileOption === 'experience'">
+            
+            <h2>Experience</h2>
+            
+        
+            <div nz-row >
+                <nz-timeline>
+                    <nz-timeline-item *ngFor="let experience of candiateExperiences">
+                        <div nz-row class="education-timeLine">
+                            <h4>{{this.experience.startDate}} - {{this.experience.endDate}}</h4>
+                            <p>{{experience.description}}</p>
+                            <p>{{experience.location}}</p>
+                        </div>
+                    </nz-timeline-item>
+                   
+                </nz-timeline>
+            </div>
+           
+            
+
+
+        </div>
+
+        <div nz-col  [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8">
+            <nz-card>
+                <div nz-row class="card-txt">
+                    <h5 >Overview</h5>
+                </div>
+                <div nz-row>
+                    <div class="horizontal-line-card"></div>
+                </div>
+                <div  nz-row class="overview-container">
+                    <span ><fa-icon [icon]="educationIcon" class="candidate-info-icon"></fa-icon>Education Level</span>
+                    <p>{{candidateEducation()}}</p>
+                </div>
+
+                <div  nz-row class="overview-container">
+                    <span ><fa-icon [icon]="experienceIcon" class="candidate-info-icon"></fa-icon>Latest Experience</span>
+                    <p>{{candidateExpeirence()}}</p>
+                </div>
+
+                <div nz-row>
+                    <div class="horizontal-line-card"></div>
+                </div>
+
+                <div  nz-row class="overview-container">
+                    <span class="general-info-txt"><fa-icon [icon]="mailIcon" class="candidate-info-icon"></fa-icon>{{user.email}}</span>
+                    <span class="general-info-txt"><fa-icon [icon]="phoneIcon" class="candidate-info-icon"></fa-icon>{{user.phone}}</span>
+                    <span class="general-info-txt"><fa-icon [icon]="locationIcon" class="candidate-info-icon"></fa-icon>{{user.adresse}}</span>
+                </div>
+
+
+            </nz-card>
+        </div>
+       
+    </div>
+</div>

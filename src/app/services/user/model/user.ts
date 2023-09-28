@@ -15,6 +15,7 @@ export class User {
     adresse!:string;
     aboutMe!:string;
     skills!:Skill;
-    experiences!:Experience
+    experiences!:Experience;
     educations!:Education;
+    candidateSkills!:Skill[]
 }

@@ -334,7 +334,8 @@ export class CompanyProfileComponent implements OnInit {
       this.userService.updatePassword(this.validateFormPass.value['oldpass'],this.validateFormPass.value['password']).subscribe(r=>{
         console.log('updated successfully');
         this.successUpdatePass="your password is updated successsfully";
-        
+        this.validateFormPass.reset();
+
       },
       (error:HttpErrorResponse)=>{
         if(error.status === 400 && error.error.success === false){
@@ -692,7 +693,7 @@ export class CompanyProfileComponent implements OnInit {
           console.log('delete successflly', response);
           Swal.fire(
             'Deleted!',
-            'Your file has been deleted.',
+            'This job post has been deleted.',
             'success'
           );
           this.ngOnInit();
@@ -923,10 +924,15 @@ export class CompanyProfileComponent implements OnInit {
     this.inputValueControlUpdate.reset('');
     this.inputVisibleUpdate = false;
   }
+
+
+  /*Candidates */
  
   candidates:User[]=[];
   jobCandidates:Job=new Job();
-  /*Candidates */
+  //candiate skills
+  candidateSkills:Skill[]=[];
+  
   displayCandidates(id:number){
     this.selectedProfileOption = 'candidates';
     localStorage.setItem("jobId",id.toString());
@@ -934,12 +940,80 @@ export class CompanyProfileComponent implements OnInit {
       this.jobCandidates=response as Job;
       this.candidates=this.jobCandidates.users;
       console.log('candidates', this.candidates);
+      this.searchResult=this.candidates;
+      this.totalCandidates=this.candidates.length;
+      this.candidates.forEach(candidate => {
+        this.userService.getCandidateSkills(candidate.id).subscribe((response)=>{
+          console.log('user skills', response);
+          this.candidateSkills= response as Skill[];
+          candidate.candidateSkills=this.candidateSkills;
+
+        });
+      });
+     
     });
 
   }
 
+ 
+ //search candidate
 
+  searchResult:User[]=[];
+  searchUser:string='';
+  searchUsers(){ 
 
+    if(this.candidates.length===0 || this.searchUser===''){
+      this.searchResult=this.candidates;
+      console.log('searchUsers', this.searchResult);
+      console.log('candidates', this.candidates);
+    }else{
+      
+     console.log('search User start');
+     console.log('CANDIDATES', this.candidates);
+     console.log('search:',this.searchUser);
+     const searchText=this.searchUser.toLocaleLowerCase();
+
+      this.searchResult = this.candidates.filter((user) => {
+        const firstnameMatch = user.firstname.toLowerCase().includes(searchText);
+        const lastnameMatch = user.lastname.toLowerCase().includes(searchText);
+        const emailMatch = user.email.toLowerCase().includes(searchText);
+      
+    
+        // return true if any of the properties match the search text
+        return firstnameMatch || lastnameMatch || emailMatch;
+      });
+
+      this.totalCandidates=this.searchResult.length;
+      //this.totalItemsSearch=this.searchJobs.length;
+
+      console.log('search user filter result', this.searchResult);
+    }
+    
+
+  }
+
+  //pagination candidates 
+  //pagination
+  currentPageCandidate = 1; // Initialize to the first page
+  itemsPerPageCandidate = 6; // Number of items to display per page
+  totalCandidates!:number; // Total number of items (adjust as needed)
+
+  changePageCandidate(page: number) {
+    this.currentPageCandidate = page;
+  }
+
+  get startIndexCandidate() {
+    return (this.currentPageCandidate - 1) * this.itemsPerPageCandidate;
+  }
+
+  get endIndexCandidate() {
+    return this.currentPageCandidate * this.itemsPerPageCandidate;
+  }
+
+  goToCandidate(id:number){
+    localStorage.setItem("userId",id.toString());
+
+  }
   
 
 

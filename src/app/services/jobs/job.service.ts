@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Job, JobType, Sector } from '../user/model/Job';
 import { thru } from 'lodash';
+import { JobAlert } from '../user/model/JobAlert';
 
 @Injectable({
   providedIn: 'root'
@@ -94,5 +95,26 @@ export class JobService {
   }
   deleteJobSkill(id:number, skillId:number){
     return this.http.delete("http://localhost:8086/app/job/deleteJobSkill?id="+id+"&skillId="+skillId);
+  }
+
+  getUserAppliedJos(){
+    return this.http.get("http://localhost:8086/app/job/getUserAppliedJobs");
+  }
+  //job alert
+
+  getUserJobAlerts(){
+    return this.http.get("http://localhost:8086/app/jobAlert/getJobAlerts");
+  }
+  addJobAlert(jobAlert:JobAlert){
+    return this.http.post("http://localhost:8086/app/jobAlert/createJobAlert",jobAlert);
+  }
+  getJobAlertById(id:number){
+    return this.http.get("http://localhost:8086/app/jobAlert/getJobAlertById?id="+id);
+  }
+  updateJobAlert(jobAlert:JobAlert){
+    return this.http.put("http://localhost:8086/app/jobAlert/updateJobAlert",jobAlert);
+  }
+  deleteJobAlert(id:number){
+    return this.http.delete("http://localhost:8086/app/jobAlert/deleteJobAlert?id="+id);
   }
 }

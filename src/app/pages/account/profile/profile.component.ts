@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { faBookmark} from '@fortawesome/free-regular-svg-icons';
-import{ faIdBadge}from"@fortawesome/free-solid-svg-icons"
-import{faSuitcase, faGraduationCap, faUserTie} from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faBell} from '@fortawesome/free-regular-svg-icons';
+import{ faIdBadge, faLock,faLocationDot}from"@fortawesome/free-solid-svg-icons"
+import{faSuitcase, faGraduationCap, faUserTie,faCamera} from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { differenceInCalendarDays, setHours } from 'date-fns';
 import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
@@ -14,6 +14,10 @@ import { Experience } from 'src/app/services/user/model/Experience';
 import { formatDate } from '@angular/common';
 import { Education } from 'src/app/services/user/model/Education';
 import jsPDF from 'jspdf';
+import Swal from 'sweetalert2';
+import { Job, JobType } from 'src/app/services/user/model/Job';
+import { JobService } from 'src/app/services/jobs/job.service';
+import { JobAlert } from 'src/app/services/user/model/JobAlert';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +30,11 @@ export class ProfileComponent implements OnInit{
   profileIcon=faIdBadge;
   jobIcon=faSuitcase;
   appliedJobsIcon=faUserTie;
+  securityIcon=faLock;
+  updateImgIcon=faCamera;
+  alertIcon=faBell;
+  myLocationIcon=faLocationDot;
+
 
   educationIcon=faGraduationCap;
 
@@ -39,8 +48,11 @@ export class ProfileComponent implements OnInit{
 
   validateFormSkills!:FormGroup;
 
+  formJobAlert!: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router,private elementRef: ElementRef) {
+  validateFormPass!:FormGroup;
+
+  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router,private elementRef: ElementRef, private jobService:JobService) {
 
     this.validateForm = this.fb.group({
       firstname: ['', [Validators.required]],
@@ -50,11 +62,19 @@ export class ProfileComponent implements OnInit{
       aboutMe:[''],
     });
 
-   
-
-
-
+    this.formJobAlert = this.fb.group({
+      experience: ['', [Validators.required]],
+      location: ['', [Validators.required]],
+      jobType: ['', [Validators.required]],
+      skills:['']
+      
+    });
     
+    this.validateFormPass=this.fb.group({
+      oldpass:['', [Validators.required]],
+      password: ['', [this.confirmNewPass]],
+      confirm: ['', [this.confirmValidator]]
+    });
   
   }
 
@@ -102,6 +122,7 @@ export class ProfileComponent implements OnInit{
     })
     this.fetchUserSkills();
     
+    this.getAppliedJobs();
    
   }
 
@@ -109,14 +130,7 @@ export class ProfileComponent implements OnInit{
 
   //profile update 
 
-  getFirstLetter(name:string){
-    if(name && name.length>0){
-      return name.charAt(0).toLocaleUpperCase();
-    }
-    return'';
-  }
-
-  //updateimg
+  /*photo*/
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   uploadedPhoto: any | null = null;
@@ -130,52 +144,93 @@ export class ProfileComponent implements OnInit{
       reader.onload = (e: any) => {
         this.uploadedPhoto = e.target.result;
         console.log('selected photo', this.uploadedPhoto);
+
+        //confirmation sweet alert
+        this.openConfirmation();
       };
+
       reader.readAsDataURL(this.file);
     }
   }
-  
-  
-  //do both file.click and call the updateImg API:
-  
-  updateImg(){
-    console.log('file.click()');
 
+  triggerFileInputClick(){
     const fileInput = this.fileInput.nativeElement as HTMLInputElement;
     fileInput.click();
+        
+  }
+
+  openConfirmation(){
+    if(this.uploadedPhoto){
+      Swal.fire({
+        title: 'Proceed updating your profile picture ?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, update it!',
+        cancelButtonText: 'No, cancel',
+        confirmButtonColor:"#05264E"
+        }).then((result) => {
+        if (result.isConfirmed) {
+           
+            this.updateImg();
+        } else {
+            //cancel, reset the file input
+            const fileInput = this.fileInput.nativeElement as HTMLInputElement;
+            fileInput.value = ''; // clearing the selected file
+            this.uploadedPhoto = null; // reset the uploaded photo
+            this.router.navigateByUrl('/account/profile');
+        }
+      }); 
+    } else {
+      console.warn('No file selected for update.');
+    }
+   
+  }
+
+ 
+
+  updateImg(){
+
     console.log('update img start');
-    console.log('the file is', this.file);
-    if (this.uploadedPhoto) { // ensure that a file is selected
+    console.log('the file to update ', this.file);
+   
       this.userService.updateProfileImg(this.file)
         .subscribe(
           (response) => {
             
             console.log('Image updated successfully:', response);
-            
+            this.profileUpdatedSucc="Profile updated successfully";
+            this.handleCancelMiddle();
           },
           (error) => {
             console.error('Error updating image:', error);
           }
         );
-    } else {
-      console.warn('No file selected for update.');
-    }
+   
   }
 
+  
+  getFirstLetter(name:string){
+    if(name && name.length>0){
+      return name.charAt(0).toLocaleUpperCase();
+    }
+    return'';
+  }
+
+
+
+  /*photo*/
   profileUpdatedSucc:string="";
   submitForm(): void {
     console.log('update start');    
     if (this.validateForm.valid) {
       console.log('submit update', this.validateForm.value);
       
-      
-      this.userService.updateUser(this.validateForm.value,this.file).subscribe(r=>{
+      this.userService.updateUserInfo(this.validateForm.value).subscribe(r=>{
         console.log('updated sucessuflly',r);
         this.profileUpdatedSucc="Profile updated successfully";
         this.router.navigate(['/account/profile']);
       });
-      
-    
+  
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -186,6 +241,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  
 
   /* modal */
   isVisibleMiddle = false;
@@ -1668,9 +1724,6 @@ export class ProfileComponent implements OnInit{
 
   
   generatePDF(){
-  
-    
-
 
     this.generatePdf=true;
 
@@ -1742,6 +1795,424 @@ export class ProfileComponent implements OnInit{
     }, 1000);
   }
   */
+
+
+  /*search*/
+  appliedJobs:Job[]=[];
+  getAppliedJobs(){
+    
+    this.jobService.getUserAppliedJos().subscribe((response)=>{
+      console.log('user applied jobs', response);
+      this.appliedJobs=response as Job[];
+      this.searchJobs=this.appliedJobs;
+      this.totalItemsSearch=this.appliedJobs.length;
+    });
+  }
+  searchJobs:Job[]=[];
+  search:string='';
+  searchJob(){ 
+
+    if(this.appliedJobs.length===0 || this.search===''){
+      this.searchJobs=this.appliedJobs;
+      console.log('searchJobs', this.searchJobs);
+      console.log('company JObs', this.appliedJobs);
+    }else{
+      
+      console.log('search starts');
+      console.log('COMPANY JOBS', this.appliedJobs);
+      console.log('search:',this.search);
+      const searchText=this.search.toLocaleLowerCase();
+
+      this.searchJobs = this.appliedJobs.filter((job) => {
+        const titleMatch = job.title.toLowerCase().includes(searchText);
+        const locationMatch = job.location.toLowerCase().includes(searchText);
+        const sectorMatch = job.sector.toLowerCase().includes(searchText);
+        const jobTypeMatch = job.jobType.toLowerCase().includes(searchText);
+        const created_atMatch=this.formatDate(job.created_at).includes(searchText);
+    
+        // return true if any of the properties match the search text
+        return titleMatch || locationMatch || sectorMatch || jobTypeMatch || created_atMatch;
+      });
+
+      this.totalItemsSearch=this.searchJobs.length;
+
+      console.log('search jobs filter', this.searchJobs);
+    }
+    
+
+  }
+    
+
+  //pagination search 
+  currentPageSearch = 1; // initializing to the first page
+  itemsPerPageSearch = 6; // nb of items to display per page
+  totalItemsSearch!:number; // total nb of items (adjust as needed)
+
+  changePageSearch(page: number) {
+    this.currentPageSearch = page;
+  }
+
+  get startIndexSearch() {
+    return (this.currentPageSearch - 1) * this.itemsPerPageSearch;
+  }
+
+  get endIndexSearch() {
+    return this.currentPageSearch * this.itemsPerPageSearch;
+  }
+  //end pagination search
+  formatDate(created_at: any[]): string {
+
+    const year = created_at[0];
+    const month = created_at[1] - 1; // months in js are 0-based
+    const day = created_at[2];
+    const hours = created_at[3];
+    const minutes = created_at[4];
+    const seconds = created_at[5];
+
+    const createdAt = new Date(year, month, day, hours, minutes, seconds);
+
+    const now = new Date();
+    const elapsed = now.getTime() - createdAt.getTime();
+
+    if (elapsed < 60000) {
+      return 'Just now';
+    } else if (elapsed < 3600000) {
+      const minutes = Math.floor(elapsed / 60000);
+      return `${minutes} minutes ago`;
+    } else if (elapsed < 86400000) {
+      const hours = Math.floor(elapsed / 3600000);
+      return `${hours} hours ago`;
+    } else {
+      const year = createdAt.getFullYear();
+      const month = String(createdAt.getMonth() + 1).padStart(2, '0');
+      const day = String(createdAt.getDate()).padStart(2, '0');
+      return `${day}-${month}-${year}`;
+    }
+    
+  }
+
+  /*end search*/
+
+  /*job alert*/
+  jobType=Object.values(JobType);
+
+  jobAlerts:JobAlert[]=[];
+  getJobsAlerts(){
+    
+    this.jobService.getUserJobAlerts().subscribe((response)=>{
+      console.log('user job alerts', response);
+      this.jobAlerts=response as JobAlert[];
+      this.jobAlertSearch=this.jobAlerts;
+      this.totalItemsSearchAlert=this.jobAlerts.length;
+    });
+  }
+
+  searchAlert!:string;
+  jobAlertSearch:JobAlert[]=[];
+  searchAlertJob(){
+
+    if(this.jobAlerts.length===0 || this.searchAlert===''){
+      this.jobAlertSearch=this.jobAlerts;
+      console.log('search Jobs Alert', this.jobAlertSearch);
+      console.log('Job alerts', this.jobAlerts);
+    }else{
+      
+      console.log('search starts job alert');
+      console.log('JOB ALERTS', this.jobAlerts);
+      console.log('search:',this.searchAlert);
+      const searchText=this.searchAlert.toLocaleLowerCase();
+
+      this.jobAlertSearch = this.jobAlerts.filter((job) => {
+        const skillsMatch = job.skills.some((skill) => skill.skill.toLowerCase().includes(searchText));
+        const locationMatch = job.location.toLowerCase().includes(searchText);
+        const jobTypeMatch = job.jobType.toLowerCase().includes(searchText);
+        const created_atMatch=this.formatDate(job.created_at).includes(searchText);
+    
+        // return true if any of the properties match the search text
+        return  locationMatch  || jobTypeMatch || created_atMatch || skillsMatch;
+      });
+
+      this.totalItemsSearch=this.jobAlertSearch.length;
+
+      console.log('search jobs filter', this.jobAlertSearch);
+    }
+
+  }
+
+  //pagination search 
+  currentPageSearchAlert = 1; // initializing to the first page
+  itemsPerPageSearchAlert = 6; // nb of items to display per page
+  totalItemsSearchAlert!:number; // total nb of items (adjust as needed)
+
+  changePageSearchAlert(page: number) {
+    this.currentPageSearchAlert = page;
+  }
+
+  get startIndexSearchAlert() {
+    return (this.currentPageSearchAlert - 1) * this.itemsPerPageSearch;
+  }
+
+  get endIndexSearchAlert() {
+    return this.currentPageSearchAlert * this.itemsPerPageSearch;
+  }
+  //end pagination search
+
+  /*add job alert modal */
+  jobModal = false;
+
+  addJobAlertModal(){
+    this.jobModal=true;
+  }
+
+  handleOkJobModal(): void {
+    this.jobModal = false;
+  }
+
+  handleCancelJobModal(): void {
+    this.jobModal = false;
+  }
+  /*end job alert modal*/
+
+
+  /*add job alert*/
+  selectedSkills: any[] = [];
+
+  isSelected(skill: Skill): boolean {
+    return this.selectedSkills.some((selectedSkill) => selectedSkill.id === skill.id);
+  }
+  
+  toggleSkillSelection(skill: Skill): void {
+    const index = this.selectedSkills.findIndex((selectedSkill) => selectedSkill.id === skill.id);
+  
+    if (index !== -1) {
+      // skill is already selected = remove it
+      this.selectedSkills.splice(index, 1);
+      console.log("selected skills",this.selectedSkills);
+
+    } else {
+      // skill is not selected = add it
+      this.selectedSkills.push(skill);
+      console.log("selected skills",this.selectedSkills);
+    }
+  }
+  
+  addJobAlertSuccess!:string;
+  addSuccess:string="";
+  addJobAlert(){
+    if(this.formJobAlert.valid){
+      console.log('statring add job alert');
+      const jobAlert:JobAlert=new JobAlert();
+      jobAlert.experience=this.formJobAlert.value['experience'];
+      jobAlert.location=this.formJobAlert.value['location'];
+      jobAlert.jobType=this.formJobAlert.value['jobType'];
+
+      const jobSkills:Skill[]=[];
+      this.selectedSkills.forEach(selectedSkill => {
+        const skill:Skill=new Skill();
+        skill.skill=selectedSkill.skill;
+        jobSkills.push(skill);
+      });
+      console.log('job skills', jobSkills);
+
+      jobAlert.skills=jobSkills;
+
+      this.jobService.addJobAlert(jobAlert).subscribe((response)=>{
+        console.log('job Alert added succesfully', response);
+        this.handleCancelJobModal();
+        this.addSuccess="Job Alert created successfully";
+        this.ngOnInit();
+      });
+    }else{
+      Object.values(this.formJobAlert.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+
+  afterCloseJobAlert(){
+    this.addSuccess="";
+  }
+
+
+  /*update Job Alert*/
+  jobModalUpdate = false;
+
+  jobAlert:JobAlert=new JobAlert();
+  updateJobAlertModal(id:number){
+    this.jobModalUpdate=true;
+   
+    this.jobService.getJobAlertById(id).subscribe((response) => {
+      this.jobAlert = response as JobAlert;
+  
+      this.formJobAlert.patchValue({
+        experience: this.jobAlert.experience,
+        location: this.jobAlert.location,
+        jobType: this.jobAlert.jobType,
+        skills: this.jobAlert.skills
+      });
+    });
+      
+  }
+
+  handleOkJobUpdateModal(): void {
+    this.jobModalUpdate = false;
+  }
+
+  handleCancelJobUpdateModal(): void {
+    this.jobModalUpdate = false;
+  }
+
+  isSelectedUpdate(skill: Skill): boolean {
+    //return this.jobAlert.skills.some((selectedSkill) => selectedSkill.id === skill.id);
+  
+
+    if (!this.jobAlert || !this.jobAlert.skills) {
+      return false; // job alert data or skills not yet loaded
+    }
+    return this.jobAlert.skills.some((selectedSkill) => selectedSkill.id === skill.id);
+  }
+
+  updateJobAlert(){
+    if(this.formJobAlert.valid){
+      console.log('statring updating job alert');
+      const jobAlert:JobAlert=new JobAlert();
+      jobAlert.id=this.jobAlert.id;
+      jobAlert.experience=this.formJobAlert.value['experience'];
+      jobAlert.location=this.formJobAlert.value['location'];
+      jobAlert.jobType=this.formJobAlert.value['jobType'];
+
+      /* to do 
+      const jobSkills:Skill[]=[];
+      this.selectedSkills.forEach(selectedSkill => {
+        const skill:Skill=new Skill();
+        skill.skill=selectedSkill.skill;
+        jobSkills.push(skill);
+      });
+      console.log('job skills', jobSkills);
+
+      jobAlert.skills=jobSkills;
+
+      */
+     
+      this.jobService.updateJobAlert(jobAlert).subscribe((response)=>{
+        console.log('job Alert added succesfully', response);
+        this.handleCancelJobUpdateModal();
+        
+        //this.ngOnInit();
+      });
+    }else{
+      Object.values(this.formJobAlert.controls).forEach(control => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+
+  deleteJobAlert(id:number){
+    Swal.fire({
+      title: 'Proceed deleting posted ?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.jobService.deleteJobAlert(id).subscribe((response)=>{
+          console.log('delete successflly job alert', response);
+          Swal.fire(
+            'Deleted!',
+            'This job Alert has been deleted.',
+            'success'
+          );
+          this.ngOnInit();
+
+        })
+       
+      }
+    })
+  }
+
+  /*end job alert*/
+
+  /*update password*/
+  passwordVisible = false;
+  
+  passwordVisibleConf = false;
+
+  passwordVisibleOld=false;
+
+
+  validateConfirmPassword(): void {
+    setTimeout(() => this.validateFormPass.controls['confirm'].updateValueAndValidity());
+  }
+
+  confirmValidator = (control: FormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return { error: true, required: true };
+    } else if (control.value !== this.validateFormPass.controls['password'].value) {
+      return { confirm: true, error: true };
+    }
+    return {};
+    
+  };
+
+  confirmNewPass = (control: FormControl): { [s: string]: boolean } =>{
+    if (!control.value) {
+      return { error: true, required: true };
+    } else if (control.value === this.validateFormPass.controls['oldpass'].value) {
+      return { confirm: true, error: true };
+    }
+    return {};
+  }
+
+  validateNewPassword():void{
+    setTimeout(() => this.validateFormPass.controls['password'].updateValueAndValidity());
+  }
+
+  invalidOldPassError:string="";
+  successUpdatePass:string="";
+  updatePassForm(){
+
+    if(this.validateFormPass.valid){
+      console.log('test ',this.validateFormPass.value);
+      console.log('oldpass',this.validateFormPass.value['oldpass']);
+
+      this.userService.updatePassword(this.validateFormPass.value['oldpass'],this.validateFormPass.value['password']).subscribe(r=>{
+        console.log('updated successfully');
+        this.successUpdatePass="your password is updated successsfully";
+        this.validateFormPass.reset();
+        
+      },
+      (error:HttpErrorResponse)=>{
+        if(error.status === 400 && error.error.success === false){
+         
+          this.invalidOldPassError="Invalid old password";
+        }
+      }
+      );
+    }
+
+  }
+
+  afterClosePassword(){
+    this.invalidOldPassError="";
+  }
+
+  afterCloseSuccessUpdatePassword(){
+    this.successUpdatePass="";
+  }
+  /*end password*/
+
+
 
 
 

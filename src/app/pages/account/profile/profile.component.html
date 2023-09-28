@@ -1,4 +1,5 @@
 <div class="profile">
+    <!--
     <div nz-row>
         <div nz-col [nzSpan]="24">
             <div class="user-cover-img">
@@ -52,17 +53,17 @@
         </div>
 
     </div>
+    -->
 
-    <div nz-row [nzGutter]="8">
-        <div nz-col [nzSpan]="8">
+    <div nz-row >
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8">
             <div class="profile-btn">
 
-
-             
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'profile'"> <fa-icon [icon]="profileIcon" class="profile-icon"></fa-icon>My profile</button>
                 <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'cv'" > <fa-icon [icon]="jobIcon" class="profile-icon"></fa-icon> My CV</button>
-                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'saved'" > <fa-icon [icon]="saveIcone" class="profile-icon"></fa-icon> Saved jobs</button>
-                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'jobs-applied'" > <fa-icon [icon]="appliedJobsIcon" class="profile-icon"></fa-icon> Applied Jobs</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'jobs-alert'; getAppliedJobs()" > <fa-icon [icon]="appliedJobsIcon" class="profile-icon"></fa-icon> Applied Jobs</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'saved' ; getJobsAlerts()" > <fa-icon [icon]="alertIcon" class="profile-icon"></fa-icon>Job Alerts</button>
+                <button nz-button nzType="text" class="btn-user-profile" (click)="selectedProfileOption = 'security'"> <fa-icon [icon]="securityIcon" class="profile-icon"></fa-icon>Security</button>
 
                 <button nz-button nzType="text" class="logout-btn"><i nz-icon nzType="logout" nzTheme="outline" class="logoutIcon"></i>Logout</button>
 
@@ -70,88 +71,600 @@
     
         </div>
 
-        <div nz-col [nzSpan]="16">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16">
            
            <!--PROFILE USER-->
            <ng-container *ngIf="selectedProfileOption==='profile'">
-                <h3>Welcome Back, {{user.firstname}} {{user.lastname}}</h3>
-                <nz-alert nzType="success" nzCloseable nzMessage={{profileUpdatedSucc}} nzShowIcon  (nzOnClose)="afterCloseProfile()"
-                *ngIf="profileUpdatedSucc !=='' " ></nz-alert>
-    
-                
-                <form nz-form nzLayout="vertical"  [formGroup]="validateForm" (ngSubmit)="submitForm()" >
-                    <div nz-row >
-    
-                        <div nz-col [nzSpan]="12">
-                            <nz-form-item>
-                                <nz-form-label nzSpan="vertical">First Name</nz-form-label>
-                                <nz-form-control nzSpan="vertical" [nzErrorTip]="firstnameErrorTemplate">
-                                <input nz-input  placeholder="FirstName"  formControlName="firstname" />
-                                <ng-template #firstnameErrorTemplate>
-                                <div  *ngIf="validateForm.get('firstname')?.value === '' && validateForm.get('firstname')?.hasError('required')" class="error-message">FirstName is required</div>
-                                </ng-template>
-                                </nz-form-control>
-                            </nz-form-item>
+
+                <div nz-row [nzGutter]="8">
+                    <div nz-col [nzSpan]="12" class="profile-form">
+                        <h3 class="profile-title">Welcome Back, {{user.firstname}} {{user.lastname}}</h3>
+                        <nz-alert nzType="success" nzCloseable nzMessage={{profileUpdatedSucc}} nzShowIcon  (nzOnClose)="afterCloseProfile()"
+                        *ngIf="profileUpdatedSucc !=='' " ></nz-alert>
             
-                            
-                        </div>
-                        <div nz-col [nzSpan]="12">
-                            <nz-form-item>
-                                <nz-form-label nzSpan="vertical">Last Name</nz-form-label>
-                                <nz-form-control nzSpan="vertical" [nzErrorTip]="lastnameErrorTemplate">
-                                <input nz-input  placeholder="LastName" formControlName="lastname" />
-                                <ng-template #lastnameErrorTemplate>
-                                    <div  *ngIf="validateForm.get('lastname')?.value === '' && validateForm.get('lastname')?.hasError('required')" class="error-message">LastName is required</div>
-                                    </ng-template>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                    </div>
-                    
-                    <div nz-row >
-    
-                        <div nz-col [nzSpan]="12">
-                            <nz-form-item>
-                                <nz-form-label nzSpan="vertical">Email</nz-form-label>
-                                <nz-form-control nzSpan="vertical" >
-                                    <input nz-input [value]="user.email"  placeholder="Email"  [disabled]="true"  />
-                                </nz-form-control>
-                            </nz-form-item>
-        
-                        </div>
-    
-                        <div nz-col [nzSpan]="12">
-                            <nz-form-item>
-                                <nz-form-label nzSpan="vertical">Phone</nz-form-label>
-                                <nz-form-control nzSpan="vertical" nzErrorTip="Your phone is not valid">
-                                <input nz-input  placeholder="user's phone"  formControlName="phone"/>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                    </div>
-    
-                    <div nz-row>
-    
-                        <div nz-col nzSpan="24">
-                            <nz-form-item>
-                                <nz-form-label nzSpan="vertical">About me</nz-form-label>
-                                <nz-form-control nzSpan="vertical" >
-                                    <textarea rows="4" nz-input formControlName="aboutMe" ></textarea>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-    
                         
+                        <form nz-form nzLayout="vertical"  [formGroup]="validateForm" (ngSubmit)="submitForm()" >
+                            <div nz-row >
+            
+                                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12">
+                                    <nz-form-item>
+                                        <nz-form-label nzSpan="vertical" class="form-label">First Name</nz-form-label>
+                                        <nz-form-control nzSpan="vertical" [nzErrorTip]="firstnameErrorTemplate">
+                                            <input nz-input  placeholder="FirstName"  formControlName="firstname" class="form-input" />
+                                            <ng-template #firstnameErrorTemplate>
+                                            <div  *ngIf="validateForm.get('firstname')?.value === '' && validateForm.get('firstname')?.hasError('required')" class="error-message">FirstName is required</div>
+                                            </ng-template>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12">
+                                    <nz-form-item>
+                                        <nz-form-label nzSpan="vertical" class="form-label">Last Name</nz-form-label>
+                                        <nz-form-control nzSpan="vertical" [nzErrorTip]="lastnameErrorTemplate">
+                                        <input nz-input  placeholder="LastName" formControlName="lastname" class="form-input"  />
+                                        <ng-template #lastnameErrorTemplate>
+                                            <div  *ngIf="validateForm.get('lastname')?.value === '' && validateForm.get('lastname')?.hasError('required')" class="error-message">LastName is required</div>
+                                            </ng-template>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                            
+                            <div nz-row >
+            
+                                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12">
+                                    <nz-form-item>
+                                        <nz-form-label nzSpan="vertical" class="form-label">Email</nz-form-label>
+                                        <nz-form-control nzSpan="vertical" >
+                                            <input nz-input [value]="user.email"  placeholder="Email"  [disabled]="true"  class="form-input"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                
+                                </div>
+            
+                                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12">
+                                    <nz-form-item>
+                                        <nz-form-label nzSpan="vertical" class="form-label">Phone</nz-form-label>
+                                        <nz-form-control nzSpan="vertical" nzErrorTip="Your phone is not valid">
+                                        <input nz-input  placeholder="user's phone"  formControlName="phone" class="form-input"/>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+            
+                            <div nz-row>
+            
+                                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                                    <nz-form-item>
+                                        <nz-form-label nzSpan="vertical" class="form-label">About me</nz-form-label>
+                                        <nz-form-control nzSpan="vertical" >
+                                            <textarea rows="4" nz-input formControlName="aboutMe" class="form-input about-input"></textarea>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+            
+                                
+                            </div>
+            
+                            <button nz-button class="update-form-btn" [nzType]="'primary'">Save Changes</button>
+            
+                        </form>
                     </div>
-    
-                    <button nz-button class="update-form-button " [nzType]="'primary'">Save Changes</button>
-    
-                </form>
+                    <div nz-col nzSpan="12" class="profile-card">
+                        <nz-card class="user-info-card">
+                            <div nz-row class="user-photo">
+                                <div nz-col>
+                                    <img [src]="this.uploadedPhoto || user.photo" alt="user" class="user-img" *ngIf="uploadedPhoto!=null || user.photo!==null">
+                                    <ng-container *ngIf="uploadedPhoto === null && user.photo===null">
+                                        <nz-avatar  nzShape="square" nzText={{getFirstLetter(user.firstname)}} class="user-avatar" ></nz-avatar>
+                                    </ng-container>
+                                </div>
+                                <div nz-col class="btn-container">
+                                    <button nz-button nzType="default" nzShape="circle" (click)="showModalMiddle()">
+                                        <fa-icon [icon]="updateImgIcon" class="update-img-icon"></fa-icon>
+                                    </button>
+
+                                    <!--MODAL-->
+                                    <nz-modal
+                                        [(nzVisible)]="isVisibleMiddle"
+                                        nzTitle="Update your profile picture"
+                                        nzCentered
+                                        (nzOnCancel)="handleCancelMiddle()"
+                                        (nzOnOk)="handleOkMiddle()"
+                                        [nzFooter]="null" >
+                                        <ng-container *nzModalContent>
+                                        
+                                            <div class="modal-but-container">
+                                                <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput/>
+                                                <button nz-button nzType="default"  class="modal-btn-update" (click)="triggerFileInputClick()">Update profile picture</button>
+                                                
+
+                                                <hr  style="width: 100%;">
+                                                <button nz-button nzType="default" class="modal-btn-delte"  (click)="deleteCurrentPhoto()"  [disabled]="user.photo === null">Reset profile picture</button>
+                                            </div>
+                                        
+                                        </ng-container>
+                                    </nz-modal>
+
+                                    <!--END MODAL-->
+                                </div>
+
+                                
+                                
+
+                            </div>
+                            <div nz-row class="user-info-container">
+                               <h3>{{user.firstname}} {{user.lastname}}</h3>
+                               <p>{{user.email}}</p>
+                            </div>
+                        </nz-card>
+                    </div>  
+                </div>
+               
            </ng-container>
           
+           <!--APPLIED JOB-->
+            <div *ngIf="selectedProfileOption==='jobs-alert'">
+                <div nz-row class="top-text">
+                    <h3>Applied Jobs</h3> 
+                </div>
+               
+                    
+                <div nz-row>
+                    <div nz-col nzFlex="3">
+                        <div class="job-search">
+                            <input nz-input  placeholder="Search for job"  class="job-search-input" [(ngModel)]="search" (keyup)="searchJob()"/>
+                            <button nz-button  [nzType]="'primary'" class="job-serach-btn"><i nz-icon nzType="search" ></i></button>
+                        </div>
+                        
 
+                    </div>
+
+                    <div nz-col nzFlex="2" class="candidates-num" >
+                        <p>Showing : <span class="jobs-num">{{searchJobs.length}}</span> Applied Jobs</p>
+                    </div>
+                </div>
+                <div class="job-cards">
+                    <div nz-row  *ngFor="let job of searchJobs.slice(startIndexSearch, endIndexSearch) " >
+
+                        <nz-card  class="job-card" >
+                            
+                            <nz-card-meta
+                            [nzAvatar]="avatarTemplate"
+                            [nzTitle]="titleCard"
+                            [nzDescription]="descriptionTmpl"
+                            ></nz-card-meta>
+
+                            <div nz-row [nzGutter]="128" class="card-footer">
+                                <div nz-col [nzSpan]="12">
+                                    <div class="job-type-container">
+                                        <p class="job-type"  *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                                        <p class="job-type"  *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                                        <p class="job-type"  *ngIf="job.jobType==='Intern'">Intership</p>
+                                    </div>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <div class="job-date-container">
+                                        <p class="job-date">{{formatDate(job.created_at)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </nz-card>
+                        <ng-template #avatarTemplate>
+                            <nz-avatar [nzSize]="64" [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>
+                            <nz-avatar [nzSize]="64"  nzIcon="user" *ngIf="job.companyPhoto===null"></nz-avatar>
+                        
+                        </ng-template>
+
+                        <ng-template #titleCard>
+                            <a routerLink="/job-detail/{{job.id}}" class="card-title">{{job.title}}</a>
+                            <div class="job-location-title">
+                                <fa-icon [icon]="myLocationIcon"></fa-icon>
+                                <p>{{job.location}}</p> 
+                            </div>
+                        </ng-template>
+
+                        <ng-template #descriptionTmpl>
+                            <p class="card-description" *ngIf="job.description.length<100">{{job.description}}</p>
+                            <p class="card-description" *ngIf="job.description.length>100">{{job.description.slice(0,100)}}...</p>            
+
+                        </ng-template>
+
+                    </div> 
+                    <div nz-row>
+                        <div nz-col nzSpan="12" nzOffset="6">
+                    
+                            <div class="pagination">
+                                <nz-pagination [nzPageIndex]="currentPageSearch" [nzPageSize]="itemsPerPageSearch" [nzTotal]="totalItemsSearch" (nzPageIndexChange)="currentPageSearch = $event"></nz-pagination>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            
+               
+            </div>
+            <!--APPLIED JOB-->
           
+            <!-- JOB ALERT -->
+            <div *ngIf="selectedProfileOption==='saved'">
+                <div nz-row class="top-text">
+                    <h3>Job Alert</h3> 
+                    <p>You will get notified when a new job post matches your alert</p>
+                </div>
+               
+                    
+                <div nz-row>
+                    <div nz-col nzFlex="3">
+                        <div class="job-search">
+                            <input nz-input  placeholder="Search job alert"  class="job-search-input" [(ngModel)]="searchAlert" (keyup)="searchAlertJob()"/>
+                            <button nz-button  [nzType]="'primary'" class="job-serach-btn"><i nz-icon nzType="search" ></i></button>
+                        </div>
+                        
 
+                    </div>
+
+                    <div nz-col nzFlex="2" class="candidates-num" >
+                        <button nz-button class="update-form-btn" [nzType]="'primary'" (click)="addJobAlertModal()">Create Job Alert</button>
+
+                        <!--ADD JOB ALERT MODAL-->
+                        <nz-modal
+                        [(nzVisible)]="jobModal"
+                        nzTitle="Create Job Alert"
+                        nzCentered
+                        (nzOnCancel)="handleCancelJobModal()"
+                        (nzOnOk)="handleOkJobModal()"
+                        [nzFooter]="null" >
+                            <ng-container *nzModalContent>
+                                <form  nz-form nzLayout="vertical"  [formGroup]="formJobAlert">
+                                    
+                                    <div nz-row>
+
+                                        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Experience</nz-form-label>
+                                                <nz-form-control nzSpan="vertical" [nzErrorTip]="experienceErrorTemplate" >
+                                                    <input nz-input  placeholder="Experience" formControlName="experience" class="job-alert-input"/>
+                                                    <ng-template #experienceErrorTemplate>
+                                                        <div  *ngIf="validateForm.get('experience')?.value === '' && validateForm.get('experience')?.hasError('required')" class="error-message">Exeprience is required</div>
+                                                    </ng-template>
+                                                </nz-form-control>                                             
+                                            </nz-form-item>
+                                        </div>
+
+                                    </div>
+
+                                
+                                    <div nz-row>
+                                        <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Location</nz-form-label>
+                                                <nz-form-control nzSpan="vertical" [nzErrorTip]="experienceErrorTemplate" >
+                                                    <input nz-input  placeholder="Location" formControlName="location" />
+                                                    <ng-template #experienceErrorTemplate>
+                                                        <div  *ngIf="validateForm.get('location')?.value === '' && validateForm.get('location')?.hasError('required')" class="error-message">Location is required</div>
+                                                    </ng-template>
+                                                </nz-form-control>                                             
+                                            </nz-form-item>
+                                        </div>
+                                        <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Job Type</nz-form-label>
+                                                <nz-form-control nzSpan="vertical"  nzErrorTip="Please select a job type">
+                                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Job Type" formControlName="jobType" >
+                                                        <nz-option *ngFor="let type of jobType" [nzLabel]="type" [nzValue]="type"></nz-option>
+                                                    </nz-select>
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                        </div>
+                                    </div>
+
+                                    <div nz-row>
+                                        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                                            <div class="skills-label">
+                                                <p>Skills</p>
+                                                <span>All skills presented here are selected from your profile</span>
+                                                <div nz-row >
+                                                    <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="6" [nzLg]="6" *ngFor="let skill of userSkills">
+                                                        <button nz-button nzType="default" nzBlock 
+                                                        [class.selected-skill]="isSelected(skill)"
+                                                        (click)="toggleSkillSelection(skill)" >{{skill.skill}}</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                    <button nz-button class="update-form-btn" [nzType]="'primary'" (click)="addJobAlert()">Add</button>
+                                </form>
+                            </ng-container>
+                        </nz-modal>
+                        <!--ADD JOB ALERT MODAL-->
+                       
+                    </div>
+                </div>
+                <div nz-row>
+                    <nz-alert nzType="success" nzCloseable nzMessage={{addSuccess}} nzShowIcon  (nzOnClose)="afterCloseJobAlert()" *ngIf="addSuccess!== ''"></nz-alert>
+                </div>
+                <div class="job-cards">
+                    <div nz-row  *ngFor="let job of jobAlertSearch.slice(startIndexSearchAlert, endIndexSearchAlert) " >
+
+                        <nz-card  class="job-card" [nzActions]="[actionEdit, actionDelete]">
+
+                            <div nz-row>
+                                <div nz-col [nzSpan]="12">
+                                    <nz-tag [nzColor]="'blue'" class="skill-tag" *ngFor="let skill of job.skills">{{skill.skill}}</nz-tag>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <div class="job-alert-location">
+                                        <fa-icon [icon]="myLocationIcon" class="job-alert-icon"></fa-icon>
+                                        <p>{{job.location}}</p> 
+                                    </div>
+                                </div>
+                            </div>
+                          
+
+                            <div nz-row [nzGutter]="128" class="card-footer">
+                                <div nz-col [nzSpan]="12">
+                                    <div class="job-type-container">
+                                        <p class="job-type"  *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                                        <p class="job-type"  *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                                        <p class="job-type"  *ngIf="job.jobType==='Intern'">Intership</p>
+                                    </div>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <div class="job-date-container">
+                                        <p class="job-date">{{formatDate(job.created_at)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            
+                        </nz-card>
+                        <ng-template #actionEdit>
+                            <i nz-icon nzType="edit" (click)="updateJobAlertModal(job.id)"></i>
+                             <!--ADD JOB ALERT MODAL-->
+                            <nz-modal
+                             [(nzVisible)]="jobModalUpdate"
+                             nzTitle="Create Job Alert"
+                             nzCentered
+                             (nzOnCancel)="handleCancelJobUpdateModal()"
+                             (nzOnOk)="handleOkJobUpdateModal() "
+                             [nzFooter]="null" >
+                                 <ng-container *nzModalContent>
+                                     <form  nz-form nzLayout="vertical"  [formGroup]="formJobAlert">
+                                         
+                                        <div nz-row>
+ 
+                                            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                                                <nz-form-item>
+                                                    <nz-form-label nzSpan="vertical" class="form-label">Experience</nz-form-label>
+                                                    <nz-form-control nzSpan="vertical" [nzErrorTip]="experienceErrorTemplate" >
+                                                        <input nz-input  placeholder="Experience" formControlName="experience" class="job-alert-input"/>
+                                                        <ng-template #experienceErrorTemplate>
+                                                            <div  *ngIf="validateForm.get('experience')?.value === '' && validateForm.get('experience')?.hasError('required')" class="error-message">Exeprience is required</div>
+                                                        </ng-template>
+                                                    </nz-form-control>                                             
+                                                </nz-form-item>
+                                            </div>
+ 
+                                        </div>
+ 
+                                     
+                                        <div nz-row>
+                                            <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                                                <nz-form-item>
+                                                    <nz-form-label nzSpan="vertical" class="form-label">Location</nz-form-label>
+                                                    <nz-form-control nzSpan="vertical" [nzErrorTip]="experienceErrorTemplate" >
+                                                        <input nz-input  placeholder="Location" formControlName="location" />
+                                                        <ng-template #experienceErrorTemplate>
+                                                            <div  *ngIf="validateForm.get('location')?.value === '' && validateForm.get('location')?.hasError('required')" class="error-message">Location is required</div>
+                                                        </ng-template>
+                                                    </nz-form-control>                                             
+                                                </nz-form-item>
+                                            </div>
+                                            <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                                                <nz-form-item>
+                                                    <nz-form-label nzSpan="vertical" class="form-label">Job Type</nz-form-label>
+                                                    <nz-form-control nzSpan="vertical"  nzErrorTip="Please select a job type">
+                                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Job Type" formControlName="jobType" >
+                                                            <nz-option *ngFor="let type of jobType" [nzLabel]="type" [nzValue]="type"></nz-option>
+                                                        </nz-select>
+                                                    </nz-form-control>
+                                                </nz-form-item>
+                                            </div>
+                                        </div>
+ 
+                                        <div nz-row>
+                                            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                                                <div class="skills-label">
+                                                    <p>Skills</p>
+                                                    <span>All skills presented here are selected from your profile</span>
+                                                    <div nz-row [nzGutter]="4">
+                                                        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="6" [nzLg]="6" *ngFor="let skill of userSkills">
+                                                            <button nz-button nzType="default" nzBlock 
+                                                            [class.selected-skill]="isSelectedUpdate(skill)"
+                                                            (click)="toggleSkillSelection(skill)"
+                                                            class="jobAlert-btn">{{skill.skill}}</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        <div nz-row>
+                                            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                                                <button nz-button class="job-alert-btn" [nzType]="'primary'" (click)="updateJobAlert()">Add Job Alert</button>
+                                            </div>
+
+                                        </div>
+                                     </form>
+                                 </ng-container>
+                            </nz-modal>
+                            <!--ADD JOB ALERT MODAL-->
+                        </ng-template>
+                        <ng-template #actionDelete>
+                          <i nz-icon nzType="delete" (click)="deleteJobAlert(job.id)"></i>
+                        </ng-template>
+
+                        
+
+                    </div> 
+                    <div nz-row>
+                        <div nz-col nzSpan="12" nzOffset="6">
+                    
+                            <div class="pagination">
+                                <nz-pagination [nzPageIndex]="currentPageSearchAlert" [nzPageSize]="itemsPerPageSearchAlert" [nzTotal]="totalItemsSearchAlert" (nzPageIndexChange)="currentPageSearchAlert = $event"></nz-pagination>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            
+               
+            </div>
+            <!--JOB ALERT -->
+
+
+            <!--PASSWORD -->
+            <div *ngIf="selectedProfileOption==='security'">
+                <div nz-row class="top-text">
+                    <h3>Update Password</h3> 
+                </div>
+                
+                <div nz-row >
+                    <div nz-col nzSpan="24">
+                        <nz-alert nzType="error" nzCloseable nzMessage={{invalidOldPassError}} nzShowIcon  (nzOnClose)="afterClosePassword()"
+                        *ngIf="invalidOldPassError !=='' " ></nz-alert>
+
+                        <nz-alert nzType="success" nzCloseable nzMessage={{successUpdatePass}} nzShowIcon  (nzOnClose)="afterCloseSuccessUpdatePassword()"
+                        *ngIf="successUpdatePass !=='' " ></nz-alert>
+
+                        <form nz-form nzLayout="vertical"  [formGroup]="validateFormPass" (ngSubmit)="updatePassForm()">
+                        
+
+                            <div class="pass-field">
+                                <nz-input-group [nzSuffix]="suffixTemplateOld" class="pass-input-grp">
+                                    <nz-form-label nzSpan="vertical" class="pass-input-label">Old Password</nz-form-label>
+                                    <nz-form-control nzSpan="vertical">
+                                        <input
+                                        nz-input
+                                        [type]="passwordVisibleOld ? 'text' : 'password'"
+                                        placeholder="Old password"
+                                        formControlName="oldpass"
+                                        (ngModelChange)="validateNewPassword()"
+                                        class="input-pass"
+                                    />
+
+                                        <ng-container *ngIf="validateFormPass.get('oldpass')?.hasError('required')&&(validateFormPass.get('oldpass')?.touched || validateFormPass.get('oldpass')?.dirty) " >
+                                            <div class="errorPass">Please input your old password</div>
+                                        </ng-container>
+            
+                                    </nz-form-control>
+                                    
+                                    
+                                </nz-input-group>
+                                <ng-template #suffixTemplateOld>
+                                    <i nz-icon [nzType]="passwordVisibleOld ? 'eye-invisible' : 'eye'" (click)="passwordVisibleOld = !passwordVisibleOld"
+                                    class="eye-icon-pass"
+                                    [class.error-icon]="validateFormPass.get('oldpass')?.hasError('required') && (validateFormPass.get('oldpass')?.touched || validateFormPass.get('oldpass')?.dirty)"
+                                    ></i>
+                                </ng-template>
+            
+                            </div>
+
+                            <div class="pass-field">
+                                <nz-input-group [nzSuffix]="suffixTemplate" class="pass-input-grp">
+                                    <nz-form-label nzSpan="vertical" class="pass-input-label">New Password</nz-form-label>
+                                    <nz-form-control nzSpan="vertical"  >
+                                        <input
+                                        nz-input
+                                        [type]="passwordVisible ? 'text' : 'password'"
+                                        placeholder="new password"
+                                        formControlName="password"
+                                        (ngModelChange)="validateConfirmPassword()"
+                                        class="input-pass"
+                                    />
+
+                                        <ng-container *ngIf="validateFormPass.get('password')?.hasError('required')&&(validateFormPass.get('password')?.touched || validateFormPass.get('password')?.dirty) " >
+                                            <div class="errorPass">Please input your password</div>
+                                        </ng-container>
+
+                                       
+                
+                                        <ng-container *ngIf="validateFormPass.get('password')?.hasError('confirm')&&(validateFormPass.get('password')?.touched || validateFormPass.get('password')?.dirty) " >
+                                            <div class="errorPass">New password should be different from your old one</div>
+                                        </ng-container>
+            
+                                    </nz-form-control>
+                                    
+                                    
+                                </nz-input-group>
+                                <ng-template #suffixTemplate>
+                                    <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" 
+                                    class="eye-icon-pass"
+                                    [class.error-icon]="validateFormPass.get('password')?.hasError('required') && (validateFormPass.get('password')?.touched || validateFormPass.get('password')?.dirty)"
+                                    ></i>
+                                </ng-template>
+            
+                            </div>
+                        
+
+                            <div class="pass-field">
+                                <nz-input-group [nzSuffix]="suffixTemplateConf" class="pass-input-grp">
+                                    <nz-form-label nzSpan="vertical" class="pass-input-label">Confirm Password</nz-form-label>
+                                    <nz-form-control nzSpan="vertical">
+                                        <input
+                                        nz-input
+                                        [type]="passwordVisibleConf ? 'text' : 'password'"
+                                        placeholder="confirm your password"
+                                        formControlName="confirm"
+                                        class="input-pass"
+                                        />
+
+                                        <ng-container *ngIf="validateFormPass.get('confirm')?.hasError('required')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) " >
+                                            <div class="errorPass">Please confirm your password</div>
+                                        </ng-container>
+                
+                                        <ng-container *ngIf="validateFormPass.get('confirm')?.hasError('confirm')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) " >
+                                            <div class="errorPass">Password is inconsistent</div>
+                                        </ng-container>
+
+
+                                        
+                                    
+            
+                                    </nz-form-control>
+                                
+                                </nz-input-group>
+            
+                                <ng-template #suffixTemplateConf>
+                                    <i nz-icon [nzType]="passwordVisibleConf ? 'eye-invisible' : 'eye'" (click)="passwordVisibleConf = !passwordVisibleConf"
+                                    class="eye-icon-pass"
+                                    [class.error-icon]="(validateFormPass.get('confirm')?.hasError('required')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) ) || ( validateFormPass.get('confirm')?.hasError('confirm')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) ) "
+                                    ></i>
+                                </ng-template>
+                            </div>
+                            <div class="login-form-actions">
+                                <button nz-button class="update-form-btn" [nzType]="'primary'">Update</button>
+                            </div>
+
+                        
+                        
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <!-- END PASSWORD -->
            
 
 
@@ -477,14 +990,7 @@
                 </div>
            </div>
             
-           <div *ngIf="selectedProfileOption==='jobs-applied'">
-                <div nz-row>
-                    <div nz-col nzSpan="24">
-                        
-                    </div>
-                </div>
-           </div>
-
+        
            
 
         </div>
@@ -520,3 +1026,4 @@
    </div>
    
 </div>
+<!--PDF-->

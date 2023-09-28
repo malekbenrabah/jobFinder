@@ -87,6 +87,9 @@ export class UserServiceService {
     return this.http.get("http://localhost:8086/app/user/userInfo");
   }
 
+  getUserbyId(id:number){
+    return this.http.get("http://localhost:8086/app/user/userInfoById?id="+id);
+  }
 
   updateUser(user:User, photo:File){
     //create formdata object
@@ -141,6 +144,10 @@ export class UserServiceService {
     return this.http.get("http://localhost:8086/app/skills/getSkills");
   }
 
+  getCandidateSkills(id:number){
+    return this.http.get("http://localhost:8086/app/skills/getUserSkills?id="+id)
+  }
+
   deleteSkill(id:any){
    
     return this.http.delete("http://localhost:8086/app/skills/deleteSkill?id="+id);
@@ -171,6 +178,10 @@ export class UserServiceService {
       return this.http.delete("http://localhost:8086/app/experience/removeExperience?id="+id);
     }
 
+    getExperienceByUserId(id:number){
+      return this.http.get("http://localhost:8086/app/experience/getExperienceById?id="+id);
+    }
+
   /*Experience */
 
   /*Education */
@@ -190,6 +201,10 @@ export class UserServiceService {
 
     removeEducation(id:number){
       return this.http.delete("http://localhost:8086/app/education/deleteEducation?id="+id);
+    }
+
+    getEducationByUserId(id:number){
+      return this.http.get("http://localhost:8086/app/education/educationsByUserId?id="+id);
     }
   /*Education */
 
