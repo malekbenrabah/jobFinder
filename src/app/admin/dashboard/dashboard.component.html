@@ -1,0 +1,61 @@
+<div nz-row [nzGutter]="10">
+    <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="card-container">
+        <nz-card class="dash-card">
+            <div nz-row>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
+                    <div class="card-info">
+                        <h2>{{nbJobs}}</h2>
+                        <p>Posted Jobs</p>
+                    </div>
+                </div>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8"  class="card-avatar">
+                    
+                    <fa-icon [icon]="jobsIcon" class="avatar-icon jobs-icon-blue"></fa-icon>
+            
+                </div>
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="card-container">
+        <nz-card class="dash-card">
+            <div nz-row>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
+                    <div class="card-info">
+                        <h2>{{nbUsers}}</h2>
+                        <p>Job Seeker</p>
+                    </div>
+                </div>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8"  class="card-avatar">
+                    <i nz-icon nzType="user" nzTheme="outline" class="avatar-icon jobs-icon-green"></i>   
+            
+                </div>
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="card-container">
+        <nz-card class="dash-card">
+            <div nz-row>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
+                    <div class="card-info">
+                        <h2>{{nbCompanies}}</h2>
+                        <p>Companies</p>
+                    </div>
+                </div>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8"  class="card-avatar">
+                    
+                    <fa-icon [icon]="companyIcon" class="avatar-icon jobs-icon-purple"></fa-icon>
+            
+                </div>
+            </div>
+        </nz-card>
+    </div>
+</div>
+
+<div nz-row class="posts-month-chart">
+    
+        <canvas id="jobsChart2"  width="400" height="100"></canvas>
+
+   
+   
+   
+</div>

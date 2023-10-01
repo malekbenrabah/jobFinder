@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+/*form*/
+
+.profile-form{
+    float: left;
+   
+}
+
+.profile-title{
+    font-weight: 700;
+    color: #05264E;
+    font-size: 25px;
+    font-family: 'Rubik', sans-serif;
+
+  
+}
+
+.form-label{
+    color: #4F5E64!important;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.form-input{
+    border: 1px solid #E0E6F6;
+    border-radius: 8px;
+    width: 100%;
+    height: 53px;
+    font-family: 'Rubik', sans-serif; 
+}
+
+
+
+.update-form-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 21px 35px;
+    border-radius: 8px;
+    transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    font-weight: 500;
+    background-color: #2563eb;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.update-form-btn:hover{
+    transform: translateY(-2px);
+    background-color: #05264E;
+    border-color: #05264E;
+    color: #fff;
+}
+/*end form*/
+
+/*user card*/
+
+
+.profile-card{
+    float: right;
+   margin-top: 50px;
+}
+.user-info-card{
+    border-radius: 10px;
+    transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    border: 1px solid #E0E6F6;
+    
+    margin-left: 50px;
+    
+}
+.user-info-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1);
+}
+.user-photo{
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 15px;
+}
+
+.btn-container{
+    position: absolute;
+    transform: translate(185%, 368%);
+}
+.update-img-icon{
+    font-size: 17px;
+    color: #05264E;
+}
+.user-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info h3{
+    font-weight: 700;
+    color: #05264E;
+    font-size: 26px;
+}
+.user-info p{
+    color: #6c757d;
+    size: 16px;
+}
+.user-avatar{
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 50px;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.user-img{
+    width: 150px;
+    height: 150px; 
+    border-radius: 10px; 
+}
+.user-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*end user card */
+
+/*MODAL*/
+.modal-but-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+  
+.modal-btn-delte{
+    border: none;
+    color: #ff4d4f;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+}
+  
+.modal-btn-delte:disabled{
+    border: none;
+    color: #ff4d4f;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+    background-color: transparent;
+}
+  
+.modal-btn-update{
+    border: none;
+    color: #03417c;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold;
+}
+/*END MODAL*/
+
+/*password */
+
+.top-text{
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: space-evenly;
+    align-content: flex-start;
+}
+
+.top-text h3{
+    color: #05264E;
+    font-size: 25px;
+    font-weight: 700;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.top-text-link{
+    color:#03417c ;
+    font-size: 23px;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.top-text p{
+    font-size: 16px;
+    color: #6c757d;
+    margin-top:-15px;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.pass-field{
+    margin-bottom: 25px;
+    position: relative;
+}
+.eye-icon-pass {
+    cursor: pointer;
+    font-size: 17px;
+    position: absolute;
+    top: 50%; /* center vertically */
+    right: 10px; /*right spacing */
+    transform: translateY(30%);
+
+}
+
+.pass-input-grp{
+    all: unset;
+    position: relative;
+}
+
+.pass-input-label{
+    
+
+    color: #4F5E64!important;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+nz-alert{
+    margin-bottom: 5px;
+    margin-right: 90px;
+}
+.errorPass{
+    color: #ff4d4f;
+    margin-left:15px;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.error-icon{
+    color: #ff4d4f;
+    cursor: pointer;
+    font-size: 17px;
+    position: absolute;
+    top: 50%; /* center vertically */
+    right: 10px; /*right spacing */
+    transform: translateY(-50%);
+}
+
+
+.input-pass{
+    border: 1px solid #E0E6F6;
+    border-radius: 8px;
+    width: 100%;
+    height: 53px;
+    font-family: 'Rubik', sans-serif;
+
+    
+}
+/*end password*/
+
+::ng-deep .ant-tabs-tab {
+    font-size: 18px!important; 
+    font-weight: 500;
+    font-family: 'Rubik', sans-serif;
+    color: #05264E;
+}

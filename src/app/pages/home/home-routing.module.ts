@@ -8,6 +8,8 @@ import { AuthGuard } from 'src/app/services/guards/auth.guard';
 import { JobListComponent } from './job-list/job-list.component';
 import { JobGridComponent } from './job-grid/job-grid.component';
 import { JobDetail2Component } from './job-detail2/job-detail2.component';
+import { LoggedInGuard } from 'src/app/services/guards/loggedIn/logged-in.guard';
+import { AdminGuard } from 'src/app/services/guards/admin/admin.guard';
 
 const routes: Routes = [
    
@@ -16,16 +18,15 @@ const routes: Routes = [
     {path:"job-detail/:id",component:JobDetail2Component},
     {path:"job-list",component:JobListComponent},
     {path:"job-grid",component:JobGridComponent},
-    {path:"not-found", component:NotFoundComponent},
     {path:"account" , loadChildren:()=>import("../account/account.module").then(module=>module.AccountModule),canActivate:[AuthGuard]},
 
   ]},
   
   
+  /*{path:'admin',loadChildren:()=>import("./../../admin/admin.module").then(module=>module.AdminModule),canActivate:[AdminGuard]},*/
+  {path:'auth',loadChildren:()=>import("./../../auth/auth.module").then(module=>module.AuthModule),canActivate: [LoggedInGuard]},
 
-  {path:'auth',loadChildren:()=>import("./../../auth/auth.module").then(module=>module.AuthModule)},
-
-  { path: '**', redirectTo: 'not-found' }
+  /*{ path: '**', redirectTo: 'not-found' }*/
 ];
 
 @NgModule({

@@ -1,0 +1,172 @@
+<div class="users-container">
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16">
+            <div class="job-search">
+                <input nz-input  placeholder="Search for job"  class="job-search-input" [(ngModel)]="search" (keyup)="searchUser()"/>
+                <button nz-button  [nzType]="'primary'" class="job-serach-btn"><i nz-icon nzType="search" ></i></button>
+            </div>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8">
+            
+        </div>
+    </div>
+
+    <div nz-row class="user-tabs">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+            <nz-table #basicTable [nzData]="searchJobs" 
+            [nzTotal]="totaljobs"
+            [nzPageSize]="itemsPerPagejob"
+            [nzPageIndex]="currentPagejob"
+            [nzSize]="'middle'"
+            [nzScroll]="{ x: '1700px' }"
+            >
+                <thead>
+                  <tr>
+                    <th nzLeft>ID</th>
+                    <th nzLeft>Title</th>
+                    <th>Job Type</th>
+                    <th>Location</th>
+                    <th>Experience</th>
+                    <th>Industry</th>
+                    <th>Created</th>
+                    <th nzRight>Deadline</th>
+                    <th nzRight>Actions</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data">
+                    <td nzLeft>{{ data.id }}</td>
+                    <td nzLeft>{{ data.title }}</td>
+                    <td>{{ data.jobType }}</td>
+                    <td>{{ data.location }}</td>
+                    <td>{{ data.experience }}</td>
+                    <td>{{data.sector}}</td>
+                    <td >{{formatDate(data.created_at)}}</td>
+                    <td nzRight>{{formatDeadline(data.deadline)}}</td>
+                    <td nzRight>
+                        <button nz-button nzType="default"  nz-tooltip nzTooltipTitle="View More" nzTooltipPlacement="left" class="view-btn" (click)="viewMoreModal(data.id)"><i nz-icon nzType="eye" nzTheme="outline"></i></button>
+                        <!--VIEW MODAL-->
+                            <nz-modal
+                            [(nzVisible)]="viewModal"
+                            nzTitle="View Job Detailes"
+                            (nzOnCancel)="handleCanceViewlModal()"
+                            (nzOnOk)="handleOkViewModal()"
+                            [nzFooter]="null" 
+                            nzWidth="1000px">
+                            <ng-container *nzModalContent>
+                                <form nz-form nzLayout="vertical" [formGroup]="jobForm">
+                                    <div nz-row [nzGutter]="8">
+                    
+                                        <div nz-col [nzSpan]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Title</nz-form-label>
+                                                <input nz-input  placeholder="Title" [value]="job.title" [disabled]="true"  class="form-input"/>
+                                            </nz-form-item> 
+                                        </div>
+
+                                        <div nz-col [nzSpan]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Experience</nz-form-label>
+                                                <nz-form-control nzSpan="vertical" >
+                                                    <input nz-input [value]="job.experience"  placeholder="Experience"  [disabled]="true" class="form-input" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                        
+                                        </div>
+
+                                    </div>
+                        
+                                    
+                                    
+                                    <div nz-row  [nzGutter]="8">
+                        
+                                        <div nz-col [nzSpan]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Industy</nz-form-label>
+                                                <nz-form-control nzSpan="vertical" >
+                                                    <input nz-input [value]="job.sector"  placeholder="Email"  [disabled]="true" class="form-input" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                        
+                                        </div>
+
+                                        <div nz-col [nzSpan]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Job Type</nz-form-label>
+                                                <input nz-input  placeholder="Job Type" [value]="job.jobType" [disabled]="true"  class="form-input"/>
+                                            </nz-form-item> 
+                                        </div>
+
+                                        
+                        
+                                        
+                                    </div>
+                        
+                                    <div nz-row  [nzGutter]="8">
+                                        
+                                        <div nz-col [nzSpan]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Created </nz-form-label>
+                                                <nz-date-picker nzFormat="yyyy-MM-dd" nzInline formControlName="created_at" nzDisabled></nz-date-picker>
+                                            </nz-form-item>
+                                        </div>
+
+                                        <div nz-col [nzSpan]="12">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Deadline</nz-form-label>
+                                                <nz-date-picker nzFormat="yyyy-MM-dd HH:mm:ss" nzInline formControlName="deadLine" nzShowTime nzDisabled></nz-date-picker>
+                                            </nz-form-item>
+                                        </div>
+
+                                    </div>
+                        
+                                    <div nz-row>
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Location</nz-form-label>
+                                                <nz-form-control nzSpan="vertical" >
+                                                    <input nz-input [value]="job.location"  placeholder="Location"  [disabled]="true" class="form-input" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                        
+                                        </div>
+                        
+                                    </div>
+
+                                    <div nz-row>
+                                        <div nz-col [nzSpan]="24">
+                                                <nz-form-label nzSpan="vertical" class="form-label">Job skills</nz-form-label><br>
+                                                <nz-tag [nzColor]="'blue'" class="skill-tag" *ngFor="let skill of job.skills">{{skill.skill}}</nz-tag>
+                                         
+                                        </div>
+                                    </div>
+
+                                    <div nz-row>
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Description</nz-form-label>
+                                                <textarea rows="4" nz-input  [value]="job.description" [disabled]="true" class="form-input about-input"></textarea>
+                                            </nz-form-item>
+                                        </div>
+                        
+                                    </div>
+
+                                   
+                        
+        
+                                </form>
+                            </ng-container>
+                            </nz-modal>
+                        <!--VIEW MODAL-->
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default"  nz-tooltip nzTooltipTitle="Delete Company" nzTooltipPlacement="left" class="delete-btn" (click)="deleteJob(data.id)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
+                    </td>
+                  </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+
+</div>

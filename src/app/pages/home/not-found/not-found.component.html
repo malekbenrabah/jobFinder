@@ -1,6 +1,23 @@
 
-<nz-result nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the page you visited does not exist.">
-    <div nz-result-extra>
-        <a nz-button routerLink="/" nzType="primary">Back Home</a>
-    </div>
-</nz-result>
+
+
+<nz-layout class="layout">
+  
+    <app-navbar></app-navbar>
+    
+    <nz-content>
+      <div class="inner-content">
+        
+        <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the page you visited does not exist.">
+            <div nz-result-extra>
+                <a nz-button routerLink="/" nzType="primary">Back Home</a>
+            </div>
+        </nz-result>
+        
+      </div>
+    </nz-content>
+   
+  
+    <app-footer></app-footer>
+</nz-layout>
+  

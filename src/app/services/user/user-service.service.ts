@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { Skill } from './model/Skill';
 import { Experience } from './model/Experience';
 import { Education } from './model/Education';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,16 @@ export class UserServiceService {
     return localStorage.getItem('token')||'';
   }
 
+  /*
+  haveAccess(){
+    var logginToken = localStorage.getItem('token') || '';
+    var decodedToken = jwt_decode(logginToken);
+    console.log('Decoded Token:', decodedToken);
+  }
+  */
+
+  
+
   //registration 
   register(userInfo:any){
     return this.http.post('http://localhost:8086/app/auth/register',userInfo);
@@ -66,6 +77,10 @@ export class UserServiceService {
   checkUserEmail(userEmail:string){
     
     return this.http.get<boolean>('http://localhost:8086/app/user/checkUserEmail?userEmail='+userEmail);
+  }
+
+  userRole(){
+    return this.http.get("http://localhost:8086/app/user/userRole");
   }
 
   forgotPassword(email:string){
@@ -131,6 +146,10 @@ export class UserServiceService {
     formData.append('newPass',newPass);
 
     return this.http.put("http://localhost:8086/app/user/updatePass",formData);
+  }
+
+  deleteUser(id:number){
+    return this.http.delete("http://localhost:8086/app/user/deleteUser?id="+id);
   }
 
   /*cv */
@@ -212,8 +231,14 @@ export class UserServiceService {
     return this.http.get("http://localhost:8086/app/user/getCompanies");
   }
 
+  getUsers(){
+    return this.http.get("http://localhost:8086/app/user/getUsers");
+  }
+
   getNbUser(){
     return this.http.get("http://localhost:8086/app/user/nbUsers");
   }
+
+
 
 }

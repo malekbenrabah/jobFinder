@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.job-search{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.job-search-input{
+    border: 1px solid #E0E6F6;
+    height: 43px;
+   border-right: none;
+   border-top-left-radius: 8px;
+   border-bottom-left-radius:8px ;
+}
+
+.job-serach-btn{
+    height: 43px;
+    width: 10%;
+    border-top-right-radius:8px ;
+    border-bottom-right-radius: 8px;
+    box-shadow: none;
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+/*users table*/
+nz-table{
+    font-family: 'Rubik', sans-serif;
+
+}
+
+nz-table th{
+    font-weight: 700;
+    font-size: 16px;
+}
+.user-tabs{
+    margin-top: 50px;
+}
+
+.delete-btn{
+    border: none;
+    color: #ff4764;
+    background-color: transparent!important ;
+    box-shadow: none !important;
+}
+
+.delete-btn:hover{
+    color: #ffbfc9;
+}
+
+.view-btn{
+    border: none;
+    box-shadow: none !important;
+    background-color: transparent!important ;
+    color: #2563eb;
+
+}
+/*end users table*/
+
+/*form view more*/
+
+.profile-form{
+    float: left;
+   
+}
+
+.profile-title{
+    font-weight: 700;
+    color: #05264E;
+    font-size: 25px;
+    font-family: 'Rubik', sans-serif;
+
+  
+}
+
+.form-label{
+    color: #4F5E64!important;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    font-family: 'Rubik', sans-serif;
+
+}
+
+.form-input{
+    border: 1px solid #E0E6F6;
+    border-radius: 8px;
+    width: 100%;
+    height: 53px;
+    font-family: 'Rubik', sans-serif; 
+}
+
+.form-input[disabled]{
+    background-color: transparent;
+    color: #05264E;
+}
+
+.about-input{
+    height: 130px;
+}
+

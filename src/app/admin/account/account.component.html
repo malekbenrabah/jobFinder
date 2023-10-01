@@ -1,0 +1,279 @@
+
+<nz-tabset>
+    <nz-tab nzTitle="Profile">
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12" class="profile-form">
+                <h3 class="profile-title">Welcome Back, {{user.firstname}}</h3>
+                <nz-alert nzType="success" nzCloseable nzMessage={{profileUpdatedSucc}} nzShowIcon  (nzOnClose)="afterCloseProfile()"
+                *ngIf="profileUpdatedSucc !=='' " ></nz-alert>
+        
+                <form nz-form nzLayout="vertical" [formGroup]="validateForm" (ngSubmit)="submitForm()" >
+                    <div nz-row [nzGutter]="8">
+        
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical" class="form-label">First Name</nz-form-label>
+                                <nz-form-control nzSpan="vertical" [nzErrorTip]="firstnameErrorTemplate">
+                                    <input nz-input  placeholder="First Name"  formControlName="firstname" class="form-input"/>
+                                    <ng-template #firstnameErrorTemplate>
+                                    <div  *ngIf="validateForm.get('firstname')?.value === '' && validateForm.get('firstname')?.hasError('required')" class="error-message">FirstName is required</div>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+            
+                            
+                        </div>
+                    
+        
+                        <div nz-col [nzSpan]="12">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical" class="form-label">Last Name</nz-form-label>
+                                <nz-form-control nzSpan="vertical" [nzErrorTip]="lastnameErrorTemplate">
+                                    <input nz-input  placeholder="Last Name"  formControlName="lastname" class="form-input"/>
+                                    <ng-template #lastnameErrorTemplate>
+                                    <div  *ngIf="validateForm.get('lastname')?.value === '' && validateForm.get('lastname')?.hasError('required')" class="error-message">LastName is required</div>
+                                    </ng-template>
+                                </nz-form-control>
+                            </nz-form-item>
+            
+                            
+                        </div>
+                    
+                    </div>
+        
+                    
+                    
+                    <div nz-row >
+        
+                        <div nz-col [nzSpan]="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical" class="form-label">Email</nz-form-label>
+                                <nz-form-control nzSpan="vertical" >
+                                    <input nz-input [value]="user.email"  placeholder="Email"  [disabled]="true" class="form-input" />
+                                </nz-form-control>
+                            </nz-form-item>
+        
+                        </div>
+        
+                        
+                    </div>
+        
+                    <div nz-row>
+                        
+                        <div nz-col [nzSpan]="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical" class="form-label">Phone</nz-form-label>
+                                <nz-form-control nzSpan="vertical" nzErrorTip="Your phone is not valid">
+                                    <input nz-input  placeholder="Phone"  formControlName="phone" class="form-input" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+        
+                    <div nz-row>
+                        <div nz-col [nzSpan]="24">
+                            <nz-form-item>
+                                <nz-form-label nzSpan="vertical" class="form-label">Adresse</nz-form-label>
+                                <nz-form-control nzSpan="vertical">
+                                    <input nz-input  placeholder="Adresse" formControlName="adresse" class="form-input" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+        
+                    </div>
+        
+                    
+                    <div nz-row>
+                        <div nz-col [nzSpan]="24">
+                            <button nz-button class="update-form-btn" [nzType]="'primary'">Save Changes</button>
+                        </div>
+                    </div>
+        
+                </form>
+            </div>
+        
+            <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12" class="profile-card">
+                <nz-card class="user-info-card">
+                    <div nz-row class="user-photo">
+                        <div nz-col>
+                            <img [src]="this.uploadedPhoto || user.photo" alt="user" class="user-img" *ngIf="uploadedPhoto!=null || user.photo!==null">
+                            <ng-container *ngIf="uploadedPhoto === null && user.photo===null">
+                                <nz-avatar  nzShape="square" nzText={{getFirstLetter(user.firstname)}} class="user-avatar" ></nz-avatar>
+                            </ng-container>
+                        </div>
+                        <div nz-col class="btn-container">
+                            <button nz-button nzType="default" nzShape="circle" (click)="showModalMiddle()">
+                                <fa-icon [icon]="updateImgIcon" class="update-img-icon"></fa-icon>
+                            </button>
+        
+                            <!--MODAL-->
+                            <nz-modal
+                                [(nzVisible)]="isVisibleMiddle"
+                                nzTitle="Update your profile picture"
+                                nzCentered
+                                (nzOnCancel)="handleCancelMiddle()"
+                                (nzOnOk)="handleOkMiddle()"
+                                [nzFooter]="null" >
+                                <ng-container *nzModalContent>
+                                
+                                    <div class="modal-but-container">
+                                        <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput/>
+                                        <button nz-button nzType="default"  class="modal-btn-update" (click)="triggerFileInputClick()">Update profile picture</button>
+                                        
+        
+                                        <hr  style="width: 100%;">
+                                        <button nz-button nzType="default" class="modal-btn-delte"  (click)="deleteCurrentPhoto()"  [disabled]="user.photo === null">Reset profile picture</button>
+                                    </div>
+                                
+                                </ng-container>
+                            </nz-modal>
+        
+                            <!--END MODAL-->
+                        </div>
+        
+                        
+                        
+        
+                    </div>
+                    <div nz-row class="user-info">
+                        <h3>{{user.companyName}}</h3>
+                        <p>{{user.email}}</p>
+                    </div>
+                </nz-card>
+            </div>   
+        </div>
+    </nz-tab>
+    <nz-tab nzTitle="Security">
+        <div nz-row class="top-text">
+            <h3>Update Password</h3> 
+        </div>
+        
+        <div nz-row >
+            <div nz-col nzSpan="24">
+                <nz-alert nzType="error" nzCloseable nzMessage={{invalidOldPassError}} nzShowIcon  (nzOnClose)="afterClose()"
+                *ngIf="invalidOldPassError !=='' " ></nz-alert>
+
+                <nz-alert nzType="success" nzCloseable nzMessage={{successUpdatePass}} nzShowIcon  (nzOnClose)="afterCloseSuccessUpdate()"
+                *ngIf="successUpdatePass !=='' " ></nz-alert>
+
+                <form nz-form nzLayout="vertical"  [formGroup]="validateFormPass" (ngSubmit)="updatePassForm()">
+                
+
+                    <div class="pass-field">
+                        <nz-input-group [nzSuffix]="suffixTemplateOld" class="pass-input-grp">
+                            <nz-form-label nzSpan="vertical" class="pass-input-label">Old Password</nz-form-label>
+                            <nz-form-control nzSpan="vertical">
+                                <input
+                                nz-input
+                                [type]="passwordVisibleOld ? 'text' : 'password'"
+                                placeholder="Old password"
+                                formControlName="oldpass"
+                                (ngModelChange)="validateNewPassword()"
+                                class="input-pass"
+                            />
+
+                                <ng-container *ngIf="validateFormPass.get('oldpass')?.hasError('required')&&(validateFormPass.get('oldpass')?.touched || validateFormPass.get('oldpass')?.dirty) " >
+                                    <div class="errorPass">Please input your old password</div>
+                                </ng-container>
+    
+                            </nz-form-control>
+                            
+                            
+                        </nz-input-group>
+                        <ng-template #suffixTemplateOld>
+                            <i nz-icon [nzType]="passwordVisibleOld ? 'eye-invisible' : 'eye'" (click)="passwordVisibleOld = !passwordVisibleOld"
+                            class="eye-icon-pass"
+                            [class.error-icon]="validateFormPass.get('oldpass')?.hasError('required') && (validateFormPass.get('oldpass')?.touched || validateFormPass.get('oldpass')?.dirty)"
+                            ></i>
+                        </ng-template>
+    
+                    </div>
+
+                    <div class="pass-field">
+                        <nz-input-group [nzSuffix]="suffixTemplate" class="pass-input-grp">
+                            <nz-form-label nzSpan="vertical" class="pass-input-label">New Password</nz-form-label>
+                            <nz-form-control nzSpan="vertical"  >
+                                <input
+                                nz-input
+                                [type]="passwordVisible ? 'text' : 'password'"
+                                placeholder="new password"
+                                formControlName="password"
+                                (ngModelChange)="validateConfirmPassword()"
+                                class="input-pass"
+                            />
+
+                                <ng-container *ngIf="validateFormPass.get('password')?.hasError('required')&&(validateFormPass.get('password')?.touched || validateFormPass.get('password')?.dirty) " >
+                                    <div class="errorPass">Please input your password</div>
+                                </ng-container>
+
+                               
+        
+                                <ng-container *ngIf="validateFormPass.get('password')?.hasError('confirm')&&(validateFormPass.get('password')?.touched || validateFormPass.get('password')?.dirty) " >
+                                    <div class="errorPass">New password should be different from your old one</div>
+                                </ng-container>
+    
+                            </nz-form-control>
+                            
+                            
+                        </nz-input-group>
+                        <ng-template #suffixTemplate>
+                            <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible" 
+                            class="eye-icon-pass"
+                            [class.error-icon]="validateFormPass.get('password')?.hasError('required') && (validateFormPass.get('password')?.touched || validateFormPass.get('password')?.dirty)"
+                            ></i>
+                        </ng-template>
+    
+                    </div>
+                
+
+                    <div class="pass-field">
+                        <nz-input-group [nzSuffix]="suffixTemplateConf" class="pass-input-grp">
+                            <nz-form-label nzSpan="vertical" class="pass-input-label">Confirm Password</nz-form-label>
+                            <nz-form-control nzSpan="vertical">
+                                <input
+                                nz-input
+                                [type]="passwordVisibleConf ? 'text' : 'password'"
+                                placeholder="confirm your password"
+                                formControlName="confirm"
+                                class="input-pass"
+                                />
+
+                                <ng-container *ngIf="validateFormPass.get('confirm')?.hasError('required')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) " >
+                                    <div class="errorPass">Please confirm your password</div>
+                                </ng-container>
+        
+                                <ng-container *ngIf="validateFormPass.get('confirm')?.hasError('confirm')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) " >
+                                    <div class="errorPass">Password is inconsistent</div>
+                                </ng-container>
+    
+                            </nz-form-control>
+                        
+                        </nz-input-group>
+    
+                        <ng-template #suffixTemplateConf>
+                            <i nz-icon [nzType]="passwordVisibleConf ? 'eye-invisible' : 'eye'" (click)="passwordVisibleConf = !passwordVisibleConf"
+                            class="eye-icon-pass"
+                            [class.error-icon]="(validateFormPass.get('confirm')?.hasError('required')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) ) || ( validateFormPass.get('confirm')?.hasError('confirm')&&(validateFormPass.get('confirm')?.touched || validateFormPass.get('confirm')?.dirty) ) "
+                            ></i>
+                        </ng-template>
+                    </div>
+                    <div class="login-form-actions">
+                        <div nz-col nzSpan="24">
+                            <button nz-button class="update-form-btn" [nzType]="'primary'">Update</button>
+                        </div>
+                    </div>
+
+                
+                
+
+                </form>
+            </div>
+
+        </div>
+    </nz-tab>
+    
+</nz-tabset>
+
+
+
+

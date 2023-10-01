@@ -1,0 +1,49 @@
+<div class="login">
+    <div class="login-card">
+        <form nz-form [formGroup]="validateForm" class="login-form" >
+            <div class="logo-login">
+                <p class="logo">Job<span class="logo-span">Finder</span></p>
+            </div>
+
+            <nz-form-item>
+             
+              <div class="error" *ngIf="loginError===true">
+                <nz-alert nzType="error" nzMessage="Error" nzDescription="Authentication failed. Please check your email and password." nzShowIcon ></nz-alert>
+              </div>
+
+              
+
+              <nz-form-control   [nzErrorTip]="emailErrorTpl">
+                <nz-input-group nzPrefixIcon="mail">
+                    <input nz-input nzRequired formControlName="email" placeholder="email" type="email" />
+                </nz-input-group>
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('email')">This E-mail is not valid</ng-container>
+                  <ng-container *ngIf="control.hasError('required')">Please input your E-mail!</ng-container>
+                </ng-template>
+              </nz-form-control>
+
+            </nz-form-item>
+
+
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Please input your Password!">
+                <nz-input-group nzPrefixIcon="lock">
+                  <input type="password" class="login-input" nz-input formControlName="password" placeholder="Password" />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+            <div >
+                <a routerLink="/auth/forgot-password" class="login-form-forgot">Forgot password ?</a>
+            </div>
+
+            <div class="login-form-actions">
+                <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="submitForm()">Log in</button>
+               
+            </div>
+
+           
+        </form>
+    </div>
+   
+</div>

@@ -14,18 +14,16 @@ export class LoginComponent implements OnInit {
   responseData:any;
   
   loginError:boolean=false;
-
-  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router) { }
-
   submitForm(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
+      
       this.userService.login(this.validateForm.value).subscribe(r=>{
         if(r !=null){
           this.responseData=r;
           console.log('result',this.responseData);
           localStorage.setItem('token',this.responseData['token']);
-          this.router.navigate(['']);
+          this.router.navigate(['/admin']);
         }
       },
         error=>{
@@ -33,7 +31,6 @@ export class LoginComponent implements OnInit {
           this.loginError=true;
         }
       );
-     
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
@@ -44,11 +41,19 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  constructor(private fb: FormBuilder, private userService: UserServiceService, private router:Router) {}
+
+ 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       email: [null, [Validators.email,Validators.required]],
       password: [null, [Validators.required]]  
     });
+
+    
+    if(this.userService.isLoggedIn()){
+      this.router.navigate(['/admin']);
+    }
   }
 
 }

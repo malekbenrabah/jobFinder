@@ -1,0 +1,125 @@
+<div class="users-container">
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16">
+            <div class="job-search">
+                <input nz-input  placeholder="Search for job"  class="job-search-input" [(ngModel)]="search" (keyup)="searchUser()"/>
+                <button nz-button  [nzType]="'primary'" class="job-serach-btn"><i nz-icon nzType="search" ></i></button>
+            </div>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8">
+            
+        </div>
+    </div>
+
+    <div nz-row class="user-tabs">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+            <nz-table #basicTable [nzData]="searchCompanies" 
+            [nzTotal]="totalcompanies"
+            [nzPageSize]="itemsPerPagecompany"
+            [nzPageIndex]="currentPagecompany"
+            [nzSize]="'middle'">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Company Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data">
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.companyName }}</td>
+                    <td>{{ data.email }}</td>
+                    <td>{{data.phone}}</td>
+                    <td>
+                        <button nz-button nzType="default"  nz-tooltip nzTooltipTitle="View More" nzTooltipPlacement="left" class="view-btn" (click)="viewMoreModal(data.id)"><i nz-icon nzType="eye" nzTheme="outline"></i></button>
+                        <!--VIEW MODAL-->
+                            <nz-modal
+                            [(nzVisible)]="viewModal"
+                            nzTitle="View User Detailes"
+                            nzCentered
+                            (nzOnCancel)="handleCanceViewlModal()"
+                            (nzOnOk)="handleOkViewModal()"
+                            [nzFooter]="null" >
+                            <ng-container *nzModalContent>
+                                <form nz-form nzLayout="vertical">
+                                    <div nz-row [nzGutter]="8">
+                        
+                                    
+                        
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Company Name</nz-form-label>
+                                                <input nz-input  placeholder="Company Name" [value]="company.companyName" [disabled]="true"  class="form-input"/>
+                                            </nz-form-item>
+                            
+                                            
+                                        </div>
+                                    
+                                    </div>
+                        
+                                    
+                                    
+                                    <div nz-row >
+                        
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Email</nz-form-label>
+                                                <nz-form-control nzSpan="vertical" >
+                                                    <input nz-input [value]="company.email"  placeholder="Email"  [disabled]="true" class="form-input" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                        
+                                        </div>
+                        
+                                        
+                                    </div>
+                        
+                                    <div nz-row>
+                                        
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Phone</nz-form-label>
+                                                <input nz-input  placeholder="Phone"  [value]="company.phone" [disabled]="true" class="form-input" />
+                                            </nz-form-item>
+                                        </div>
+                                    </div>
+                        
+                                    <div nz-row>
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">Adresse</nz-form-label>
+                                                <input nz-input  placeholder="Adresse" [value]="company.adresse" [disabled]="true" class="form-input" />
+                                            </nz-form-item>
+                                        </div>
+                        
+                                    </div>
+
+                                    <div nz-row>
+                                        <div nz-col [nzSpan]="24">
+                                            <nz-form-item>
+                                                <nz-form-label nzSpan="vertical" class="form-label">About company</nz-form-label>
+                                                <textarea rows="4" nz-input  [value]="company.aboutMe" [disabled]="true" class="form-input about-input"></textarea>
+                                            </nz-form-item>
+                                        </div>
+                        
+                                    </div>
+                        
+        
+                                </form>
+                            </ng-container>
+                            </nz-modal>
+                        <!--VIEW MODAL-->
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button nzType="default"  nz-tooltip nzTooltipTitle="Delete Company" nzTooltipPlacement="left" class="delete-btn" (click)="deleteUser(data.id)"><fa-icon [icon]="deleteIcon"></fa-icon></button>
+                    </td>
+                  </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+
+</div>

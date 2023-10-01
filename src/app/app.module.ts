@@ -15,6 +15,7 @@ import { TokenInterceptorService } from './services/interceptor/token-intercepto
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyNgZorroAntdModule } from '@ngx-formly/ng-zorro-antd';
 import { FilterPipe } from './pipes/filter.pipe';
+import { AdminModule } from './admin/admin.module';
 
 registerLocaleData(en);
 
@@ -33,6 +34,7 @@ registerLocaleData(en);
     FormlyModule.forRoot(),
     ReactiveFormsModule,
     FormlyNgZorroAntdModule,
+    AdminModule
     
   
   ],

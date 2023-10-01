@@ -90,6 +90,10 @@ export class JobService {
     return this.http.delete("http://localhost:8086/app/job/deleteJob?id="+id);
   }
 
+  deletJobByAdmin(id:number){
+    return this.http.delete("http://localhost:8086/app/job/deleteJobByAdmin?id="+id);
+  }
+
   updateJob(job:Job){
     return this.http.put("http://localhost:8086/app/job/updateJob",job);
   }
@@ -116,5 +120,10 @@ export class JobService {
   }
   deleteJobAlert(id:number){
     return this.http.delete("http://localhost:8086/app/jobAlert/deleteJobAlert?id="+id);
+  }
+
+  /*chart admin*/
+  getJobsByMonth(){
+    return this.http.get("http://localhost:8086/app/job/getJobsByMonth");
   }
 }
