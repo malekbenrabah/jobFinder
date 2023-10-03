@@ -1,0 +1,52 @@
+<div class="companies-container">
+    <div nz-row >
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" class="search-container">
+            <h3>Browse Recruiters</h3>
+            <p>Discover your next career move, freelance gig, or internship</p>
+           
+            <nz-input-group [nzSuffix]="suffixIconSearch" class="search-input-grp">
+                <input type="text" nz-input  [(ngModel)]="search" (keyup)="searchCompany()" placeholder="search for recruiter" class="search-input"/>
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <i nz-icon nzType="search"  class="search-icon"></i>
+            </ng-template>
+           
+            
+              
+           
+        </div>
+    </div>
+    
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" class="comapnies-number-container" >
+            <p>Showning <span>{{serachCompanies.length}}</span> companies</p>
+            <hr class="companies-hr">
+        </div>
+    </div>
+
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="8" [nzMd]="6" [nzLg]="6" *ngFor="let company of serachCompanies.slice(startIndexSearch, endIndexSearch) ">
+            <nz-card class="company-card">
+                <div class="card-container">
+                    <nz-avatar [nzSrc]="company.photo" [nzShape]="'square'" [nzSize]="64" *ngIf="company.photo!==null" class="company-avatar"></nz-avatar>
+                    <nz-avatar  nzIcon="user" [nzShape]="'square'" [nzSize]="64" *ngIf="company.photo===null" class="company-avatar"></nz-avatar>
+                    <a class="company-name-txt">{{company.companyName}}</a>
+                    <p *ngIf="company.adresse!==null" ><fa-icon [icon]="locationIcon" class="profile-icon" class="job-location-icon" ></fa-icon>{{company.adresse}}</p>
+                    <p *ngIf="company.adresse===null"><fa-icon [icon]="locationIcon" class="profile-icon" class="job-location-icon"></fa-icon>No location provided</p>
+
+                    <a routerLink="/company-detail" nzType="link" class="view-btn" (click)="storeCompanyId(company.id)">View Company</a>
+
+                </div>
+            </nz-card>
+        </div>
+    </div>
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+    
+            <div class="pagination">
+                <nz-pagination [nzPageIndex]="currentPageSearch" [nzPageSize]="itemsPerPageSearch" [nzTotal]="totalItemsSearch" (nzPageIndexChange)="currentPageSearch = $event"></nz-pagination>
+            </div>
+        
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 <div class="jobs-day-container">
     <div nz-row class="jobs-day-text">
-        <h2>Jobs of the day</h2>
+        <h2>Recent posted jobs</h2>
         <p>Search and connect with the right candidates faster</p>
     </div>
 
@@ -38,7 +38,7 @@
             </ng-template>
 
             <ng-template #titleCard>
-                <p class="job-title">{{job.title}}</p>
+                <a routerLink="/job-detail/{{job.id}}" class="job-title">{{job.title}}</a>
                 <div class="job-location-title">
                     <fa-icon [icon]="locationIcon"></fa-icon>
                     <p>{{job.location}}</p> 
@@ -55,7 +55,7 @@
             </ng-template>
 
             <ng-template #applyQuick>
-                <fa-icon [icon]="myJob" nz-tooltip nzTooltipTitle="Quick apply"></fa-icon>
+                <fa-icon [icon]="myJob" nz-tooltip nzTooltipTitle="Quick apply" (click)="applyJob(job.id)"></fa-icon>
             </ng-template>
 
         </div>

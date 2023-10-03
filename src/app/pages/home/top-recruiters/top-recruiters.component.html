@@ -16,31 +16,32 @@
 
     <div nz-row class="companies">
         <nz-carousel #carousel>
-            <div nz-carousel-content *ngFor="let slide of companieSlides" >
-              <div nz-row nzGutter="4" class="carousel-container">
-                    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" *ngFor="let company of slide"  >
+            <div nz-carousel-content *ngFor="let slide of companieSlides| slice:0:12" >
+              <div nz-row nzGutter="4" class="carousel-container" >
+                    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" *ngFor="let data of slide">
+                        
                         <nz-card class="company-card">
                             <nz-card-meta
                             [nzAvatar]="avatarTemplate"
                             [nzTitle]="companyAdresse"
                             [nzDescription]="companyDescription"
                             ></nz-card-meta>
-                            <p> Open jobs</p>
+                            <p>{{data.nbJob}} Posted Job</p>
                             
                         </nz-card>
                         <ng-template #avatarTemplate>
-                            <nz-avatar [nzSize]="'large'" [nzShape]="'square'" [nzSrc]="company.photo"  *ngIf="company.photo!==null"></nz-avatar>
-                            <nz-avatar [nzSize]="'large'" [nzShape]="'square'" nzIcon="user" *ngIf="company.photo===null"></nz-avatar>
+                            <nz-avatar [nzSize]="'large'" [nzShape]="'square'" [nzSrc]="data.company.photo"  *ngIf="data.company.photo!==null"></nz-avatar>
+                            <nz-avatar [nzSize]="'large'" [nzShape]="'square'" nzIcon="user" *ngIf="data.company.photo===null"></nz-avatar>
                         </ng-template>
 
                         <ng-template #companyAdresse>
-                            <h4 class="company-title">{{company.companyName}}</h4>
+                            <h4 class="company-title">{{data.company.companyName}}</h4>
                         </ng-template>
 
                         <ng-template #companyDescription>
-                            <div class="job-location-title" *ngIf="company.adresse!==null">
+                            <div class="job-location-title" *ngIf="data.company.adresse!==null">
                                 <fa-icon [icon]="locationIcon"></fa-icon>
-                                <p>{{company.adresse}}</p> 
+                                <p>{{data.company.adresse}}</p> 
                             </div>
                         </ng-template>
                     </div>

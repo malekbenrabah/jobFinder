@@ -1,5 +1,5 @@
 <div nz-row [nzGutter]="10">
-    <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="card-container">
+    <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="6" [nzLg]="6" class="card-container">
         <nz-card class="dash-card">
             <div nz-row>
                 <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
@@ -16,7 +16,7 @@
             </div>
         </nz-card>
     </div>
-    <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="card-container">
+    <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="6" [nzLg]="6" class="card-container">
         <nz-card class="dash-card">
             <div nz-row>
                 <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
@@ -32,7 +32,25 @@
             </div>
         </nz-card>
     </div>
-    <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="card-container">
+    <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="6" [nzLg]="6" class="card-container">
+        <nz-card class="dash-card">
+            <div nz-row>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
+                    <div class="card-info">
+                        <h2>{{nbCompanies}}</h2>
+                        <p>Companies</p>
+                    </div>
+                </div>
+                <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8"  class="card-avatar">
+                    
+                    <fa-icon [icon]="companyIcon" class="avatar-icon jobs-icon-purple"></fa-icon>
+            
+                </div>
+            </div>
+        </nz-card>
+    </div>
+
+    <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="6" [nzLg]="6">
         <nz-card class="dash-card">
             <div nz-row>
                 <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" >
@@ -50,12 +68,65 @@
         </nz-card>
     </div>
 </div>
+<div nz-row>
+    <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12" class="jt-container">
+        <nz-card class="jt-chart-card" [nzTitle]="cardTitleTemplate">
+            <canvas id="jobTypeChart" ></canvas>
+        </nz-card>
+        <ng-template #cardTitleTemplate>
+            <p class="jb-chart-tile">Jobs by Job Type</p>
+        </ng-template>
+    </div> 
 
-<div nz-row class="posts-month-chart">
-    
-        <canvas id="jobsChart2"  width="400" height="100"></canvas>
+    <div nz-col [nzXs]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12" class="jt-container">
+        <nz-card class="recent-jobs-card" [nzTitle]="cardTitleTemplateRecent">
+            <nz-list nzItemLayout="horizontal" >
+                <nz-list-item *ngFor="let job of jobs | slice:0:4">
+                  <nz-list-item-meta [nzAvatar]="companyPhoto" class="recent-job-item">
+                        <nz-list-item-meta-title>
+                            <a routerLink="/job-detail/{{job.id}}" class="job-title">{{ job.title }}</a>
+                        </nz-list-item-meta-title>
 
-   
-   
-   
+                        <nz-list-item-meta-description>
+
+                            <div class="list-description">
+                              
+                                <div>
+                                    <p class="job-type-full"  *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                                    <p class="job-type-part"  *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                                    <p class="job-type-intern"  *ngIf="job.jobType==='Intern'">Intership</p>
+                                </div>
+                            
+                                <div>
+                                    <p class="job-date">{{formatDate(job.created_at)}}</p>
+                                </div>
+                                
+                            </div>
+                        </nz-list-item-meta-description>
+                  </nz-list-item-meta>
+
+                    <ng-template #companyPhoto>
+                        <nz-avatar [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>
+                        <nz-avatar  nzIcon="user" *ngIf="job.companyPhoto===null"></nz-avatar>
+                    </ng-template>
+                </nz-list-item>
+                <nz-list-empty *ngIf="jobs.length === 0"></nz-list-empty>
+               
+            </nz-list>
+        </nz-card>
+        <ng-template #cardTitleTemplateRecent>
+            <p class="jb-chart-tile">Recent Jobs</p>
+        </ng-template>
+    </div>
 </div>
+
+<div nz-row>  
+    <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24"   class="posts-month-chart">
+        <p>Monthly Job Postings Over the Year</p>
+        <canvas id="jobsChart"  width="400" height="100"></canvas>
+    </div>
+</div>
+
+
+
+

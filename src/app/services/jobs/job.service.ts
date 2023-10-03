@@ -126,4 +126,8 @@ export class JobService {
   getJobsByMonth(){
     return this.http.get("http://localhost:8086/app/job/getJobsByMonth");
   }
+
+  getJobsByJobtype(){
+    return this.http.get("http://localhost:8086/app/job/getJobsByJobType");
+  }
 }

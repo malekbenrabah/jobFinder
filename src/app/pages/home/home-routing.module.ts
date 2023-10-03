@@ -10,6 +10,8 @@ import { JobGridComponent } from './job-grid/job-grid.component';
 import { JobDetail2Component } from './job-detail2/job-detail2.component';
 import { LoggedInGuard } from 'src/app/services/guards/loggedIn/logged-in.guard';
 import { AdminGuard } from 'src/app/services/guards/admin/admin.guard';
+import { CompaniesComponent } from './companies/companies.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
 
 const routes: Routes = [
    
@@ -18,6 +20,8 @@ const routes: Routes = [
     {path:"job-detail/:id",component:JobDetail2Component},
     {path:"job-list",component:JobListComponent},
     {path:"job-grid",component:JobGridComponent},
+    {path:"companies",component:CompaniesComponent},
+    {path:"company-detail",component:CompanyDetailComponent},
     {path:"account" , loadChildren:()=>import("../account/account.module").then(module=>module.AccountModule),canActivate:[AuthGuard]},
 
   ]},

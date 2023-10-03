@@ -70,7 +70,7 @@ export class SiteInfoComponent implements OnInit {
       this.nbJobs++;
     }
      
-  },100); //100ms
+  },20); //100ms
 
 
 }

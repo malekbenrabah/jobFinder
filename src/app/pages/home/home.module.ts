@@ -52,6 +52,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { DatePipe } from '@angular/common';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { CompaniesComponent } from './companies/companies.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
     DayJobsComponent,
     TopRecruitersComponent,
     NewsletterComponent,
+    CompaniesComponent,
+    CompanyDetailComponent,
    
   ],
   imports: [

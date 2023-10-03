@@ -239,6 +239,11 @@ export class UserServiceService {
     return this.http.get("http://localhost:8086/app/user/nbUsers");
   }
 
+  /*top recruiters*/
+  getTopRecuiters(){
+    return this.http.get("http://localhost:8086/app/job/getTopCompanies");
+  }
+
 
 
 }

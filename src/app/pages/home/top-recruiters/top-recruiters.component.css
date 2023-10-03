@@ -63,7 +63,7 @@
 [nz-carousel-content] {
     text-align: center;
     line-height: 160px;
-    height: 70%;
+    height: 50%;
     background: #fff;
     overflow: hidden;
 }
@@ -80,6 +80,7 @@
     border: 1px solid rgba(6,18,36,0.1);
     border-radius: 10px;
     transition: all .3s ease 0s;
+    height: 80%;
 }
 
 .company-card:hover{

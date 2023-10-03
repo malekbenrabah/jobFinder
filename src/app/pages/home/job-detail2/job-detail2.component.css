@@ -181,14 +181,11 @@
 
 /*similar job*/
 .similar-job_card{
-    /*transition: all 1s ease 1s;*/
     transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
-
 }
 
 .similar-job-card:hover{
     transform: translateY(-5px);
-
 }
 
 .jobType-container{

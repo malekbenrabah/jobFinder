@@ -34,6 +34,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzToolTipModule,
     NzDescriptionsModule,
     NzDatePickerModule,
-    NzTagModule
+    NzTagModule,
+    NzListModule,
+    NzDrawerModule
    
   ]
 })

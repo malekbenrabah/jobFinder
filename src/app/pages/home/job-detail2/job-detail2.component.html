@@ -172,11 +172,11 @@
                         <div nz-row *ngFor="let similarJob of similarJobs | slice:0:4 ">
                             <div nz-col nzSpan="24">
                                
-                                <nz-card  [nzBordered]="false" class="similar-job-card">
+                                <nz-card  [nzBordered]="false" >
                                     <nz-card-meta
                                       [nzAvatar]="avatarTemplate"
                                       [nzTitle]="companyName"
-                                     
+                                      class="similar-job-card"
                                     ></nz-card-meta>
         
                                     <ng-template #avatarTemplate>

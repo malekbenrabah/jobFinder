@@ -68,6 +68,7 @@ export class JobListComponent implements OnInit {
       this.jobs = response as Job[];
       this.numJobs = this.jobs.length;
       this.totalItems = this.jobs.length;
+      this.totalItemsSearch=this.jobs.length;
     });
     
 

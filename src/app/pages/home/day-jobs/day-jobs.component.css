@@ -36,6 +36,7 @@
     max-width: 332px;
     border-radius: 10px;
     transition: all .3s ease 0s;
+   
 
 }
 
@@ -72,11 +73,12 @@
 .job-title{
     font-weight: 600;
     font-size: 18px;
+    color: #05264E;
 }
 .job-location-title{
     display: grid;
     grid-template-columns: 24px auto;
-    margin-top: -15px;
+   
 }
 .card-description{
     font-size: 14px;
