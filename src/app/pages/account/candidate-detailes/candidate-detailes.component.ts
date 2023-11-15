@@ -121,5 +121,9 @@ export class CandidateDetailesComponent implements OnInit {
   replaceDate(input: string): string {
     return input.replace(/,/g, '-');
   }
+  
+  toNumber(level:string){
+    return Number(level)
+  }
 
 }

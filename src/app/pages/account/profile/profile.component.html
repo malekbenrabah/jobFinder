@@ -427,9 +427,10 @@
                             
                             
                         </nz-card>
+                        
                         <ng-template #actionEdit>
                             <i nz-icon nzType="edit" (click)="updateJobAlertModal(job.id)"></i>
-                             <!--ADD JOB ALERT MODAL-->
+                            <!--update JOB ALERT MODAL-->
                             <nz-modal
                              [(nzVisible)]="jobModalUpdate"
                              nzTitle="Create Job Alert"
@@ -955,18 +956,15 @@
                             <div *ngIf="index==='CV'">
                                <div nz-row>
                                     <div class="cv-text">
-                                        <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissim</h3>
+                                        <h3>Last Step, view your CV and start crafting your future.</h3>
                                     </div>
                                </div>
 
                                <div nz-row>
-                                    <div nz-col [nzSpan]="12" class="cv-btn">
-                                        <button nz-button nzType="primary" class="cv-btn-view" (click)="generatePDF()" >View CV</button>
+                                    <div nz-col [nzSpan]="24" class="cv-btn">
+                                        <a routerLink="/account/cv" nz-button nzType="primary" class="cv-btn-view" (click)="updateUserCv()" >View CV</a>
                                     </div>
 
-                                    <div nz-col [nzSpan]="12"  class="cv-btn">
-                                        <button nz-button nzType="primary" class="cv-btn-download" >Download CV</button>
-                                    </div>
                                </div>
                             </div>
 

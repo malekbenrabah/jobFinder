@@ -1,7 +1,7 @@
 <div class="menu">
    <!--Search result Home-->
     
-    <div *ngIf="searchResults.length!==0">
+    <div *ngIf="searchResults && !searchBarResults">
         <div nz-row [nzGutter]="8" >
 
          
@@ -62,16 +62,19 @@
                     <p>Showing : <span class="jobs-num">{{searchResults.length}}</span> Jobs Available</p>
                     </div>
                     <div nz-col nzFlex="auto">
-                        
+                        <!--
                         <div class="sort">
                             <a [ngClass]="{'active': isGridActive}" (click)="isGridActive = true" routerLink="/job-list" nz-button nzType="default"   class="display-btn active"><fa-icon [icon]="listIcon" class="displayIcon"></fa-icon></a>
                             <a [ngClass]="{'active': !isGridActive}" (click)="isGridActive = false"  routerLink="/job-grid" nz-button nzType="default"  class="display-btn"><fa-icon [icon]="gridIcon" class="displayIcon"></fa-icon></a>
 
                         </div> 
+                        -->
+                        <div nz-col nzSpan="24" *ngIf="checkSearch===false">
+                            <nz-alert nzType="error" nzMessage="There are no job matching your search." class="no-search-alert"></nz-alert>
+                        </div>
                     </div>
                     <div nz-col nzSpan="24" *ngIf="searchResults.length===0">
                         <nz-alert nzType="error" nzMessage="There are no job matching your search." class="no-search-alert"></nz-alert>
-
                     </div>
                 </div>
 
@@ -156,7 +159,7 @@
 
 
 
-    <div *ngIf="!searchBarResults && searchResults.length===0">
+    <div *ngIf="!searchBarResults && !searchResults">
         <div nz-row [nzGutter]="8" >
             <!--search-->
             <div nz-col [nzSpan]="6">
@@ -214,13 +217,17 @@
                       <p>Showing : <span class="jobs-num">{{numJobs}}</span> Jobs Available</p>
                     </div>
                     <div nz-col nzFlex="auto">
-                       
+                       <!--
                        <div class="sort">
                             <a [ngClass]="{'active': isGridActive}" (click)="isGridActive = true" routerLink="/job-list" nz-button nzType="default"   class="display-btn active"><fa-icon [icon]="listIcon" class="displayIcon"></fa-icon></a>
                             <a [ngClass]="{'active': !isGridActive}" (click)="isGridActive = false"  routerLink="/job-grid" nz-button nzType="default"  class="display-btn"><fa-icon [icon]="gridIcon" class="displayIcon"></fa-icon></a>
 
                         </div> 
+                        -->
                         
+                    </div>
+                    <div nz-col nzSpan="24" *ngIf="checkSearch===false">
+                        <nz-alert nzType="error" nzMessage="There are no job matching your search." class="no-search-alert"></nz-alert>
                     </div>
                     
                 </div>
@@ -366,12 +373,13 @@
                       <p>Showing : <span class="jobs-num">{{searchBarResults.length}}</span> Jobs Available</p>
                     </div>
                     <div nz-col nzFlex="auto">
-                       
+                       <!--
                        <div class="sort">
                             <a [ngClass]="{'active': isGridActive}" (click)="isGridActive = true" routerLink="/job-list" nz-button nzType="default"   class="display-btn active"><fa-icon [icon]="listIcon" class="displayIcon"></fa-icon></a>
                             <a [ngClass]="{'active': !isGridActive}" (click)="isGridActive = false"  routerLink="/job-grid" nz-button nzType="default"  class="display-btn"><fa-icon [icon]="gridIcon" class="displayIcon"></fa-icon></a>
 
                         </div> 
+                        -->
                         
                     </div>
                     <div nz-col nzSpan="24" *ngIf="searchBarResults.length===0">

@@ -39,17 +39,26 @@
 
 <div class="category-container">
     <div nz-row class="top-text">
-        <h2>Browse by category</h2>
-        <p>Find the job that’s perfect for you.</p>
+        <h2>Browse by category</h2> 
+    </div>
+    <div nz-row> 
+        <div nz-col nzSpan="12" nzOffset="6" class="txt-sub">
+            <p>Find the job that’s perfect for you.</p>
+        </div>
+
+        <div nz-col nzSpan="6" class="carousel-btn">
+            <button nz-button nzType="default" nzShape="circle" (click)="handlePrev()" class="btn-directions" ><fa-icon [icon]="leftIcon" class="carousel-icon-slide"></fa-icon></button>
+            <button nz-button nzType="default" nzShape="circle" (click)="handleNext()" class="btn-directions"><fa-icon [icon]="rightIcon" class="carousel-icon-slide"></fa-icon></button>
+        </div>
     </div>
 
   
     <div nz-row class="companies">
-        <nz-carousel nzAutoPlay>
+        <nz-carousel #carousel nzAutoPlay>
             <div nz-carousel-content *ngFor="let slide of categorieSlides" >
                 <div nz-row nzGutter="4" class="carousel-container">
                     <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" *ngFor="let index of slide"  >
-                        <a nz-button nzType="primary" class="category-content">
+                        <a nz-button nzType="primary" class="category-content" (click)="search(index.title)">
                             <div nz-row>
                                 <div nz-col nzSpan="9" class="carousel-icon-container">
                                     <fa-icon [icon]="index.icon" class="carousel-icon"></fa-icon>

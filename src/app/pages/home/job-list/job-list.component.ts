@@ -44,6 +44,7 @@ export class JobListComponent implements OnInit {
   selectedJobLevelValue: any=null;
   selectedExperienceValue: any=null;
 
+  checkSearch!:boolean;
   ngOnInit(): void {
 
     this.searchForm = this.fb.group({
@@ -52,23 +53,34 @@ export class JobListComponent implements OnInit {
       experience: new FormControl('null')
     });
 
+    this.route.queryParams.subscribe((queryParams)=>{
+      if(queryParams['fromHome'] === 'true'){
+        this.searchResults = this.sharedService.getSearchResults();
+        console.log('search reasult intially', this.searchResults);
     
-    this.searchResults = this.sharedService.getSearchResults();
-    console.log('search reasult intially', this.searchResults);
+        this.hasSearchResults = this.sharedService.getHasSearchResults();
+        console.log('has search result ', this.hasSearchResults);
+        console.log('checkSearch intially', this.checkSearch);
 
-    this.hasSearchResults = this.sharedService.getHasSearchResults();
-    console.log('has search result ', this.hasSearchResults);
-    if (this.searchResults.length > 0) {
-      console.log(this.searchResults, 'getting the result from the search: LIST');
-      this.totalItemsSearch=this.searchResults.length;
-    }
+        if (this.searchResults.length > 0) {
+          console.log(this.searchResults, 'getting the result from the search: LIST');
+          this.checkSearch=true;
+          this.totalItemsSearch=this.searchResults.length; 
+        }
+      }
+    });
+   
+   
 
     this.jobService.getJobs().subscribe((response) => {
       console.log('jobs listings', response);
       this.jobs = response as Job[];
       this.numJobs = this.jobs.length;
       this.totalItems = this.jobs.length;
-      this.totalItemsSearch=this.jobs.length;
+      
+      //this.totalItemsSearch=this.jobs.length;
+
+     
     });
     
 

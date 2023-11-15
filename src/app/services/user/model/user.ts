@@ -17,5 +17,6 @@ export class User {
     skills!:Skill;
     experiences!:Experience;
     educations!:Education;
-    candidateSkills!:Skill[]
+    candidateSkills!:Skill[];
+    cv!:Boolean;
 }

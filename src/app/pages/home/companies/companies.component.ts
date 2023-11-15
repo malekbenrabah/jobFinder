@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faLocationPinLock } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/services/user/model/user';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
 
@@ -11,6 +11,7 @@ import { UserServiceService } from 'src/app/services/user/user-service.service';
 export class CompaniesComponent implements OnInit {
 
   locationIcon=faLocationDot;
+  noLocationIcon=faLocationPinLock;
   constructor(private userService:UserServiceService ) { }
   
   

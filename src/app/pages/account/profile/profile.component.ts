@@ -1716,6 +1716,15 @@ export class ProfileComponent implements OnInit{
   
  /* end experience */
 
+ //cv
+
+ updateUserCv(){
+  this.userService.updateCv(this.user.id).subscribe((res)=>{
+    console.log('updated cv', res);
+  });
+
+ }
+
 
 
   @ViewChild('cv',{static:false })cv!:ElementRef;
@@ -2039,6 +2048,8 @@ export class ProfileComponent implements OnInit{
 
 
   /*update Job Alert*/
+
+  /*modal*/
   jobModalUpdate = false;
 
   jobAlert:JobAlert=new JobAlert();
@@ -2065,6 +2076,8 @@ export class ProfileComponent implements OnInit{
   handleCancelJobUpdateModal(): void {
     this.jobModalUpdate = false;
   }
+  /*modal*/
+
 
   isSelectedUpdate(skill: Skill): boolean {
     //return this.jobAlert.skills.some((selectedSkill) => selectedSkill.id === skill.id);

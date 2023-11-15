@@ -5,7 +5,6 @@
     <div nz-row> 
         <div nz-col nzSpan="12" nzOffset="6" class="txt-sub">
             <p>Discover your next career move, freelance gig, or internship</p>
-
         </div>
 
         <div nz-col nzSpan="6" class="carousel-btn">
@@ -35,13 +34,17 @@
                         </ng-template>
 
                         <ng-template #companyAdresse>
-                            <h4 class="company-title">{{data.company.companyName}}</h4>
+                            <a routerLink="/company-detail" (click)="storeCompanyId(data.company.id)" class="company-title">{{data.company.companyName}}</a>
                         </ng-template>
 
                         <ng-template #companyDescription>
-                            <div class="job-location-title" *ngIf="data.company.adresse!==null">
-                                <fa-icon [icon]="locationIcon"></fa-icon>
-                                <p>{{data.company.adresse}}</p> 
+                            <div class="job-location-title">
+                                <ng-container  *ngIf="data.company.adresse!==null">
+                                    <fa-icon [icon]="locationIcon" ></fa-icon><p>{{data.company.adresse}}</p>
+                                </ng-container>
+                                <ng-container *ngIf="data.company.adresse===null">
+                                    <fa-icon [icon]="noLocationIcon" ></fa-icon><p>No location provided</p>
+                                </ng-container>
                             </div>
                         </ng-template>
                     </div>

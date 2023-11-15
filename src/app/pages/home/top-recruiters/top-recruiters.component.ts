@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/services/user/model/user';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
-import{faChevronRight, faChevronLeft,faLocationDot} from '@fortawesome/free-solid-svg-icons';
+import{faChevronRight, faChevronLeft,faLocationDot, faLocationPinLock} from '@fortawesome/free-solid-svg-icons';
 import { JobService } from 'src/app/services/jobs/job.service';
 import { Job } from 'src/app/services/user/model/Job';
 import { CompanySlide } from 'src/app/services/user/model/CompanySlide';
@@ -18,6 +18,8 @@ export class TopRecruitersComponent implements OnInit {
   rightIcon=faChevronRight;
   leftIcon=faChevronLeft;
   locationIcon=faLocationDot;
+  noLocationIcon=faLocationPinLock;
+
   constructor(private userService:UserServiceService, private jobService:JobService) { }
 
   //companies:User[]=[];
@@ -73,6 +75,10 @@ export class TopRecruitersComponent implements OnInit {
 
     
 
+  }
+
+  storeCompanyId(id:number){
+    localStorage.setItem('companyId',id.toString());
   }
 
   @ViewChild('carousel') carousel: any;

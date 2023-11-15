@@ -132,6 +132,12 @@ export class UserServiceService {
 
   }
 
+  updateCv(id:number){
+    const formData=new FormData();
+    formData.append('id',id.toString());
+    return this.http.put("http://localhost:8086/app/user/updateCV",formData);
+  }
+
 
   updateProfileImg(photo:any){
     const formData=new FormData();

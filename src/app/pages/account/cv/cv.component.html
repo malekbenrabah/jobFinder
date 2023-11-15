@@ -1,0 +1,73 @@
+<div class="cv-container" id="cv" #cv>
+    <div nz-row >
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="6" [nzLg]="6" class="cv-left">
+            <div class="user-img-container">
+               
+                <img [src]="user.photo" alt="user"  class="user-img" *ngIf=" user.photo!==null">
+                <ng-container *ngIf="user.photo===null">
+                    <nz-avatar  [nzSize]="64" nzText={{getFirstLetter(user.firstname)}}  ></nz-avatar>
+                </ng-container>
+               
+            </div>
+           
+
+            <div class="skills">
+                <h3>Skills</h3>
+                <hr>
+                <div *ngFor="let skill of skills" class="user-skills">
+                    <p class="skills-p">{{skill.skill}}</p>
+                    <nz-rate [ngModel]="toNumber(skill.level)" nzDisabled ></nz-rate> 
+                </div>
+            </div>
+
+            <div class="contact">
+                <h3>Contact</h3>
+                <hr>
+                <p class="candidate-info-txt"><span> <fa-icon [icon]="mailIcon" class="contact-icon"></fa-icon>{{user.email}}</span></p>
+                    <p *ngIf="user.phone!==null" class="candidate-info-txt"><span> <fa-icon [icon]="phoneIcon" class="contact-icon"></fa-icon>{{user.phone}}</span></p>
+                    <p  *ngIf="user.adresse!==null" class="candidate-info-txt"><span> <fa-icon [icon]="locationIcon" class="contact-icon"></fa-icon>{{user.adresse}}</span></p>
+            </div>
+        </div>
+
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="18" [nzLg]="18">
+            <div class="user-info">
+                <div class="user-cv-btn">
+                    <p class="user-name">{{user.lastname}} <span>{{user.firstname}}</span></p>
+                    <button nz-button class="update-form-btn" [nzType]="'primary'" (click)="generatePDF()">Download CV</button>
+                </div>
+                <p class="user-about">{{user.aboutMe}}</p>
+            </div>
+
+            <div class="education">
+                <h2>Education</h2>
+                <hr class="cv-right-hr">
+                <nz-timeline>
+                    <nz-timeline-item *ngFor="let education of educations" nzColor="gray">
+                        <div nz-row class="education-timeLine">
+                            <h4>{{formatEducationDate(this.education.startDate)}} - {{formatEducationDate(this.education.endDate)}}</h4>
+                            <p class="education-desc">{{education.description}}</p>
+                            <p class="education-institution">{{education.institution}}</p>
+                        </div>
+                    </nz-timeline-item>
+                   
+                </nz-timeline>
+            </div>
+
+            <div class="experience">
+                <h2>Experience</h2>
+                <hr class="cv-right-hr">
+                <nz-timeline>
+                    <nz-timeline-item *ngFor="let experience of experiences" nzColor="gray">
+                        <div nz-row class="education-timeLine">
+                            <h4>{{formatDate(this.experience.startDate)}} --- {{formatDate(this.experience.endDate)}}</h4>
+                            <p class="education-desc">{{experience.description}}</p>
+                            <p class="education-institution">{{experience.location}}</p>
+                        </div>
+                    </nz-timeline-item>
+                   
+                </nz-timeline>
+            </div>
+        </div>
+    </div>
+
+</div>

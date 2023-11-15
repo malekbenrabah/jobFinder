@@ -46,6 +46,7 @@ export class Job{
     companyAbout!:string;
     skills!:Skill[];
     users!:User[];
+    countdown!:any;
     
 
 }

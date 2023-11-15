@@ -31,7 +31,7 @@ export class DayJobsComponent implements OnInit {
   formatDate(created_at: any[]): string {
 
     const year = created_at[0];
-    const month = created_at[1] - 1; // Months in JavaScript are 0-based
+    const month = created_at[1] - 1;
     const day = created_at[2];
     const hours = created_at[3];
     const minutes = created_at[4];

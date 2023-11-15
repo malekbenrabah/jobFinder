@@ -1,5 +1,5 @@
 .recruiters-container{
-    margin-top: 45px;
+    margin-top: 100px;
 }
 
 .top-text{
@@ -63,7 +63,7 @@
 [nz-carousel-content] {
     text-align: center;
     line-height: 160px;
-    height: 50%;
+    height: 170px;
     background: #fff;
     overflow: hidden;
 }
@@ -93,11 +93,11 @@
     grid-template-columns: 24px auto;
     justify-content: start;
     align-items: baseline;
-    margin-top: -10px;
+    margin-top: -5px;
 }
 
 .company-title{
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: #05264E;
     display: flex;

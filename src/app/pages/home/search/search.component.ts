@@ -47,7 +47,9 @@ export class SearchComponent implements OnInit {
       //this.sharedService.setSearchResults(this.searchResult);
 
       /*old */
-      this.router.navigateByUrl('/job-list');
+      //this.router.navigateByUrl('/job-list');
+      this.router.navigate(['/job-list'], { queryParams: { fromHome: 'true' } });
+
       //this.router.navigate(['/job-list'], { queryParams: { searchResults: true } });
 
     });

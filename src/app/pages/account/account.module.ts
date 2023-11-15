@@ -37,13 +37,17 @@ import { NzRateModule } from 'ng-zorro-antd/rate';
 import { CompanyProfileComponent } from './company-profile/company-profile.component';
 import { CandidateDetailesComponent } from './candidate-detailes/candidate-detailes.component';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { CandidatesComponent } from './candidates/candidates.component';
+import { CvComponent } from './cv/cv.component';
 
 @NgModule({
   declarations: [
     AccountComponent,
     ProfileComponent,
     CompanyProfileComponent,
-    CandidateDetailesComponent
+    CandidateDetailesComponent,
+    CandidatesComponent,
+    CvComponent
   ],
   imports: [
     CommonModule,

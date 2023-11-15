@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { User } from 'src/app/services/user/model/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserServiceService } from 'src/app/services/user/user-service.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { JobService } from 'src/app/services/jobs/job.service';
 import { Job, JobType, Sector } from 'src/app/services/user/model/Job';
@@ -30,7 +30,7 @@ export class CompanyProfileComponent implements OnInit {
   updateJobFormStep1!:FormGroup;
   updateJobFormStep2!:FormGroup;
   updateJobFormStep3!:FormGroup;
-  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router, private jobService:JobService, private datePipe:DatePipe) { 
+  constructor(private fb: FormBuilder, private userService:UserServiceService, private router:Router, private jobService:JobService, private datePipe:DatePipe, private route:ActivatedRoute) { 
 
     this.validateForm = this.fb.group({
       companyName: ['', [Validators.required]],
@@ -100,11 +100,22 @@ export class CompanyProfileComponent implements OnInit {
   updateIcon=faPenToSquare;
   deleteIcon=faTrash;
   usersIcon=faUsers;
-  selectedProfileOption='profile';
+  selectedProfileOption:string='profile';
 
   user:User=new User;
   companyJobs:Job[]=[];
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe(params => {
+      const selectedProfileOption = params['selectedProfileOption'];
+      if (selectedProfileOption === 'jobs') {
+        this.selectedProfileOption = 'jobs';
+      }
+      if(selectedProfileOption === 'security'){
+        this.selectedProfileOption = 'security';
+      }
+    });
+    
     /*user Info*/
     this.userService.getUserInfo().subscribe(r => {
       console.log('user info', r);
@@ -912,9 +923,6 @@ export class CompanyProfileComponent implements OnInit {
 
   handleInputConfirmUpdate(): void {
     
-   
-   
-    
     this.inputVisibleUpdate = false; 
     const inputValue = this.inputValueControlUpdate.value;
     if (inputValue && this.tagsupdate.indexOf(inputValue) === -1) {
@@ -925,94 +933,8 @@ export class CompanyProfileComponent implements OnInit {
     this.inputVisibleUpdate = false;
   }
 
-
-  /*Candidates */
- 
-  candidates:User[]=[];
-  jobCandidates:Job=new Job();
-  //candiate skills
-  candidateSkills:Skill[]=[];
-  
   displayCandidates(id:number){
-    this.selectedProfileOption = 'candidates';
-    localStorage.setItem("jobId",id.toString());
-    this.jobService.getJobById(id).subscribe((response)=>{
-      this.jobCandidates=response as Job;
-      this.candidates=this.jobCandidates.users;
-      console.log('candidates', this.candidates);
-      this.searchResult=this.candidates;
-      this.totalCandidates=this.candidates.length;
-      this.candidates.forEach(candidate => {
-        this.userService.getCandidateSkills(candidate.id).subscribe((response)=>{
-          console.log('user skills', response);
-          this.candidateSkills= response as Skill[];
-          candidate.candidateSkills=this.candidateSkills;
-
-        });
-      });
-     
-    });
-
-  }
-
- 
- //search candidate
-
-  searchResult:User[]=[];
-  searchUser:string='';
-  searchUsers(){ 
-
-    if(this.candidates.length===0 || this.searchUser===''){
-      this.searchResult=this.candidates;
-      console.log('searchUsers', this.searchResult);
-      console.log('candidates', this.candidates);
-    }else{
-      
-     console.log('search User start');
-     console.log('CANDIDATES', this.candidates);
-     console.log('search:',this.searchUser);
-     const searchText=this.searchUser.toLocaleLowerCase();
-
-      this.searchResult = this.candidates.filter((user) => {
-        const firstnameMatch = user.firstname.toLowerCase().includes(searchText);
-        const lastnameMatch = user.lastname.toLowerCase().includes(searchText);
-        const emailMatch = user.email.toLowerCase().includes(searchText);
-      
-    
-        // return true if any of the properties match the search text
-        return firstnameMatch || lastnameMatch || emailMatch;
-      });
-
-      this.totalCandidates=this.searchResult.length;
-      //this.totalItemsSearch=this.searchJobs.length;
-
-      console.log('search user filter result', this.searchResult);
-    }
-    
-
-  }
-
-  //pagination candidates 
-  //pagination
-  currentPageCandidate = 1; // Initialize to the first page
-  itemsPerPageCandidate = 6; // Number of items to display per page
-  totalCandidates!:number; // Total number of items (adjust as needed)
-
-  changePageCandidate(page: number) {
-    this.currentPageCandidate = page;
-  }
-
-  get startIndexCandidate() {
-    return (this.currentPageCandidate - 1) * this.itemsPerPageCandidate;
-  }
-
-  get endIndexCandidate() {
-    return this.currentPageCandidate * this.itemsPerPageCandidate;
-  }
-
-  goToCandidate(id:number){
-    localStorage.setItem("userId",id.toString());
-
+    localStorage.setItem('jobIdForcandidates',id.toString());
   }
   
 

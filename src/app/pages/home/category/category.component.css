@@ -109,7 +109,7 @@
 }
 [nz-carousel-content] {
     text-align: center;
-    height: 105px;
+    height: 110px;
     line-height: 160px;
     background: #fff;
     overflow: hidden;
@@ -146,12 +146,14 @@
 .carousel-icon-container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
+
 .carousel-icon{
-    font-size: 40px;
-    color: #05264E;
+    font-size: 30px;
+    color: #05264E; 
 }
+
 
 .carousel-content-detailes{
     padding-right: 15px;
@@ -170,3 +172,42 @@
     font-size: 12px;
     font-weight: 500;
 }
+
+
+
+.txt-sub{
+    text-align: center;
+}
+ 
+.txt-sub p{
+    font-size: 16px;
+    color: #6c757d;
+     
+}
+ 
+.carousel-btn{
+    display: flex;
+    gap:5px;
+}
+ 
+.btn-directions{
+    background-color: #e6ecff;
+    border: none;
+}
+ 
+.carousel-icon-slide{
+    font-size: 16px;
+    font-weight: 700;
+    color: #6c757d;
+ 
+}
+ 
+.carousel-icon-slide:hover{
+    color: #3c65f5;
+}
+ 
+.carousel-icon_slide:active{
+    color: #3c65f5;
+}
+ 
+/*end carousel*/

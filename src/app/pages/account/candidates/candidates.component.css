@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+
+.profile-btn{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    
+}
+/*btn*/
+.btn-user-profile{
+    margin-bottom: 25px;
+    width: 250px;
+    height: 50px;
+    border-radius: 8px;
+    font-weight:600 ;
+    font-size: 100%;
+    transition: .3s;
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1);
+
+    display: flex;
+    align-items: center; 
+}
+
+.btn-user-profile:hover{
+    background-color:#2563eb;
+    color: #fff;
+}
+
+.btn-user-profile:focus{
+    background-color:#2563eb;
+    color: #fff;
+}
+
+.profile-icon{
+    margin-right: 12px;
+    font-size: 18px;
+}
+/*btn*/
+/*logout btn*/
+.logoutIcon{
+    color: #ff4764;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.logoutIcon:hover{
+    color: #fff;
+}
+
+.logout-btn{
+
+    margin-bottom: 25px;
+    width: 250px;
+    height: 50px;
+    border-radius: 8px;
+    font-weight:600 ;
+    font-size: 100%;
+    transition: .3s;
+    box-shadow: 0 2px 9px 0px rgba(34,12,43, 0.1);
+    background-color: #ffbfc9;
+    color: #ff4764;
+    display: flex;
+    align-items: center; 
+    
+}
+
+.logout-btn:hover{
+    color: #fff;
+    background-color: #ff4764;
+}
+
+.logout-btn:hover .logoutIcon {
+    color: #fff;
+}
+/*end logout btn*/
+/*candidates  */
+
+
+.top-text{
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: space-evenly;
+    align-content: flex-start;
+}
+
+.top-text h3{
+    color: #05264E;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.top-text-link{
+    color:#03417c ;
+    font-size: 23px;
+}
+
+.top-text p{
+    font-size: 16px;
+    color: #6c757d;
+    margin-top:-15px;
+}
+
+.pass-field{
+    margin-bottom: 25px;
+    position: relative;
+}
+.search-container{
+    margin-bottom: 30px;
+}
+.job-search{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.job-search-input{
+    border: 1px solid #E0E6F6;
+    height: 43px;
+   border-right: none;
+   border-top-left-radius: 8px;
+   border-bottom-left-radius:8px ;
+}
+
+.job-serach-btn{
+    height: 43px;
+    width: 10%;
+    border-top-right-radius:8px ;
+    border-bottom-right-radius: 8px;
+    box-shadow: none;
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.candidate-card{
+    
+    background-color: #F8FAFF;
+    border-radius: 8px;
+    border: 1px solid #E0E6F7;
+    height: 90%;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+.candidate-card:hover{
+    transform: translateY(-5px);
+
+}
+.candidate-title{
+    color: #05264E;
+    font-size: 18px;
+    line-height: 1.445;
+    font-weight: 400;
+}
+.card-description{
+    margin-top: 20px;
+}
+.candidate-info {
+    color: #66789C;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.571 !important;
+}
+.candidate-email{
+    margin-top: -15px;
+}
+.candidate-email p{
+    color: #A0ABB8;
+    font-size: 12px;
+    font-weight: 500 !important;
+    
+}
+.jobs-num{
+    font-weight: bold;
+    font-size:.9rem;
+}
+
+.candidates-num{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.candidate-skill{
+    background-color: #EFF3FC;
+    font-size: 12px;
+    color: #4F5E64;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 7px 10px;
+
+}
+/*candidates*/

@@ -32,7 +32,7 @@
                     <nz-avatar  nzIcon="user" [nzShape]="'square'" [nzSize]="64" *ngIf="company.photo===null" class="company-avatar"></nz-avatar>
                     <a class="company-name-txt">{{company.companyName}}</a>
                     <p *ngIf="company.adresse!==null" ><fa-icon [icon]="locationIcon" class="profile-icon" class="job-location-icon" ></fa-icon>{{company.adresse}}</p>
-                    <p *ngIf="company.adresse===null"><fa-icon [icon]="locationIcon" class="profile-icon" class="job-location-icon"></fa-icon>No location provided</p>
+                    <p *ngIf="company.adresse===null"><fa-icon [icon]="noLocationIcon" class="profile-icon" class="job-location-icon"></fa-icon>No location provided</p>
 
                     <a routerLink="/company-detail" nzType="link" class="view-btn" (click)="storeCompanyId(company.id)">View Company</a>
 

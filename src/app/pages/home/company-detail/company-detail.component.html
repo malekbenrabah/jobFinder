@@ -1,1 +1,128 @@
-<p>company-detail works!</p>
+<div class="company-detailes-container">
+    <div nz-row>
+        <div nz-col  [nzXs]="24" [nzSm]="16" [nzMd]="16" [nzLg]="16">
+            <div nz-row class="candidate-info">
+                <div >
+                    <nz-avatar  [nzShape]="'square'" [nzSrc]="company.photo"  *ngIf="company.photo!==null" class="user-avatar"></nz-avatar>
+                    <nz-avatar  [nzShape]="'square'" nzIcon="user" *ngIf="company.photo===null" class="company-icon"></nz-avatar> 
+                </div>
+                <div >
+                    <h5>{{company.companyName}}</h5>  
+                    <p class="candidate-info-txt"><span> <fa-icon [icon]="mailIcon" class="candidate-location-icon"></fa-icon>{{company.email}}</span></p>
+                    <p *ngIf="company.phone!==null" class="candidate-info-txt"><span> <fa-icon [icon]="phoneIcon" class="candidate-location-icon"></fa-icon>{{company.phone}}</span></p>
+                    <p  *ngIf="company.adresse!==null" class="candidate-info-txt"><span> <fa-icon [icon]="locationIcon" class="candidate-location-icon"></fa-icon>{{company.adresse}}</span></p>
+                </div> 
+            </div>
+        </div>
+
+        <div nz-col  [nzXs]="24" [nzSm]="8" [nzMd]="8" [nzLg]="8" class="btn-cv-container">
+            <a nz-button  href="mailto:{{company.email}}" class="btn-cv">Contact Us</a>
+        </div>
+
+
+    </div>
+
+   
+    <div nz-row>
+        <div class="candidate-info-btn">
+            <button nz-button nzType="default" class="btn-candidate active" [ngClass]="{'active': selectedProfileOption === 'aboutme'}" (click)="isbtnActive = true; selectedProfileOption = 'aboutme'"> <fa-icon [icon]="companyIcon" class="candidate-info-icon"></fa-icon>About Company</button>
+            <button nz-button nzType="default" class="btn-candidate" [ngClass]="{'active': selectedProfileOption === 'jobs'}"  (click)=" isbtnActive = false; selectedProfileOption = 'jobs'"> <fa-icon [icon]="jobIcon" class="candidate-info-icon"></fa-icon>Posted Jobs</button>
+        </div>
+    </div>
+    <div>
+        <hr class="companies-hr">
+    </div>
+
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" class="about-me-info" *ngIf="selectedProfileOption === 'aboutme'">
+            <h2>About Company</h2>
+            <p>{{company.aboutMe}}</p>
+        </div>
+    </div>
+
+    <div nz-row *ngIf="selectedProfileOption === 'jobs'">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" class="about-me-info" >
+            <h2>Posted Jobs</h2>
+            <div *ngIf="companyJobs && companyJobs.length > 0">
+
+            
+                <div nz-row *ngFor="let job of companyJobs.slice(startIndex, endIndex)">
+                    <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24">
+                        <nz-card  class="job-card">
+                            
+                            <nz-card-meta
+                            [nzAvatar]="avatarTemplate"
+                            [nzTitle]="titleCard"
+                            [nzDescription]="descriptionTmpl"
+                            ></nz-card-meta>
+
+                            <div nz-row  class="card-footer">
+                                <div nz-col >
+                                    <div class="job-type-container">
+                                        <p class="job-type"  *ngIf="job.jobType==='Full_Time'">Full Time</p>
+                                        <p class="job-type"  *ngIf="job.jobType==='Part_Time'">Part Time</p>
+                                        <p class="job-type"  *ngIf="job.jobType==='Intern'">Intership</p>
+                                    </div>
+                                </div>
+
+                                <div nz-col >
+                                    <div class="job-date-container">
+                                        <p class="job-date">{{formatDate(job.created_at)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </nz-card>
+                        <ng-template #avatarTemplate>
+                            <nz-avatar [nzSize]="64"  [nzShape]="'square'" [nzSrc]="job.companyPhoto"  *ngIf="job.companyPhoto!==null"></nz-avatar>
+                            <nz-avatar [nzSize]="64"  [nzShape]="'square'"  nzIcon="user" *ngIf="job.companyPhoto===null"></nz-avatar>
+                        
+                        </ng-template>
+
+                        <ng-template #titleCard>
+                            <div class="title-container">
+                                <a routerLink="/job-detail/{{job.id}}" class="job-title">{{job.title}}</a>
+                                <div>
+                                    <p *ngIf="deadlineOver===false" class="deadline-txt">{{job.countdown}}</p>          
+                                    <p *ngIf="deadlineOver===true">{{formatDeadline(job.deadline)}}</p>
+                                </div>
+
+                            </div>
+                            <div class="job-location-title">
+                                <fa-icon [icon]="locationIcon"></fa-icon>
+                                <p>{{job.location}}</p> 
+                            </div>
+                        </ng-template>
+
+                        <ng-template #descriptionTmpl>
+                            <p class="card-description" *ngIf="job.description.length<100">{{job.description}}</p>
+                            <p class="card-description" *ngIf="job.description.length>100">{{job.description.slice(0,100)}}...</p>            
+                            <nz-tag class="job-skills-tag" *ngFor="let skill of job.skills | slice:0:4">{{skill.skill}}</nz-tag>
+
+                        </ng-template>
+            
+                        
+
+                    </div>
+                </div>
+                <div nz-row>
+                    <div nz-col nzSpan="12" nzOffset="6">
+                
+                        <div class="pagination">
+                            <nz-pagination [nzPageIndex]="currentPage" [nzPageSize]="itemsPerPage" [nzTotal]="totalItems" (nzPageIndexChange)="currentPage = $event"></nz-pagination>
+                        </div>
+                    
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        
+        
+
+    </div>
+
+
+    
+</div>

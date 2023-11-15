@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Sector } from 'src/app/services/user/model/Job';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Job, Sector } from 'src/app/services/user/model/Job';
 import { faLaptopCode, faMoneyBillTrendUp, faLandmark, faUsers, faFlask, faPlane, faHouseMedical,faScaleBalanced, faBullhorn 
-  , faPlus ,faScrewdriverWrench, faPhotoFilm, faHeadset} from '@fortawesome/free-solid-svg-icons';
+  , faPlus ,faScrewdriverWrench, faPhotoFilm, faHeadset, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { faHospital } from '@fortawesome/free-regular-svg-icons';
+import { JobService } from 'src/app/services/jobs/job.service';
+import { SharedService } from 'src/app/services/shared/shared.service';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -10,7 +14,9 @@ import { faHospital } from '@fortawesome/free-regular-svg-icons';
 })
 export class CategoryComponent implements OnInit {
 
-  constructor() { }
+  rightIcon=faChevronRight;
+  leftIcon=faChevronLeft;
+  constructor(private jobService:JobService, private sharedService:SharedService, private router:Router) { }
 
  
 
@@ -89,6 +95,8 @@ export class CategoryComponent implements OnInit {
 
 
 
+ 
+  searchResult:Job[]=[];
   ngOnInit(): void {
 
     for (let i = 0; i < this.numSlides; i++) {
@@ -97,6 +105,39 @@ export class CategoryComponent implements OnInit {
       this.categorieSlides.push(this.categoriesWithIcons.slice(start, end));
     }
 
+   
+
+  }
+
+  search(sector:string){
+    this.jobService.searchJobs(undefined,undefined,undefined,undefined,undefined,sector,undefined,undefined)
+    .pipe(
+      tap((response) => {
+        console.log('search response', response);
+        // Emit the results into the shared service
+        this.sharedService.setSearchResults(response);
+        // setting the search results in the search component as well
+        this.searchResult = response;
+      })
+    )
+    .subscribe((response)=>{
+      console.log("search response", response);
+      //this.router.navigateByUrl('/job-list');
+      this.router.navigate(['/job-list'], { queryParams: { fromHome: 'true' } });
+
+    });
+  }
+
+  //carousel 
+  @ViewChild('carousel') carousel: any;
+
+  
+  handlePrev(){
+    this.carousel.pre();
+  }
+
+  handleNext(){
+    this.carousel.next();
   }
 
 }

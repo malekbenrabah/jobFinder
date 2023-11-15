@@ -1,0 +1,144 @@
+
+
+
+.cv-left{
+    background-color: #05264E;
+    color: #fff;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+
+.user-img-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-img{
+    border-radius: 200px;
+    width: 160px;
+}
+
+
+.skills{
+    margin-top: 30px;
+    margin-left: 30px;
+    
+}
+.skills h3{
+    color: #fff;
+    font-weight: 500;
+}
+.ant-rate{
+    color: aqua!important;
+}
+
+.user-skills{
+    margin-bottom: 15px;
+}
+.skills-p{
+    margin-bottom: -2px;
+}
+
+.contact{
+    margin-top: 30px;
+    margin-left: 30px; 
+}
+
+.contact h3{
+    color: #fff;
+    font-weight: 500;
+}
+
+.contact-icon{
+    margin-right: 15px;
+}
+
+
+.user-info{
+    margin-left: 50px;
+}
+.user-name{
+    font-weight: 700;
+    color: #05264E;
+    font-size: 30px ;
+
+}
+.user-name span{
+    font-weight: 100;
+}
+.user-aboout{
+    font-size: 18px;
+}
+
+.education{
+    margin-left: 50px;
+    margin-top: 40px; 
+}
+
+.education h2{
+    font-weight: 700;
+}
+
+.experience{
+    margin-left: 50px;
+    margin-top: 40px; 
+}
+
+.experience h2{
+    font-weight: 700;
+}
+
+.cv-right-hr{
+    margin-bottom: 35px;
+}
+.education-timeLine{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.education-timeLine h4{
+    color: #05264E;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.education-desc{
+
+    font-weight: 600!important;
+    font-size: 14px;
+    margin-bottom: 0px;
+}
+
+.education-institution{
+    font-weight: 300!important;
+    font-size: 14px!important;
+    margin-bottom: 0px;
+}
+
+.user-cv-btn{
+    display: flex;
+    justify-content: space-between;
+}
+
+.update-form-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 21px 35px;
+    border-radius: 8px;
+    transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    font-weight: 500;
+    background-color: #2563eb;
+}
+
+.update-form-btn:hover{
+    transform: translateY(-2px);
+    background-color: #05264E;
+    border-color: #05264E;
+    color: #fff;
+}

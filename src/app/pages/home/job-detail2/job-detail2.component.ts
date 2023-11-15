@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import * as L from'leaflet';
 import { LocationService } from 'src/app/services/location/location.service';
+import { User } from 'src/app/services/user/model/user';
 @Component({
   selector: 'app-job-detail2',
   templateUrl: './job-detail2.component.html',
@@ -152,31 +153,58 @@ export class JobDetail2Component implements OnInit {
   }
 
   //apply job
+  user:User=new User;
   applyJob(id:number){
     if(this.userService.isLoggedIn()){
+      this.userService.getUserInfo().subscribe(r => {
+        console.log('user info', r);
+        this.user = r as User;
+        if(this.user.cv === false){
 
-      this.jobService.applyJob(id).subscribe((response)=>{
-        console.log('applied successfully',response);
-        
-        Swal.fire({
-          icon:"success",
-          title:"Good Job",
-          text:"You have applied succesfully",
-          confirmButtonColor:"#05264E"
-        })
-        this.ngOnInit();
-      },
-      (error:HttpErrorResponse)=>{
-        if(error.status===403 ){
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'You have already applied to this job',
+            text: 'You need to create a cv to upload for a jobc',
             confirmButtonColor:"#05264E"
           })
-        }
 
+        }else{
+          this.jobService.applyJob(id).subscribe((response)=>{
+            console.log('applied successfully',response);
+            
+            Swal.fire({
+              icon:"success",
+              title:"Good Job",
+              text:"You have applied succesfully",
+              confirmButtonColor:"#05264E"
+            })
+            this.ngOnInit();
+          },
+          (error:HttpErrorResponse)=>{
+            if(error.status===403 ){
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You have already applied to this job',
+                confirmButtonColor:"#05264E"
+              })
+            }
+    
+          });
+        }
+        
+        
+  
+  
+      },
+        (error:HttpErrorResponse)=>{
+          if(error.status===403){
+            localStorage.removeItem('token');
+            this.router.navigate(['/auth/login']);
+  
+          }
       });
+     
 
     }else{
        this.router.navigate(['/auth/login']);

@@ -54,6 +54,7 @@ import { DatePipe } from '@angular/common';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { CompaniesComponent } from './companies/companies.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { CompanyDetailComponent } from './company-detail/company-detail.componen
     NzCarouselModule,
     NzAutocompleteModule,
     NzRadioModule,
-    NzTimelineModule
+    NzTimelineModule,
+    NzTagModule
    
 
   ],
