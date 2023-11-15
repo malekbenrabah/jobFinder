@@ -33,7 +33,7 @@
             <div class="user-info">
                 <div class="user-cv-btn">
                     <p class="user-name">{{user.lastname}} <span>{{user.firstname}}</span></p>
-                    <button nz-button class="update-form-btn" [nzType]="'primary'" (click)="generatePDF()">Download CV</button>
+                    <button nz-button class="update-form-btn" [nzType]="'primary'" (click)="generatePDF()" *ngIf="connectedUser.role==='USER'">Download CV</button>
                 </div>
                 <p class="user-about">{{user.aboutMe}}</p>
             </div>

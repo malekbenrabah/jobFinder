@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
     this.userLoggedIn=this.userService.isLoggedIn();
 
 
-    /*
+    
     this.userService.getUserInfo().subscribe(r => {
       console.log('user info', r);
       this.user = r as User;
@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
 
         }
     });
-    */
+    
 
     //check screen size at initialization
     this.checkScreenSize();

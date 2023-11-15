@@ -28,7 +28,14 @@ export class CvComponent implements OnInit {
   skills:Skill[]=[];
   educations:Education[]=[];
   experiences:Experience[]=[];
+  connectedUser:User= new User();
   ngOnInit(): void {
+
+    //get connected user info : 
+    this.userService.getUserInfo().subscribe((res)=>{
+      this.connectedUser = res as User;
+    });
+
     /*
     this.userService.getUserInfo().subscribe((response)=>{
       this.user=response as User;
@@ -58,6 +65,31 @@ export class CvComponent implements OnInit {
     });
     */
 
+
+
+    const userId=localStorage.getItem("useeerId");
+    this.userService.getUserbyId(Number(userId)).subscribe((res)=>{
+      console.log("user info",res )
+      this.user = res as User;
+    });
+
+    this.userService.getCandidateSkills(Number(userId)).subscribe((res)=>{
+      console.log('user skills');
+      this.skills= res as Skill[];
+    });
+
+    this.userService.getEducationByUserId(Number(userId)).subscribe((res)=>{
+      console.log('user educations');
+      this.educations= res as Education[];
+    });
+
+    this.userService.getExperienceByUserId(Number(userId)).subscribe((res)=>{
+      console.log('user expriences');
+      this.experiences= res as Experience[];
+    });
+
+
+    /*
     const userInfo$ = this.userService.getUserInfo();
     const skills$ = this.userService.getUserSkills();
     const educations$ = this.userService.getUserEducations();
@@ -80,6 +112,7 @@ export class CvComponent implements OnInit {
         }
       }
     );
+    */
   }
 
   getFirstLetter(name:string){

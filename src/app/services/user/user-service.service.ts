@@ -139,6 +139,7 @@ export class UserServiceService {
   }
 
 
+
   updateProfileImg(photo:any){
     const formData=new FormData();
     formData.append('photo',photo);

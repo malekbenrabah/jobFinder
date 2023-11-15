@@ -1719,6 +1719,7 @@ export class ProfileComponent implements OnInit{
  //cv
 
  updateUserCv(){
+  localStorage.setItem("useeerId", this.user.id.toString());
   this.userService.updateCv(this.user.id).subscribe((res)=>{
     console.log('updated cv', res);
   });
